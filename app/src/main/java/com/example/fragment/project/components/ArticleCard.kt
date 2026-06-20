@@ -57,14 +57,17 @@ fun ArticleCard(
     modifier: Modifier = Modifier,
     onNavigate: (route: Any) -> Unit = {},
 ) {
+    //协程写法
     val scope = rememberCoroutineScope()
     // 收藏状态外提到 Compose 状态层：Article 不再可变，避免污染 stable 数据类
+    //remember保存局部状态，当前卡片的收藏状态由Compose自己保存，不直接修改数据模型
     var collected by remember(data.id) { mutableStateOf(data.collect) }
     val collectResId = getCollectResId(collected)
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(5.dp))
             .clipToBounds()
+            //clickable 点击事件
             .clickable { onNavigate(WebRoute(data.link)) }
             .background(MaterialTheme.colorScheme.surfaceContainer)
             .fillMaxWidth()
@@ -123,6 +126,7 @@ fun ArticleCard(
                             onNavigate(SystemRoute(cid ?: "0"))
                         },
                         modifier = Modifier.height(20.dp),
+                        //圆角图形
                         shape = RoundedCornerShape(3.dp),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = MaterialTheme.colorScheme.tertiaryContainer,
@@ -175,6 +179,7 @@ fun ArticleCard(
                 }
             }
             if (data.envelopePic.isNotBlank()) {
+                //异步图片加载
                 AsyncImage(
                     model = data.httpsEnvelopePic,
                     contentDescription = null,

@@ -17,6 +17,7 @@ import com.example.miaow.base.http.setHttpClientLazy
 
 class WanApplication : Application(), ImageLoaderFactory {
 
+    //应用刚启动时，只做必要的轻量初始化，避免主线程过重
     override fun onCreate() {
         super.onCreate()
         setBaseUrl("https://www.wanandroid.com/")
@@ -25,6 +26,7 @@ class WanApplication : Application(), ImageLoaderFactory {
         setHttpClientLazy { OkHelper.httpClient(applicationContext) }
     }
 
+    //加载图片加载的组件
     override fun newImageLoader(): ImageLoader {
         return ImageLoader.Builder(applicationContext)
             .crossfade(true)

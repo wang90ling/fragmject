@@ -1,5 +1,5 @@
 [versions]
-agp = "9.2.1"
+agp = "9.1.0"
 activity = "1.13.0"
 androidxCamera = "1.6.1"
 androidxComposeBom = "2026.05.01"
