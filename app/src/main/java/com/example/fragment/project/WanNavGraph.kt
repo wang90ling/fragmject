@@ -18,6 +18,7 @@ import androidx.navigation.toRoute
 import com.example.fragment.project.data.User
 import com.example.fragment.project.ui.browse_history.BrowseHistoryScreen
 import com.example.fragment.project.ui.demo.DemoScreen
+import com.example.fragment.project.ui.login.LoginNewScreen
 import com.example.fragment.project.ui.login.LoginScreen
 import com.example.fragment.project.ui.main.MainScreen
 import com.example.fragment.project.ui.my_coin.MyCoinScreen
@@ -107,7 +108,13 @@ fun WanNavGraph(
             DemoScreen(onNavigateUp = { wanNavActions.navigateUp() })
         }
         composable<LoginRoute> {
-            LoginScreen(
+           /* LoginScreen(
+                onNavigate = { wanNavActions.navigate(it) },
+                onNavigateUp = { wanNavActions.navigateUp() },
+                onPopBackStack = { wanNavActions.popBackStack(it) }
+            )*/
+
+            LoginNewScreen(
                 onNavigate = { wanNavActions.navigate(it) },
                 onNavigateUp = { wanNavActions.navigateUp() },
                 onPopBackStack = { wanNavActions.popBackStack(it) }

@@ -18,9 +18,9 @@
             android:name="app_channel"
             android:value="${app_channel_value}" />
 
-        <!--.WanActivity-->
+        <!--.WanActivity .JetpackMainActivity-->
         <activity
-            android:name=".JetpackMainActivity"
+            android:name=".WanActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation"
             android:exported="true"
             android:launchMode="singleTask"
