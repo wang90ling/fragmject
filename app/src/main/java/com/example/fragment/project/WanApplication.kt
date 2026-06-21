@@ -14,6 +14,7 @@ import com.example.fragment.project.ui.web.WebViewManager
 import com.example.miaow.base.http.OkHelper
 import com.example.miaow.base.http.setBaseUrl
 import com.example.miaow.base.http.setHttpClientLazy
+import com.example.miaow.base.http.updateDefaultHeaders
 
 class WanApplication : Application(), ImageLoaderFactory {
 
@@ -25,6 +26,13 @@ class WanApplication : Application(), ImageLoaderFactory {
         // 只注册 provider，不在主线程同步构造 OkHttpClient；
         // 首个网络请求发起时才会在背景创建，冷启动主线程耗时明显下降。
         setHttpClientLazy { OkHelper.httpClient(applicationContext) }
+        updateDefaultHeaders(
+            mapOf(
+                "Content-Type" to "application/json",
+                "Accept" to "application/json",
+                "x-device" to "APP",
+            )
+        )
     }
 
     //加载图片加载的组件

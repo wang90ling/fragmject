@@ -34,6 +34,16 @@ private suspend inline fun <reified T : HttpResponse> httpPost(
 ): T = CoroutineHttp.getInstance().post(init, T::class.java)
 
 /**
+ * POST JSON 请求体的便捷包装（与 `httpPost` 的 form-urlencoded 区分开）。
+ *
+ * apitest.dianta.pw 的 `login/code` 等接口要求 JSON body，
+ * 若误用 form 则会返回 `4000002 Invalid request body`。
+ */
+private suspend inline fun <reified T : HttpResponse> httpPostJson(
+    noinline init: HttpRequest.() -> Unit,
+): T = CoroutineHttp.getInstance().postJson(init, T::class.java)
+
+/**
  * 网络版本的 [ArticleRepository] 实现。
  *
  * 这里是 ViewModel 与底层 HTTP 工具之间唯一的胶水层；
@@ -130,11 +140,11 @@ internal class UserRepositoryImpl : UserRepository {
     //通过验证码登录
     override suspend fun loginByCode(
         request: CodeLoginRequest
-    ): Login = httpPost {
+    ): Login = httpPostJson {
         setUrl("login/code")
         putParam("code", request.code)
         request.password?.takeIf { it.isNotBlank() }?.let { putParam("password", it) }
-        putParam("phoneCountryCode","+86")//request.phoneCountryCode
+        putParam("phoneCountryCode", request.phoneCountryCode)
         putParam("telephone", request.telephone)
     }
 

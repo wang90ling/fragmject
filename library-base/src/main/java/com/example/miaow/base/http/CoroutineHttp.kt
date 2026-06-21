@@ -8,6 +8,7 @@ import com.google.gson.JsonObject
 import kotlinx.coroutines.CoroutineScope
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -33,13 +34,30 @@ suspend inline fun CoroutineScope.string(
 }
 
 /**
- * post请求
+ * post请求（form-urlencoded 表单 body，即 @FieldMap 形式）。
+ *
+ * 适用于传统表单接口，例如 wanandroid.com 的 user/login / user/register 等。
+ *
  * @param init  http请求体
  */
 suspend inline fun <reified T : HttpResponse> CoroutineScope.post(
     noinline init: HttpRequest.() -> Unit
 ): T {
     return CoroutineHttp.getInstance().post(init, T::class.java)
+}
+
+/**
+ * post请求（JSON body，Content-Type: application/json）。
+ *
+ * 适用于要求 JSON 请求体的接口（例如 apitest.dianta.pw 的 login/code 等），
+ * 不会再把参数拼成 `code=xxx&phoneCountryCode=xxx` 形式发送出去。
+ *
+ * @param init  http请求体
+ */
+suspend inline fun <reified T : HttpResponse> CoroutineScope.postJson(
+    noinline init: HttpRequest.() -> Unit
+): T {
+    return CoroutineHttp.getInstance().postJson(init, T::class.java)
 }
 
 /**
@@ -82,6 +100,10 @@ fun Context.setHttpClientLazy(provider: () -> OkHttpClient) {
     CoroutineHttp.getInstance().setClientProvider(provider)
 }
 
+fun Context.updateDefaultHeaders(headers: Map<String, String>) {
+    CoroutineHttp.getInstance().setDefaultHeaders(headers)
+}
+
 /**
  * retrofit + coroutines 封装的Http工具类
  */
@@ -101,6 +123,7 @@ class CoroutineHttp private constructor() {
     private lateinit var baseUrl: String
     private var client: OkHttpClient? = null
     private var clientProvider: (() -> OkHttpClient)? = null
+    private var defaultHeaders: Map<String, String> = emptyMap()
     private var retrofit: Retrofit? = null
     private var service: ApiService? = null
     private var converter: Converter? = null
@@ -111,11 +134,19 @@ class CoroutineHttp private constructor() {
 
     fun setHttpClient(client: OkHttpClient) {
         this.client = client
-        // 显式设置后丢弃之前可能存在的 provider，避免两者同时生效造成誓言不一致。
+        // 显式设置后丢弃之前可能存在的 provider，避免两者同时生效造成配置不一致。
         this.clientProvider = null
         // baseUrl / client 变更后，原有 retrofit 已失效，重置以保证下次调用重建
         retrofit = null
         service = null
+    }
+
+    fun setDefaultHeaders(headers: Map<String, String>) {
+        defaultHeaders = headers.toMap()
+    }
+
+    fun updateDefaultHeaders(headers: Map<String, String>) {
+        defaultHeaders = headers.toMap()
     }
 
     /**
@@ -165,8 +196,9 @@ class CoroutineHttp private constructor() {
         request: HttpRequest,
         type: Class<T>,
     ): T {
+        val headers = mergeHeaders(request.getHeader())
         return try {
-            getService().get(request.getUrl(baseUrl), request.getHeader()).body()?.let { body ->
+            getService().get(request.getUrl(baseUrl), headers).body()?.let { body ->
                 getConverter().converter(body, type).apply { setRequestTime(request.time) }
             } ?: buildResponse("-1", "response body is null", type)
         } catch (e: Exception) {
@@ -185,10 +217,11 @@ class CoroutineHttp private constructor() {
         request: HttpRequest,
         type: Class<T>,
     ): T {
+        val headers = mergeHeaders(request.getHeader())
         return try {
             getService().post(
                 request.getUrl(baseUrl),
-                request.getHeader(),
+                headers,
                 request.getParam()
             ).body()?.let { body ->
                 getConverter().converter(body, type).apply { setRequestTime(request.time) }
@@ -199,15 +232,41 @@ class CoroutineHttp private constructor() {
         }
     }
 
+    suspend fun <T : HttpResponse> postJson(
+        init: HttpRequest.() -> Unit,
+        type: Class<T>,
+    ): T = postJson(HttpRequest().apply(init), type)
+
+    /** 与 [post] 对应，但请求体为 JSON：适用于要求 Content-Type: application/json 的接口。 */
+    suspend fun <T : HttpResponse> postJson(
+        request: HttpRequest,
+        type: Class<T>,
+    ): T {
+        val headers = mergeHeaders(request.getHeader())
+        return try {
+            getService().postJson(
+                request.getUrl(baseUrl),
+                headers,
+                request.getJsonBody()
+            ).body()?.let { body ->
+                getConverter().converter(body, type).apply { setRequestTime(request.time) }
+            } ?: buildResponse("-1", "response body is null", type)
+        } catch (e: Exception) {
+            Log.e(TAG, "POST-JSON ${request.getUrl(baseUrl)} failed", e)
+            fallbackResponse(request, type, e)
+        }
+    }
+
     suspend fun <T : HttpResponse> form(
         init: HttpRequest.() -> Unit,
         type: Class<T>,
     ): T {
         val request = HttpRequest().apply(init)
+        val headers = mergeHeaders(request.getHeader())
         return try {
             getService().form(
                 request.getUrl(baseUrl),
-                request.getHeader(),
+                headers,
                 request.getMultipartBody()
             ).body()?.let { body ->
                 getConverter().converter(body, type).apply { setRequestTime(request.time) }
@@ -224,8 +283,9 @@ class CoroutineHttp private constructor() {
         init: HttpRequest.() -> Unit
     ): HttpResponse {
         val request = HttpRequest().apply(init)
+        val headers = mergeHeaders(request.getHeader())
         return try {
-            val response = getService().get(request.getUrl(), request.getHeader())
+            val response = getService().get(request.getUrl(), headers)
             if (response.isSuccessful) {
                 val file = File(savePath, fileName)
                 response.body()?.byteStream()?.use { inputStream ->
@@ -243,14 +303,26 @@ class CoroutineHttp private constructor() {
         init: HttpRequest.() -> Unit,
     ): String {
         val request = HttpRequest().apply(init)
+        val headers = mergeHeaders(request.getHeader())
         return try {
             getService().get(
                 request.getUrl(baseUrl),
-                request.getHeader()
+                headers
             ).body()?.string().orEmpty()
         } catch (e: Exception) {
             Log.e(TAG, "STRING ${request.getUrl(baseUrl)} failed", e)
             ""
+        }
+    }
+
+    private fun mergeHeaders(requestHeaders: Map<String, String>): Map<String, String> {
+        return if (defaultHeaders.isEmpty()) {
+            requestHeaders
+        } else {
+            LinkedHashMap<String, String>(defaultHeaders.size + requestHeaders.size).apply {
+                putAll(defaultHeaders)
+                putAll(requestHeaders)
+            }
         }
     }
 
@@ -310,6 +382,13 @@ interface ApiService {
         @Url url: String = "",
         @HeaderMap header: Map<String, String>,
         @FieldMap params: Map<String, String>
+    ): Response<ResponseBody>
+
+    @POST
+    suspend fun postJson(
+        @Url url: String = "",
+        @HeaderMap header: Map<String, String>,
+        @Body body: RequestBody
     ): Response<ResponseBody>
 
     @GET

@@ -1,6 +1,5 @@
 package com.example.fragment.project.ui.login
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -171,10 +170,13 @@ fun LoginNewScreen(
                     Button(
                         onClick = {
                             if (agreed) {
-                                //组装数据
-                                val codeLoginRequest: CodeLoginRequest = CodeLoginRequest("+86",phoneText,"",codeText);
-                                logD("wangling codeLoginRequest:"+codeLoginRequest.toString())
-                                viewModel.loginByCode(codeLoginRequest)
+                                viewModel.loginByCode(
+                                    CodeLoginRequest(
+                                        phoneCountryCode = "+86",
+                                        telephone = phoneText,
+                                        code = codeText,
+                                    )
+                                )
                             } else {
                                 scope.launch {
                                     snackbarHostState.showSnackbar("请先阅读并同意用户协议和隐私政策")
@@ -183,8 +185,8 @@ fun LoginNewScreen(
                         },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(52.dp),
-                        shape = RoundedCornerShape(25.dp),
+                            .height(54.dp),
+                        shape = RoundedCornerShape(27.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
                         contentPadding = androidx.compose.foundation.layout.PaddingValues(0.dp),
                         elevation = ButtonDefaults.buttonElevation(0.dp)
@@ -205,7 +207,7 @@ fun LoginNewScreen(
                         ) {
                             Text(
                                 text = "登录",
-                                fontSize = 16.sp,
+                                fontSize = 17.sp,
                                 fontWeight = FontWeight.SemiBold,
                                 color = Color.White
                             )

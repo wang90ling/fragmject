@@ -1,10 +1,14 @@
 package com.example.miaow.base.http
 
 import android.util.Log
+import com.google.gson.JsonObject
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.HttpUrl
 import java.io.File
 import java.io.UnsupportedEncodingException
 import java.net.URLConnection
@@ -149,6 +153,26 @@ open class HttpRequest @JvmOverloads constructor(
             }
         }
         return body.build()
+    }
+
+    fun getParamJson(contentType: MediaType): RequestBody {
+        val obj = JsonObject()
+        getParam().forEach { (key, value) ->
+            if (value.isNotBlank()) {
+                obj.addProperty(key, value)
+            }
+        }
+        return obj.toString().toRequestBody(contentType)
+    }
+
+    fun getJsonBody(contentType: MediaType = "application/json; charset=utf-8".toMediaType()): RequestBody {
+        val obj = JsonObject()
+        getParam().forEach { (key, value) ->
+            if (value.isNotBlank()) {
+                obj.addProperty(key, value)
+            }
+        }
+        return obj.toString().toRequestBody(contentType)
     }
 
     private fun guessMimeType(path: String): MediaType {
