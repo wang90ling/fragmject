@@ -1,5 +1,6 @@
 package com.example.fragment.project.ui.login
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -57,10 +58,17 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.fragment.project.MainRoute
 import com.example.fragment.project.WanTheme
 import com.example.fragment.project.components.LoadingContent
+import com.example.fragment.project.data.CodeLoginRequest
+import com.example.miaow.base.utils.logD
 import kotlinx.coroutines.launch
 
+
 /**
+ * @author wangling
+ * @date 2026/6/20 16:08
+ * @description
  * 新版登录页：尽量还原截图中的视觉效果与结构。
+ * 分为手机号验证码登录和手机号密码登录
  */
 @Composable
 fun LoginNewScreen(
@@ -163,7 +171,10 @@ fun LoginNewScreen(
                     Button(
                         onClick = {
                             if (agreed) {
-                                viewModel.login(phoneText, codeText)
+                                //组装数据
+                                val codeLoginRequest: CodeLoginRequest = CodeLoginRequest("+86",phoneText,"",codeText);
+                                logD("wangling codeLoginRequest:"+codeLoginRequest.toString())
+                                viewModel.loginByCode(codeLoginRequest)
                             } else {
                                 scope.launch {
                                     snackbarHostState.showSnackbar("请先阅读并同意用户协议和隐私政策")

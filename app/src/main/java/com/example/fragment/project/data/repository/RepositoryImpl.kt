@@ -2,6 +2,7 @@ package com.example.fragment.project.data.repository
 
 import com.example.fragment.project.data.ArticleList
 import com.example.fragment.project.data.BannerList
+import com.example.fragment.project.data.CodeLoginRequest
 import com.example.fragment.project.data.CoinRank
 import com.example.fragment.project.data.HotKeyList
 import com.example.fragment.project.data.Login
@@ -119,10 +120,22 @@ internal class ProjectRepositoryImpl : ProjectRepository {
 
 internal class UserRepositoryImpl : UserRepository {
 
-    override suspend fun login(username: String, password: String): Login = httpPost {
+    //通过密码登录
+    override suspend fun loginByPwd(username: String, password: String): Login = httpPost {
         setUrl("user/login")
         putParam("username", username)
         putParam("password", password)
+    }
+
+    //通过验证码登录
+    override suspend fun loginByCode(
+        request: CodeLoginRequest
+    ): Login = httpPost {
+        setUrl("login/code")
+        putParam("code", request.code)
+        request.password?.takeIf { it.isNotBlank() }?.let { putParam("password", it) }
+        putParam("phoneCountryCode","+86")//request.phoneCountryCode
+        putParam("telephone", request.telephone)
     }
 
     override suspend fun register(

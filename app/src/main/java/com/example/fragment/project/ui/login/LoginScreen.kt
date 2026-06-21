@@ -151,7 +151,7 @@ fun LoginScreen(
                         ),
                         keyboardActions = KeyboardActions(
                             onGo = {
-                                viewModel.login(usernameText, passwordText)
+                                viewModel.loginByPwd(usernameText, passwordText)
                                 keyboardController?.hide()
                             }
                         ),
@@ -168,7 +168,7 @@ fun LoginScreen(
                         )
                         Spacer(Modifier.weight(1f))
                         Button(
-                            onClick = { viewModel.login(usernameText, passwordText) },
+                            onClick = { viewModel.loginByPwd(usernameText, passwordText) },
                             shape = RoundedCornerShape(50),
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = MaterialTheme.colorScheme.secondary,

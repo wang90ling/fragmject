@@ -20,7 +20,8 @@ class WanApplication : Application(), ImageLoaderFactory {
     //应用刚启动时，只做必要的轻量初始化，避免主线程过重
     override fun onCreate() {
         super.onCreate()
-        setBaseUrl("https://www.wanandroid.com/")
+        //setBaseUrl("https://www.wanandroid.com/")
+        setBaseUrl("https://apitest.dianta.pw/app/")
         // 只注册 provider，不在主线程同步构造 OkHttpClient；
         // 首个网络请求发起时才会在背景创建，冷启动主线程耗时明显下降。
         setHttpClientLazy { OkHelper.httpClient(applicationContext) }

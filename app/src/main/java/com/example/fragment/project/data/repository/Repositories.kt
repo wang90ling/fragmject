@@ -2,6 +2,7 @@ package com.example.fragment.project.data.repository
 
 import com.example.fragment.project.data.ArticleList
 import com.example.fragment.project.data.BannerList
+import com.example.fragment.project.data.CodeLoginRequest
 import com.example.fragment.project.data.CoinRank
 import com.example.fragment.project.data.HotKeyList
 import com.example.fragment.project.data.Login
@@ -71,7 +72,8 @@ interface ProjectRepository {
  */
 interface UserRepository {
 
-    suspend fun login(username: String, password: String): Login
+    suspend fun loginByPwd(username: String, password: String): Login
+    suspend fun loginByCode(codeLoginRequest: CodeLoginRequest): Login
 
     suspend fun register(
         username: String,
