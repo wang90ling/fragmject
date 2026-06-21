@@ -1,6 +1,7 @@
 package com.example.fragment.project.ui.login
 
 import androidx.lifecycle.viewModelScope
+import com.example.fragment.project.data.CodeLoginData
 import com.example.fragment.project.data.CodeLoginRequest
 import com.example.fragment.project.data.repository.UserRepository
 import com.example.fragment.project.data.repository.WanRepositoryProvider
@@ -17,6 +18,7 @@ data class LoginUiState(
     val isLoading: Boolean = false,
     val isLogin: Boolean = false,
     val message: String = "",
+    val codeLoginData: CodeLoginData? = null
 )
 
 class LoginViewModel(
@@ -57,6 +59,7 @@ class LoginViewModel(
             _uiState.update { state ->
                 response.data?.let { it ->
                     //WanHelper.setUser(user)
+
                 }
                 state.copy(
                     isLoading = false,
@@ -96,7 +99,8 @@ class LoginViewModel(
                 state.copy(
                     isLoading = false,
                     isLogin = response.errorCode == "0",
-                    message = response.errorMsg
+                    message = response.errorMsg,
+                    codeLoginData = response.data,
                 )
             }
         }

@@ -83,12 +83,13 @@ fun LoginNewScreen(
     var codeText by rememberSaveable { mutableStateOf("") }
     var agreed by rememberSaveable { mutableStateOf(false) }
 
-    LaunchedEffect(uiState.isLogin, uiState.message) {
+    LaunchedEffect(uiState.isLogin, uiState.message,uiState.codeLoginData) {
         if (uiState.isLogin) onPopBackStack(MainRoute)
         if (uiState.message.isNotBlank()) {
             snackbarHostState.showSnackbar(uiState.message)
             viewModel.resetMessage()
         }
+        logD("wangling codeLoginData:"+uiState.codeLoginData.toString())
     }
 
     Scaffold(
