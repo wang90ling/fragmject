@@ -3,7 +3,7 @@ package com.example.fragment.project.data
 import com.example.miaow.base.http.HttpResponse
 
 data class Login(
-    val data: User? = null
+    val data: CodeLoginData? = null
 ) : HttpResponse()
 
 data class Register(

@@ -5,6 +5,7 @@ import com.example.fragment.project.data.CodeLoginRequest
 import com.example.fragment.project.data.repository.UserRepository
 import com.example.fragment.project.data.repository.WanRepositoryProvider
 import com.example.fragment.project.utils.WanHelper
+import com.example.miaow.base.utils.logD
 import com.example.miaow.base.vm.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -54,8 +55,8 @@ class LoginViewModel(
         viewModelScope.launch {
             val response = userRepo.loginByPwd(username, password)
             _uiState.update { state ->
-                response.data?.let { user ->
-                    WanHelper.setUser(user)
+                response.data?.let { it ->
+                    //WanHelper.setUser(user)
                 }
                 state.copy(
                     isLoading = false,
@@ -88,8 +89,9 @@ class LoginViewModel(
         viewModelScope.launch {
             val response = userRepo.loginByCode(codeLoginRequest)
             _uiState.update { state ->
-                response.data?.let { user ->
-                    WanHelper.setUser(user)
+                response.data?.let { it ->
+                    logD("wangling loginByCode it:"+it.toString())
+                    //WanHelper.setUser(user)
                 }
                 state.copy(
                     isLoading = false,
