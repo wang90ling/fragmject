@@ -2,6 +2,7 @@ package com.example.fragment.project.utils
 
 import android.util.Log
 import com.example.fragment.project.database.AppDatabase
+import com.example.fragment.project.data.CodeLoginData
 import com.example.fragment.project.data.History
 import com.example.fragment.project.data.User
 import com.example.miaow.base.database.KVDatabase
@@ -19,6 +20,8 @@ object WanHelper {
     private const val BROWSE_HISTORY = "browse_history"
     private const val SCHEDULE = "schedule"
     private const val SEARCH_HISTORY = "search_history"
+    private const val TOKEN_KEY = "user_token"
+    private const val USER_DATA_KEY = "user_data"
 
     // Gson 线程安全，复用全局单例避免重复创建。
     private val gson get() = GSonUtils.gson
@@ -101,14 +104,61 @@ object WanHelper {
     suspend fun getSchedule(year: Int, month: Int, day: Int): MutableList<String> {
         return try {
             val json = KVDatabase.get("${SCHEDULE}_${year}_${month}_${day}")
-            // Gson 反序列化得到的可能是不可变 List（如 Arrays$ArrayList），
-            // 这里始终拷贝到 ArrayList 以保证调用方对返回值可安全 add/remove。
             val parsed: List<String>? = gson.fromJson(json, scheduleListType)
             parsed?.let { ArrayList(it) } ?: ArrayList()
         } catch (e: Exception) {
             Log.e(TAG, "getSchedule failed", e)
             ArrayList()
         }
+    }
+
+    suspend fun setToken(token: String) {
+        KVDatabase.set(TOKEN_KEY, token)
+    }
+
+    suspend fun getToken(): String? {
+        return try {
+            KVDatabase.get(TOKEN_KEY)
+        } catch (e: Exception) {
+            Log.e(TAG, "getToken failed", e)
+            null
+        }
+    }
+
+    suspend fun clearToken() {
+        KVDatabase.set(TOKEN_KEY, "")
+    }
+
+    suspend fun isLoggedIn(): Boolean {
+        return getToken()?.isNotBlank() == true
+    }
+
+    suspend fun setLoginData(data: CodeLoginData) {
+        KVDatabase.set(USER_DATA_KEY, gson.toJson(data))
+    }
+
+    suspend fun getLoginData(): CodeLoginData? {
+        return try {
+            val json = KVDatabase.get(USER_DATA_KEY)
+            if (json.isNotBlank()) {
+                gson.fromJson(json, CodeLoginData::class.java)
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "getLoginData failed", e)
+            null
+        }
+    }
+
+    suspend fun clearLoginData() {
+        KVDatabase.set(USER_DATA_KEY, "")
+    }
+
+    suspend fun logout() {
+        clearToken()
+        clearLoginData()
+        AppDatabase.getUserDao().clear()
     }
 
 }

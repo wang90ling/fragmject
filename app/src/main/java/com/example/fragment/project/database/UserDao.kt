@@ -17,6 +17,12 @@ interface UserDao {
     @Query("SELECT * FROM user")
     fun get(): Flow<User?>
 
+    @Query("SELECT * FROM user LIMIT 1")
+    suspend fun getOne(): User?
+
     @Delete
     suspend fun delete(user: User): Int
+
+    @Query("DELETE FROM user")
+    suspend fun clear()
 }

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
-        android:name=".WanApplication"
+        android:name=".AppApplication"
         android:allowBackup="false"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,7 +20,7 @@
 
         <!--.WanActivity .JetpackMainActivity-->
         <activity
-            android:name=".WanActivity"
+            android:name=".AppMainActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation"
             android:exported="true"
             android:launchMode="singleTask"

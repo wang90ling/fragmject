@@ -13,7 +13,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.fragment.project.ui.web.WebViewManager
 import com.example.miaow.base.debug.DebugBridge
 
-class WanActivity : ComponentActivity() {
+class AppMainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -35,7 +35,7 @@ class WanActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             WanTheme(window) {
-                WanNavGraph()
+                AppNavGraph()
             }
         }
         // WebView 预创建（内部已在主线程 IdleHandler 中执行，不阻塞首帧）

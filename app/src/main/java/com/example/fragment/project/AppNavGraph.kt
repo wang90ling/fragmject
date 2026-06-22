@@ -19,7 +19,6 @@ import com.example.fragment.project.data.User
 import com.example.fragment.project.ui.browse_history.BrowseHistoryScreen
 import com.example.fragment.project.ui.demo.DemoScreen
 import com.example.fragment.project.ui.login.LoginNewScreen
-import com.example.fragment.project.ui.login.LoginScreen
 import com.example.fragment.project.ui.main.MainScreen
 import com.example.fragment.project.ui.my_coin.MyCoinScreen
 import com.example.fragment.project.ui.my_collect.MyCollectScreen
@@ -36,42 +35,35 @@ import com.example.fragment.project.utils.WanHelper
 import com.example.miaow.base.vm.TRANSITION_TIME
 import kotlinx.serialization.Serializable
 
-/**
- * 导航图
- */
 @Composable
-fun WanNavGraph(
+fun AppNavGraph(
     modifier: Modifier = Modifier,
 ) {
     var user by remember { mutableStateOf<User?>(null) }
+    var isLoggedIn by remember { mutableStateOf(false) }
+    var isInitialized by remember { mutableStateOf(false) }
+    
+    LaunchedEffect(Unit) {
+        isLoggedIn = WanHelper.isLoggedIn()
+        isInitialized = true
+    }
+    
     LaunchedEffect(Unit) {
         WanHelper.getUser().collect {
             user = it
         }
     }
+    
     val navController = rememberNavController()
-    // 用 remember 缓存 WanNavActions，避免外层 user 之外的重组反复重建闭包，
-    // 同时 user 变化时（登录/登出）才刷新一次，使权限校验跟随最新登录态。
     val wanNavActions = remember(navController, user) { WanNavActions(navController, user) }
-    /**
-     * 支持深层链接，详情参考 WanNavGraph:
-     * wan://com.fragment.project/rank
-     * wan://com.fragment.project/search/$key
-     * wan://com.fragment.project/web/${Uri.encode(url)}
-     * 示例代码如下：
-     * val deepLinkIntent = Intent(
-     *     Intent.ACTION_VIEW,
-     *     "wan://com.fragment.project/web/${Uri.encode("http://www.baidu.com")}".toUri(),
-     * )
-     * val deepLinkPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
-     *     addNextIntentWithParentStack(deepLinkIntent)
-     *     getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
-     * }
-     * deepLinkPendingIntent?.send()
-     */
+    
     NavHost(
         navController = navController,
-        startDestination = MainRoute,
+        startDestination = if (isInitialized) {
+            if (isLoggedIn) MainRoute else LoginRoute
+        } else {
+            MainRoute
+        },
         modifier = modifier,
         enterTransition = {
             slideIntoContainer(
@@ -108,12 +100,6 @@ fun WanNavGraph(
             DemoScreen(onNavigateUp = { wanNavActions.navigateUp() })
         }
         composable<LoginRoute> {
-           /* LoginScreen(
-                onNavigate = { wanNavActions.navigate(it) },
-                onNavigateUp = { wanNavActions.navigateUp() },
-                onPopBackStack = { wanNavActions.popBackStack(it) }
-            )*/
-
             LoginNewScreen(
                 onNavigate = { wanNavActions.navigate(it) },
                 onNavigateUp = { wanNavActions.navigateUp() },

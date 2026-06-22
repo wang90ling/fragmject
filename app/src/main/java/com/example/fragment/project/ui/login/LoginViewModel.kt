@@ -5,6 +5,7 @@ import com.example.fragment.project.data.CodeLoginData
 import com.example.fragment.project.data.CodeLoginRequest
 import com.example.fragment.project.data.repository.UserRepository
 import com.example.fragment.project.data.repository.WanRepositoryProvider
+import com.example.fragment.project.utils.WanHelper
 import com.example.miaow.base.utils.logD
 import com.example.miaow.base.vm.BaseViewModel
 import kotlinx.coroutines.channels.Channel
@@ -20,6 +21,12 @@ data class LoginUiState(
     val codeLoginData: CodeLoginData? = null
 )
 
+/**
+ * @author wangling
+ * @date 2026/6/22 13:38
+ * @description
+ * 应用登录功能实现
+ */
 class LoginViewModel(
     private val userRepo: UserRepository = WanRepositoryProvider.user,
 ) : BaseViewModel() {
@@ -58,20 +65,24 @@ class LoginViewModel(
         _uiState.value = _uiState.value.copy(isLoading = true)
         viewModelScope.launch {
             val response = userRepo.loginByCode(codeLoginRequest)
-            response.data?.let {
-                //logD("wangling loginByCode it:${it.toString()}")
-            }
+            response.data?.let { logD("wangling loginByCode it:${it.toString()}") }
             handleLoginResponse(response)
         }
     }
 
     private fun handleLoginResponse(response: com.example.fragment.project.data.Login) {
-        val isSuccess = response.errorCode == "200"
+        val isSuccess = response.errorCode == "0" || response.errorCode == "200"
         _uiState.value = _uiState.value.copy(
             isLoading = false,
             isLogin = isSuccess,
             codeLoginData = if (isSuccess) response.data else null
         )
+        if (isSuccess && response.data != null) {
+            viewModelScope.launch {
+                WanHelper.setToken(response.data.token)
+                WanHelper.setLoginData(response.data)
+            }
+        }
         if (!isSuccess && response.errorMsg.isNotBlank()) {
             sendMessage(response.errorMsg)
         }

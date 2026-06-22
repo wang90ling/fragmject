@@ -16,7 +16,7 @@ import com.example.miaow.base.http.setBaseUrl
 import com.example.miaow.base.http.setHttpClientLazy
 import com.example.miaow.base.http.updateDefaultHeaders
 
-class WanApplication : Application(), ImageLoaderFactory {
+class AppApplication : Application(), ImageLoaderFactory {
 
     //应用刚启动时，只做必要的轻量初始化，避免主线程过重
     override fun onCreate() {
