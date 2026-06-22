@@ -143,7 +143,7 @@ override fun onCreate() {
 Activity onCreate
   -> SplashScreen
   -> enableEdgeToEdge
-  -> setContent { WanTheme { WanNavGraph() } }
+  -> setContent { AppTheme { WanNavGraph() } }
   -> WebViewManager.prepare()
   -> DebugBridge 控制调试开关
 ```
@@ -154,7 +154,7 @@ Activity onCreate
 
 ```kotlin
 setContent {
-    WanTheme(window) {
+    AppTheme(window) {
         WanNavGraph()
     }
 }
@@ -162,7 +162,7 @@ setContent {
 
 这个结构很典型：
 
-- `WanTheme` 统一主题风格
+- `AppTheme` 统一主题风格
 - `WanNavGraph` 统一路由入口
 - 具体页面由各个 `Screen` 负责
 
@@ -178,7 +178,7 @@ setContent {
 2. `app/src/main/java/com/example/fragment/project/WanApplication.kt`
 3. `app/src/main/java/com/example/fragment/project/WanActivity.kt`
 4. `app/src/main/java/com/example/fragment/project/WanNavGraph.kt`
-5. `app/src/main/java/com/example/fragment/project/WanTheme.kt`
+5. `app/src/main/java/com/example/fragment/project/AppTheme.kt`
 
 ### 第二步：看首页结构
 
@@ -417,7 +417,7 @@ Compose 项目里通常推荐：
 
 ## 10. 主题、暗黑模式和 UI 风格
 
-`WanTheme` 负责整个应用的视觉统一。
+`AppTheme` 负责整个应用的视觉统一。
 
 主题一般处理：
 
@@ -581,7 +581,7 @@ Compose 的思维方式更像：
 ### 路径 A：最快入门
 
 1. `WanActivity`
-2. `WanTheme`
+2. `AppTheme`
 3. `WanNavGraph`
 4. `MainScreen`
 5. 任意一个 `ViewModel`
@@ -621,7 +621,7 @@ Compose 的思维方式更像：
 - `app/src/main/java/com/example/fragment/project/WanApplication.kt`
 - `app/src/main/java/com/example/fragment/project/WanActivity.kt`
 - `app/src/main/java/com/example/fragment/project/WanNavGraph.kt`
-- `app/src/main/java/com/example/fragment/project/WanTheme.kt`
+- `app/src/main/java/com/example/fragment/project/AppTheme.kt`
 
 ### 架构与数据
 
@@ -760,7 +760,7 @@ Activity -> Theme -> NavGraph -> Screen -> ViewModel -> Repository
 
 - SplashScreen 退出动画
 - `enableEdgeToEdge()` 的全屏适配
-- `setContent { WanTheme { WanNavGraph() } }`
+- `setContent { AppTheme { WanNavGraph() } }`
 - `WebViewManager.prepare(...)` 的预热行为
 - 调试开关 `DebugBridge.allowWebContentsDebugging`
 
@@ -777,7 +777,7 @@ Activity -> Theme -> NavGraph -> Screen -> ViewModel -> Repository
 - 参数是怎么传递的
 - 哪些页面属于主页面，哪些属于二级页面
 
-#### `app/src/main/java/com/example/fragment/project/WanTheme.kt`
+#### `app/src/main/java/com/example/fragment/project/AppTheme.kt`
 
 它定义整个 App 的视觉规范。重点看：
 
@@ -939,7 +939,7 @@ Activity -> Theme -> NavGraph -> Screen -> ViewModel -> Repository
                       ▼
 ┌──────────────────────────────────────────────┐
 │                 Compose Root                  │
-│  WanTheme -> WanNavGraph                      │
+│  AppTheme -> WanNavGraph                      │
 │  - 主题                                       │
 │  - 路由                                       │
 │  - 页面切换                                   │
@@ -999,7 +999,7 @@ Activity -> Theme -> NavGraph -> Screen -> ViewModel -> Repository
 1. `AndroidManifest.xml`
 2. `WanApplication.kt`
 3. `WanActivity.kt`
-4. `WanTheme.kt`
+4. `AppTheme.kt`
 5. `WanNavGraph.kt`
 6. `MainScreen.kt`
 

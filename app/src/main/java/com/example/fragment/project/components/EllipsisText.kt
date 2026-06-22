@@ -22,7 +22,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
-import com.example.fragment.project.WanTheme
+import com.example.fragment.project.AppTheme
 
 @Composable
 fun EllipsisText(
@@ -35,7 +35,7 @@ fun EllipsisText(
     inlineContent: Map<String, InlineTextContent> = mapOf(),
     onTextLayout: (TextLayoutResult) -> Unit = {},
     ellipsisText: String = "...全文",
-    ellipsisColor: Color = WanTheme.blue,
+    ellipsisColor: Color = AppTheme.blue,
     onClick: () -> Unit = {},
     onEllipsisClick: () -> Unit = {},
 ) {

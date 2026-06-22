@@ -34,7 +34,7 @@ class AppMainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            WanTheme(window) {
+            AppTheme(window) {
                 AppNavGraph()
             }
         }

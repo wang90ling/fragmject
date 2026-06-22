@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.fragment.project.WanTheme
+import com.example.fragment.project.AppTheme
 import com.example.fragment.project.components.ArticleCard
 import com.example.fragment.project.components.SwipeRefreshBox
 import com.example.fragment.project.components.TitleBar
@@ -72,5 +72,5 @@ fun MyShareScreen(
 @Preview(showBackground = true, backgroundColor = 0xFFF0F0F0)
 @Composable
 fun MyShareScreenPreview() {
-    WanTheme { MyShareScreen() }
+    AppTheme { MyShareScreen() }
 }

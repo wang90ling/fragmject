@@ -34,8 +34,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.example.fragment.project.AppTheme
 import com.example.fragment.project.R
-import com.example.fragment.project.WanTheme
 import com.example.fragment.project.components.WhiteTextField
 import com.example.fragment.project.components.calendar.Calendar
 import com.example.fragment.project.components.calendar.rememberCalendarState
@@ -55,10 +55,10 @@ fun CalendarScreen() {
                         .padding(16.dp),
                     shape = RoundedCornerShape(16.dp),
                     colors = CardColors(
-                        containerColor = WanTheme.theme,
-                        contentColor = WanTheme.theme,
-                        disabledContainerColor = WanTheme.orange,
-                        disabledContentColor = WanTheme.orange,
+                        containerColor = AppTheme.theme,
+                        contentColor = AppTheme.theme,
+                        disabledContainerColor = AppTheme.orange,
+                        disabledContentColor = AppTheme.orange,
                     )
                 ) {
                     Column(
@@ -123,7 +123,7 @@ fun CalendarScreen() {
             },
             shape = RoundedCornerShape(50),
             colors = ButtonDefaults.buttonColors(
-                containerColor = WanTheme.orange,
+                containerColor = AppTheme.orange,
                 contentColor = Color.White
             ),
             elevation = ButtonDefaults.buttonElevation(0.dp, 0.dp, 0.dp),
@@ -143,5 +143,5 @@ fun CalendarScreen() {
 @Preview(showBackground = true, backgroundColor = 0xFFF0F0F0)
 @Composable
 fun CalendarScreenPreview() {
-    WanTheme { CalendarScreen() }
+    AppTheme { CalendarScreen() }
 }

@@ -33,7 +33,7 @@ import com.example.fragment.project.MyCollectRoute
 import com.example.fragment.project.MyShareRoute
 import com.example.fragment.project.SettingRoute
 import com.example.fragment.project.UserRoute
-import com.example.fragment.project.WanTheme
+import com.example.fragment.project.AppTheme
 import com.example.fragment.project.components.ArrowRightItem
 
 @Composable
@@ -99,5 +99,5 @@ fun MyScreen(
 @Preview(showBackground = true, backgroundColor = 0xFFF0F0F0)
 @Composable
 fun MyScreenPreview() {
-    WanTheme { MyScreen() }
+    AppTheme { MyScreen() }
 }

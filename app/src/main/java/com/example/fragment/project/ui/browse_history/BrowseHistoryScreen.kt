@@ -44,7 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.fragment.project.WanTheme
+import com.example.fragment.project.AppTheme
 import com.example.fragment.project.WebRoute
 import com.example.fragment.project.components.SwipeBox
 import com.example.fragment.project.components.TabBar
@@ -124,7 +124,7 @@ fun BrowseHistoryScreen(
                                 endAction = listOf {
                                     Box(
                                         modifier = Modifier
-                                            .background(WanTheme.blue)
+                                            .background(AppTheme.blue)
                                             .fillMaxSize()
                                             .clickable {
                                                 control.center()
@@ -154,7 +154,7 @@ fun BrowseHistoryScreen(
                                 endFillAction = {
                                     Box(
                                         modifier = Modifier
-                                            .background(WanTheme.red)
+                                            .background(AppTheme.red)
                                             .fillMaxSize()
                                             .clickable {
                                                 control.center()
@@ -212,5 +212,5 @@ fun BrowseHistoryScreen(
 @Preview(showBackground = true, backgroundColor = 0xFFF0F0F0)
 @Composable
 fun BrowseHistoryScreenPreview() {
-    WanTheme { BrowseHistoryScreen() }
+    AppTheme { BrowseHistoryScreen() }
 }

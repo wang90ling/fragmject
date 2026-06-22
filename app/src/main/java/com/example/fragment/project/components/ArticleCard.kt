@@ -41,11 +41,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import coil.compose.AsyncImage
+import com.example.fragment.project.AppTheme
 import com.example.fragment.project.LoginRoute
 import com.example.fragment.project.R
 import com.example.fragment.project.SystemRoute
 import com.example.fragment.project.UserRoute
-import com.example.fragment.project.WanTheme
 import com.example.fragment.project.WebRoute
 import com.example.fragment.project.data.Article
 import com.example.fragment.project.data.repository.WanRepositoryProvider
@@ -268,7 +268,7 @@ private fun getCollectResId(collect: Boolean): Int {
 @Preview(showBackground = true, backgroundColor = 0xFFF0EAE2)
 @Composable
 fun ArticleCardPreview() {
-    WanTheme {
+    AppTheme {
         ArticleCard(
             data = Article(
                 niceDate = "2022-10-13 11:11",

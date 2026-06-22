@@ -63,7 +63,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.fragment.project.BrowseHistoryRoute
 import com.example.fragment.project.R
-import com.example.fragment.project.WanTheme
+import com.example.fragment.project.AppTheme
 import com.example.fragment.project.WebRoute
 import com.example.fragment.project.components.TitleBar
 import com.example.fragment.project.data.History
@@ -483,5 +483,5 @@ fun WebScreen(
 @Preview(showBackground = true, backgroundColor = 0xFFF0F0F0)
 @Composable
 fun WebScreenPreview() {
-    WanTheme { WebScreen(url = "https://wanandroid.com/") }
+    AppTheme { WebScreen(url = "https://wanandroid.com/") }
 }

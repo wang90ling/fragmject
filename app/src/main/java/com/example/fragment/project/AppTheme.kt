@@ -30,7 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import com.example.fragment.project.utils.WanHelper
 
-object WanTheme {
+object AppTheme {
     internal val theme = Color(0xFF272A36)
     internal val blue = Color(0xFF508CEE)
     internal val green = Color(0xFF33CC99)
@@ -99,7 +99,7 @@ val appLightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun WanTheme(window: Window? = null, content: @Composable () -> Unit) {
+fun AppTheme(window: Window? = null, content: @Composable () -> Unit) {
 
     var darkTheme by remember { mutableStateOf(false) }
 

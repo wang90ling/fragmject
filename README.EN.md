@@ -62,7 +62,7 @@ The goal of this project is to encourage students to build a strong foundation i
 |     |   |  ├── utils                       
 |     |   |  ├── WanActivity                 
 |     |   |  ├── WanApplication              
-|     |   |  ├── WanTheme                    
+|     |   |  ├── AppTheme                    
 |     |   |  ├── WanNavGraph                 
 |     |   |  └── WanViewModel                
 |     |   |

@@ -35,7 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.fragment.project.WanTheme
+import com.example.fragment.project.AppTheme
 import com.example.fragment.project.components.TitleBar
 import kotlinx.coroutines.launch
 
@@ -169,5 +169,5 @@ fun DemoScreen(
 @Preview(showBackground = true, backgroundColor = 0xFFF0F0F0)
 @Composable
 fun DemoScreenPreview() {
-    WanTheme { DemoScreen() }
+    AppTheme { DemoScreen() }
 }

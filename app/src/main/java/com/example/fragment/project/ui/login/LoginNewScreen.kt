@@ -55,7 +55,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.fragment.project.MainRoute
-import com.example.fragment.project.WanTheme
+import com.example.fragment.project.AppTheme
 import com.example.fragment.project.components.LoadingContent
 import com.example.fragment.project.data.CodeLoginRequest
 import com.example.miaow.base.utils.logD
@@ -432,7 +432,7 @@ private fun SocialLoginButton(label: String) {
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
 fun LoginNewScreenPreview() {
-    WanTheme {
+    AppTheme {
         LoginNewScreen()
     }
 }

@@ -45,7 +45,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.fragment.project.R
 import com.example.fragment.project.RankRoute
-import com.example.fragment.project.WanTheme
+import com.example.fragment.project.AppTheme
 import com.example.fragment.project.components.SwipeRefreshBox
 import com.example.miaow.base.utils.getScreenWidth
 import kotlinx.coroutines.launch
@@ -94,7 +94,7 @@ fun MyCoinScreen(
         topBar = {
             Box(
                 modifier = Modifier
-                    .background(WanTheme.theme)
+                    .background(AppTheme.theme)
                     .statusBarsPadding()
                     .fillMaxWidth()
                     .height(titleBarSize + targetHeight * targetPercent.value)
@@ -186,7 +186,7 @@ fun MyCoinScreen(
                 Text(
                     text = item.coinCount,
                     fontSize = 14.sp,
-                    color = WanTheme.orange,
+                    color = AppTheme.orange,
                 )
             }
             HorizontalDivider()
@@ -197,5 +197,5 @@ fun MyCoinScreen(
 @Preview(showBackground = true, backgroundColor = 0xFFF0F0F0)
 @Composable
 fun MyCoinScreenPreview() {
-    WanTheme { MyCoinScreen() }
+    AppTheme { MyCoinScreen() }
 }

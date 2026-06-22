@@ -23,7 +23,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.fragment.project.WanTheme
+import com.example.fragment.project.AppTheme
 import com.example.fragment.project.components.SwipeBox
 import com.example.fragment.project.components.SwipeBoxControl
 import com.example.fragment.project.components.rememberSwipeBoxControl
@@ -41,7 +41,7 @@ fun SwipeBoxScreen() {
         startAction = listOf {
             Box(
                 modifier = Modifier
-                    .background(WanTheme.green)
+                    .background(AppTheme.green)
                     .fillMaxSize()
                     .clickable {
                         control.center()
@@ -63,7 +63,7 @@ fun SwipeBoxScreen() {
         startFillAction = {
             Box(
                 modifier = Modifier
-                    .background(WanTheme.pink)
+                    .background(AppTheme.pink)
                     .fillMaxSize()
                     .clickable {
                         control.center()
@@ -93,7 +93,7 @@ fun SwipeBoxScreen() {
             {
                 Box(
                     modifier = Modifier
-                        .background(WanTheme.blue)
+                        .background(AppTheme.blue)
                         .fillMaxSize()
                         .clickable {
                             control.center()
@@ -115,7 +115,7 @@ fun SwipeBoxScreen() {
             {
                 Box(
                     modifier = Modifier
-                        .background(WanTheme.yellow)
+                        .background(AppTheme.yellow)
                         .fillMaxSize()
                         .clickable {
                             control.center()
@@ -138,7 +138,7 @@ fun SwipeBoxScreen() {
         endFillAction = {
             Box(
                 modifier = Modifier
-                    .background(WanTheme.red)
+                    .background(AppTheme.red)
                     .fillMaxSize()
                     .clickable {
                         control.center()
@@ -187,5 +187,5 @@ fun SwipeBoxScreen() {
 @Preview(showBackground = true, backgroundColor = 0xFFF0F0F0)
 @Composable
 fun SwipeBoxScreenPreview() {
-    WanTheme { SwipeBoxScreen() }
+    AppTheme { SwipeBoxScreen() }
 }

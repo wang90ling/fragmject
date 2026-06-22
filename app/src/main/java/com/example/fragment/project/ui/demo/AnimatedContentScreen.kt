@@ -33,8 +33,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.example.fragment.project.AppTheme
 import com.example.fragment.project.R
-import com.example.fragment.project.WanTheme
 import kotlin.math.roundToInt
 
 @Composable
@@ -164,5 +164,5 @@ fun AnimatedContentScreen() {
 @Preview(showBackground = true, backgroundColor = 0xFFF0F0F0)
 @Composable
 fun AnimatedContentScreenPreview() {
-    WanTheme { AnimatedContentScreen() }
+    AppTheme { AnimatedContentScreen() }
 }

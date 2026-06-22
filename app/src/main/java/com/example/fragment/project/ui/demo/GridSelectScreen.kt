@@ -50,7 +50,7 @@ import androidx.compose.ui.unit.round
 import androidx.compose.ui.unit.toIntRect
 import coil.compose.rememberAsyncImagePainter
 import com.example.fragment.project.R
-import com.example.fragment.project.WanTheme
+import com.example.fragment.project.AppTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 
@@ -234,5 +234,5 @@ private fun ImageItem(
 @Preview(showBackground = true, backgroundColor = 0xFFF0F0F0)
 @Composable
 fun GridSelectScreenPreview() {
-    WanTheme { GridSelectScreen() }
+    AppTheme { GridSelectScreen() }
 }

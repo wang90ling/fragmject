@@ -49,7 +49,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.fragment.project.R
 import com.example.fragment.project.SearchRoute
 import com.example.fragment.project.ShareArticleRoute
-import com.example.fragment.project.WanTheme
+import com.example.fragment.project.AppTheme
 import com.example.fragment.project.WanViewModel
 import com.example.fragment.project.components.LoopVerticalPager
 import com.example.fragment.project.data.HotKey
@@ -154,7 +154,7 @@ fun SearchBar(
             modifier = Modifier
                 .clip(RoundedCornerShape(50))
                 .clipToBounds()
-                .background(WanTheme.alphaGray)
+                .background(AppTheme.alphaGray)
                 .weight(1f)
                 .fillMaxHeight(),
             contentAlignment = Alignment.CenterStart
@@ -237,13 +237,13 @@ fun BottomNavigation(
 @Preview(showBackground = true, backgroundColor = 0xFFF0F0F0)
 @Composable
 fun MainScreenPreview() {
-    WanTheme { MainScreen() }
+    AppTheme { MainScreen() }
 }
 
 @Preview(showBackground = true, backgroundColor = 0xFFF0F0F0)
 @Composable
 fun SearchBarPreview() {
-    WanTheme { SearchBar(data = listOf(HotKey(name = "问答"))) }
+    AppTheme { SearchBar(data = listOf(HotKey(name = "问答"))) }
 }
 
 @Preview(showBackground = true, backgroundColor = 0xFFF0F0F0)
@@ -255,5 +255,5 @@ fun WanBottomNavigationPreview() {
         NavigationItem("项目", R.mipmap.ic_bottom_bar_project),
         NavigationItem("我的", R.mipmap.ic_bottom_bar_user),
     )
-    WanTheme { BottomNavigation(items = navItems, selectedIndex = 0, onClick = { _ -> }) }
+    AppTheme { BottomNavigation(items = navItems, selectedIndex = 0, onClick = { _ -> }) }
 }

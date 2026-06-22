@@ -64,7 +64,7 @@
 |     |   |  ├── utils                          工具类目录
 |     |   |  ├── WanActivity                    唯一Activity
 |     |   |  ├── WanApplication                 Application
-|     |   |  ├── WanTheme                       Theme
+|     |   |  ├── AppTheme                       Theme
 |     |   |  ├── WanNavGraph                    导航图
 |     |   |  └── WanViewModel                   ViewModel
 |     |   |

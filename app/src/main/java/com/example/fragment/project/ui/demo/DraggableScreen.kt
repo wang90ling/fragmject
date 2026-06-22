@@ -17,7 +17,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import com.example.fragment.project.WanTheme
+import com.example.fragment.project.AppTheme
 import kotlin.math.roundToInt
 
 @Composable
@@ -45,5 +45,5 @@ fun DraggableScreen() {
 @Preview(showBackground = true, backgroundColor = 0xFFF0F0F0)
 @Composable
 fun DraggableScreenPreview() {
-    WanTheme { DraggableScreen() }
+    AppTheme { DraggableScreen() }
 }

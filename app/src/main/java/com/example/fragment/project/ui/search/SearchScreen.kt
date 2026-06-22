@@ -57,7 +57,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.fragment.project.R
-import com.example.fragment.project.WanTheme
+import com.example.fragment.project.AppTheme
 import com.example.fragment.project.WanViewModel
 import com.example.fragment.project.components.ArticleCard
 import com.example.fragment.project.components.ClearTextField
@@ -111,7 +111,7 @@ fun SearchScreen(
                     modifier = Modifier
                         .clip(RoundedCornerShape(50))
                         .clipToBounds()
-                        .background(WanTheme.alphaGray)
+                        .background(AppTheme.alphaGray)
                         .weight(1f)
                         .fillMaxHeight()
                         .focusRequester(focusRequester),
@@ -270,5 +270,5 @@ fun SearchScreen(
 @Preview(showBackground = true, backgroundColor = 0xFFF0F0F0)
 @Composable
 fun SearchScreenPreview() {
-    WanTheme { SearchScreen(key = "") }
+    AppTheme { SearchScreen(key = "") }
 }

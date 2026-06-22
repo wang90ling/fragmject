@@ -35,7 +35,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.media3.common.util.UnstableApi
-import com.example.fragment.project.WanTheme
+import com.example.fragment.project.AppTheme
 import com.example.fragment.project.components.SwipeRefreshBox
 import com.example.fragment.project.components.TabBar
 import kotlinx.coroutines.launch
@@ -98,7 +98,7 @@ fun NestedScroll2Screen() {
     ) {
         Column(
             modifier = Modifier
-                .background(WanTheme.theme)
+                .background(AppTheme.theme)
                 .fillMaxWidth()
                 .height(topBarHeightDp)
                 .graphicsLayer {
@@ -159,7 +159,7 @@ fun NestedScroll2Screen() {
                     Text(
                         text = item,
                         fontSize = 14.sp,
-                        color = WanTheme.orange,
+                        color = AppTheme.orange,
                     )
                 }
                 HorizontalDivider()

@@ -23,7 +23,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.fragment.project.WanTheme
+import com.example.fragment.project.AppTheme
 
 @Composable
 internal fun DayContent(
@@ -101,7 +101,7 @@ internal fun DayContent(
                 } else if (date.currMonth && date.isFestival() && !isMonthFillMode) {
                     MaterialTheme.colorScheme.onSecondaryContainer
                 } else if (!date.currMonth && date.isFestival() && !isMonthFillMode) {
-                    WanTheme.alphaOrange
+                    AppTheme.alphaOrange
                 } else {
                     MaterialTheme.colorScheme.onTertiary
                 },

@@ -20,7 +20,7 @@ import com.example.fragment.project.components.BannerPager
 import com.example.fragment.project.components.SwipeRefreshBox
 
 @Composable
-fun HomeScreen(
+fun HomeNewScreen(
     listState: LazyListState,
     viewModel: HomeViewModel = viewModel(),
     onNavigate: (route: Any) -> Unit = {},
@@ -60,6 +60,6 @@ fun HomeScreen(
 
 @Preview(showBackground = true, backgroundColor = 0xFFF0F0F0)
 @Composable
-fun HomeScreenPreview() {
-    AppTheme { HomeScreen(rememberLazyListState()) }
+fun HomeNewScreenPreview() {
+    AppTheme { HomeNewScreen(rememberLazyListState()) }
 }

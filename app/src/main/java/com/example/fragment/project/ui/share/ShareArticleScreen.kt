@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.fragment.project.R
-import com.example.fragment.project.WanTheme
+import com.example.fragment.project.AppTheme
 import com.example.fragment.project.WebRoute
 import com.example.fragment.project.components.ClearTextField
 import com.example.fragment.project.components.LoadingContent
@@ -247,5 +247,5 @@ fun ShareArticleScreen(
 @Preview(showBackground = true, backgroundColor = 0xFFF0F0F0)
 @Composable
 fun ShareArticleScreenPreview() {
-    WanTheme { ShareArticleScreen() }
+    AppTheme { ShareArticleScreen() }
 }

@@ -16,7 +16,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.fragment.project.WanTheme
+import com.example.fragment.project.AppTheme
 
 @Composable
 fun TransformableScreen() {
@@ -51,5 +51,5 @@ fun TransformableScreen() {
 @Preview(showBackground = true, backgroundColor = 0xFFF0F0F0)
 @Composable
 fun TransformableScreenPreview() {
-    WanTheme { TransformableScreen() }
+    AppTheme { TransformableScreen() }
 }

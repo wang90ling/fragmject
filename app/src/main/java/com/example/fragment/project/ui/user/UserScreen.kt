@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.fragment.project.WanTheme
+import com.example.fragment.project.AppTheme
 import com.example.fragment.project.components.ArticleCard
 import com.example.fragment.project.components.SwipeRefreshBox
 import com.example.miaow.base.utils.getScreenWidth
@@ -99,7 +99,7 @@ fun UserScreen(
         topBar = {
             Box(
                 modifier = Modifier
-                    .background(WanTheme.theme)
+                    .background(AppTheme.theme)
                     .statusBarsPadding()
                     .fillMaxWidth()
                     .height(titleBarSize + targetHeight * targetPercent.value)
@@ -187,5 +187,5 @@ fun UserScreen(
 @Preview(showBackground = true, backgroundColor = 0xFFF0F0F0)
 @Composable
 fun UserScreenPreview() {
-    WanTheme { UserScreen("0") }
+    AppTheme { UserScreen("0") }
 }

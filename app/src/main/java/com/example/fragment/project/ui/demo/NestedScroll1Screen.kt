@@ -30,7 +30,7 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.example.fragment.project.WanTheme
+import com.example.fragment.project.AppTheme
 import com.example.fragment.project.ui.web.WebViewManager
 import org.json.JSONObject
 import kotlin.math.abs
@@ -171,37 +171,37 @@ fun NestedScroll1Screen() {
             )
             Box(
                 modifier = Modifier
-                    .background(WanTheme.yellow)
+                    .background(AppTheme.yellow)
                     .fillMaxWidth()
                     .height(300.dp)
             ) { }
             Box(
                 modifier = Modifier
-                    .background(WanTheme.orange)
+                    .background(AppTheme.orange)
                     .fillMaxWidth()
                     .height(300.dp)
             ) { }
             Box(
                 modifier = Modifier
-                    .background(WanTheme.blue)
+                    .background(AppTheme.blue)
                     .fillMaxWidth()
                     .height(300.dp)
             ) { }
             Box(
                 modifier = Modifier
-                    .background(WanTheme.green)
+                    .background(AppTheme.green)
                     .fillMaxWidth()
                     .height(300.dp)
             ) { }
             Box(
                 modifier = Modifier
-                    .background(WanTheme.pink)
+                    .background(AppTheme.pink)
                     .fillMaxWidth()
                     .height(300.dp)
             ) { }
             Box(
                 modifier = Modifier
-                    .background(WanTheme.alphaGray)
+                    .background(AppTheme.alphaGray)
                     .fillMaxWidth()
                     .height(300.dp)
             ) { }

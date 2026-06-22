@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.fragment.project.R
-import com.example.fragment.project.WanTheme
+import com.example.fragment.project.AppTheme
 import com.example.fragment.project.components.EllipsisText
 
 @Composable
@@ -115,5 +115,5 @@ fun FullTextScreen() {
 @Preview(showBackground = true, backgroundColor = 0xFFF0F0F0)
 @Composable
 fun FullTextScreenPreview() {
-    WanTheme { FullTextScreen() }
+    AppTheme { FullTextScreen() }
 }

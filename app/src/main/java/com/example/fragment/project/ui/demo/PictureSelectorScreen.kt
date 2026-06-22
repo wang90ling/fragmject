@@ -21,7 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.fragment.project.WanTheme
+import com.example.fragment.project.AppTheme
 import com.example.miaow.picture.selector.PictureSelectorActivity
 
 @Composable
@@ -67,5 +67,5 @@ fun PictureSelectorScreen() {
 @Preview(showBackground = true, backgroundColor = 0xFFF0F0F0)
 @Composable
 fun PictureSelectorScreenPreview() {
-    WanTheme { PictureSelectorScreen() }
+    AppTheme { PictureSelectorScreen() }
 }

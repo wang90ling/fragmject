@@ -29,7 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
-import com.example.fragment.project.WanTheme
+import com.example.fragment.project.AppTheme
 import com.example.fragment.project.components.StandardDialog
 import kotlinx.coroutines.launch
 
@@ -109,5 +109,5 @@ fun PermissionScreen() {
 @Preview(showBackground = true, backgroundColor = 0xFFF0F0F0)
 @Composable
 fun PermissionScreenPreview() {
-    WanTheme { PermissionScreen() }
+    AppTheme { PermissionScreen() }
 }
