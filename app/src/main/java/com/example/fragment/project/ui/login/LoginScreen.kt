@@ -70,13 +70,14 @@ fun LoginScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollState = rememberScrollState()
-    LaunchedEffect(uiState.isLogin, uiState.message, snackbarHostState) {
+    LaunchedEffect(uiState.isLogin) {
         if (uiState.isLogin) {
             onPopBackStack(MainRoute)
         }
-        if (uiState.message.isNotBlank()) {
-            snackbarHostState.showSnackbar(uiState.message)
-            viewModel.resetMessage()
+    }
+    LaunchedEffect(Unit) {
+        viewModel.messageEvent.collect { message ->
+            snackbarHostState.showSnackbar(message)
         }
     }
     var usernameText by rememberSaveable { mutableStateOf("") }
