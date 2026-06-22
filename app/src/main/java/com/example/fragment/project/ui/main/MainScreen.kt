@@ -2,6 +2,7 @@ package com.example.fragment.project.ui.main
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,22 +11,26 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,21 +45,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.fragment.project.AppTheme
 import com.example.fragment.project.R
 import com.example.fragment.project.SearchRoute
 import com.example.fragment.project.ShareArticleRoute
-import com.example.fragment.project.AppTheme
 import com.example.fragment.project.WanViewModel
 import com.example.fragment.project.components.LoopVerticalPager
 import com.example.fragment.project.data.HotKey
 import com.example.fragment.project.data.NavigationItem
-import com.example.fragment.project.ui.main.home.HomeScreen
+import com.example.fragment.project.ui.main.home.HomeNewScreen
 import com.example.fragment.project.ui.main.my.MyScreen
 import com.example.fragment.project.ui.main.nav.NavScreen
 import com.example.fragment.project.ui.main.project.ProjectScreen
@@ -69,7 +76,6 @@ fun MainScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val homeListState = rememberLazyListState()
     var navIndex by rememberSaveable { mutableIntStateOf(0) }
-    // navItems 内容稳定（label + mipmap id），用 remember 避免每次重组重建对象图。
     val navItems = remember {
         listOf(
             NavigationItem("首页", R.mipmap.ic_bottom_bar_home),
@@ -79,56 +85,44 @@ fun MainScreen(
         )
     }
     Scaffold(
-        topBar = {
+        /*topBar = {
             SearchBar(
                 data = uiState.hotKeyResult,
                 onNavigate = onNavigate,
             )
-        },
+        },*/
         bottomBar = {
-            BottomNavigation(
+            FloatingBottomNavigation(
                 items = navItems,
                 selectedIndex = navIndex,
             ) {
-                //首页双击返回顶部
                 if ((it == 0) && (navIndex == 0) && homeListState.canScrollBackward) {
-                    scope.launch {
-                        homeListState.animateScrollToItem(0)
-                    }
+                    scope.launch { homeListState.animateScrollToItem(0) }
                 }
                 navIndex = it
             }
         }
     ) { innerPadding ->
         val saveableStateHolder = rememberSaveableStateHolder()
-        Column(
-            modifier = Modifier.padding(innerPadding)
-        ) {
+        Column(modifier = Modifier.padding(innerPadding)) {
             when (navIndex) {
                 0 -> saveableStateHolder.SaveableStateProvider(navItems[0].label) {
-                    HomeScreen(
+                    HomeNewScreen(
                         listState = homeListState,
                         onNavigate = onNavigate,
                     )
                 }
-
                 1 -> saveableStateHolder.SaveableStateProvider(navItems[1].label) {
                     NavScreen(
                         systemData = uiState.treeResult,
                         onNavigate = onNavigate,
                     )
                 }
-
                 2 -> saveableStateHolder.SaveableStateProvider(navItems[2].label) {
-                    ProjectScreen(
-                        onNavigate = onNavigate,
-                    )
+                    ProjectScreen(onNavigate = onNavigate)
                 }
-
                 3 -> saveableStateHolder.SaveableStateProvider(navItems[3].label) {
-                    MyScreen(
-                        onNavigate = onNavigate,
-                    )
+                    MyScreen(onNavigate = onNavigate)
                 }
             }
         }
@@ -195,41 +189,68 @@ fun SearchBar(
 }
 
 @Composable
-fun BottomNavigation(
+fun FloatingBottomNavigation(
     items: List<NavigationItem> = listOf(),
     selectedIndex: Int = 0,
     onClick: (index: Int) -> Unit
 ) {
-    // 选中态完全由调用方驱动，避免内外双份 state 在配置变化（如旋屏）时短暂不一致。
-    NavigationBar(modifier = Modifier.shadow(5.dp)) {
-        items.forEachIndexed { index, item ->
-            NavigationBarItem(
-                selected = selectedIndex == index,
-                onClick = { onClick(index) },
-                icon = {
-                    BadgedBox(
-                        badge = {
-//                            if ("我的" == item.label) {
-//                                Badge {
-//                                    val badgeNumber = "1"
-//                                    Text(
-//                                        badgeNumber,
-//                                        modifier = Modifier.semantics {
-//                                            contentDescription = "$badgeNumber new notifications"
-//                                        }
-//                                    )
-//                                }
-//                            }
-                        }) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .navigationBarsPadding()
+            .padding(horizontal = 16.dp, vertical = 10.dp)
+            .shadow(18.dp, RoundedCornerShape(28.dp)),
+        shape = RoundedCornerShape(28.dp),
+        color = Color.White,
+        tonalElevation = 0.dp,
+        shadowElevation = 0.dp
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp, vertical = 10.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            items.forEachIndexed { index, item ->
+                val selected = selectedIndex == index
+                val bg = if (selected) {
+                    Brush.linearGradient(listOf(Color(0xFF7B6BFF), Color(0xFFB866FF)))
+                } else {
+                    Brush.linearGradient(listOf(Color.Transparent, Color.Transparent))
+                }
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .clip(RoundedCornerShape(20.dp))
+                        .background(if (selected) Color(0xFFF2EDFF) else Color.Transparent)
+                        .clickable { onClick(index) }
+                        .padding(vertical = 8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(if (selected) 42.dp else 34.dp)
+                            .clip(CircleShape)
+                            .background(if (selected) Color(0xFF7B6BFF) else Color(0xFFF3F3F3)),
+                        contentAlignment = Alignment.Center
+                    ) {
                         Icon(
                             painter = painterResource(id = item.resId),
                             contentDescription = null,
-                            modifier = Modifier.size(25.dp),
+                            modifier = Modifier.size(if (selected) 23.dp else 21.dp),
+                            tint = if (selected) Color.White else Color(0xFF9B9B9B)
                         )
                     }
-                },
-                label = { Text(text = item.label, fontSize = 13.sp, lineHeight = 13.sp) },
-            )
+                    Spacer(modifier = Modifier.height(6.dp))
+                    Text(
+                        text = item.label,
+                        fontSize = 12.sp,
+                        color = if (selected) Color(0xFF222222) else Color(0xFF9B9B9B)
+                    )
+                }
+            }
         }
     }
 }
@@ -255,5 +276,5 @@ fun WanBottomNavigationPreview() {
         NavigationItem("项目", R.mipmap.ic_bottom_bar_project),
         NavigationItem("我的", R.mipmap.ic_bottom_bar_user),
     )
-    AppTheme { BottomNavigation(items = navItems, selectedIndex = 0, onClick = { _ -> }) }
+    AppTheme { FloatingBottomNavigation(items = navItems, selectedIndex = 0, onClick = { _ -> }) }
 }

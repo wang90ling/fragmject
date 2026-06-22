@@ -125,6 +125,7 @@ dependencies {
     implementation(libs.androidx.camera.mlkit)
     implementation(libs.barcode.scanning)
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.runtime.saveable)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.animation)
     implementation(libs.androidx.compose.material)
