@@ -84,7 +84,13 @@ fun LoginNewScreen(
     var agreed by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(uiState.isLogin) {
+        logD("isLogin:"+uiState.isLogin)
         if (uiState.isLogin) onPopBackStack(MainRoute)
+        //TODO 重新加载个人接口数据 wangling
+
+
+
+
     }
     LaunchedEffect(Unit) {
         viewModel.messageEvent.collect { message ->

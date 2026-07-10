@@ -14,8 +14,12 @@ import com.example.fragment.project.data.ShareArticleList
 import com.example.fragment.project.data.TopArticle
 import com.example.fragment.project.data.TreeList
 import com.example.fragment.project.data.UserCoin
+import com.example.fragment.project.data.bean.BaseResponse
 import com.example.miaow.base.http.HttpResponse
 import kotlinx.coroutines.flow.Flow
+import com.example.fragment.project.data.bean.request.RecommendRequest
+import com.example.fragment.project.data.bean.response.HomeRecommend
+import retrofit2.http.Body
 
 /**
  * 文章相关接口：首页 / 体系 / 搜索 / 收藏。
@@ -35,6 +39,8 @@ interface ArticleRepository {
 
     /** 关键字搜索文章（page 从 0 开始） */
     suspend fun searchArticles(key: String, page: Int): ArticleList
+
+    suspend fun getRecommendListByTabId(@Body body: RecommendRequest): BaseResponse<HomeRecommend>
 
     /** 我的收藏列表（page 从 0 开始） */
     suspend fun getCollectList(page: Int): ArticleList

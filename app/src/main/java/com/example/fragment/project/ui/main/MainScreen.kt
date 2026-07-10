@@ -198,9 +198,9 @@ fun FloatingBottomNavigation(
         modifier = Modifier
             .fillMaxWidth()
             .navigationBarsPadding()
-            .padding(horizontal = 16.dp, vertical = 10.dp)
-            .shadow(18.dp, RoundedCornerShape(28.dp)),
-        shape = RoundedCornerShape(28.dp),
+            .padding(horizontal = 16.dp, vertical = 10.dp),
+            //.shadow(18.dp, RoundedCornerShape(28.dp)),
+        shape = RoundedCornerShape(5.dp),
         color = Color.White,
         tonalElevation = 0.dp,
         shadowElevation = 0.dp
@@ -208,7 +208,7 @@ fun FloatingBottomNavigation(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 10.dp, vertical = 10.dp),
+                .padding(horizontal = 5.dp, vertical = 5.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -225,13 +225,13 @@ fun FloatingBottomNavigation(
                         .clip(RoundedCornerShape(20.dp))
                         .background(if (selected) Color(0xFFF2EDFF) else Color.Transparent)
                         .clickable { onClick(index) }
-                        .padding(vertical = 8.dp),
+                        .padding(vertical = 2.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
                     Box(
                         modifier = Modifier
-                            .size(if (selected) 42.dp else 34.dp)
+                            .size(if (selected) 33.dp else 33.dp)
                             .clip(CircleShape)
                             .background(if (selected) Color(0xFF7B6BFF) else Color(0xFFF3F3F3)),
                         contentAlignment = Alignment.Center
@@ -239,11 +239,11 @@ fun FloatingBottomNavigation(
                         Icon(
                             painter = painterResource(id = item.resId),
                             contentDescription = null,
-                            modifier = Modifier.size(if (selected) 23.dp else 21.dp),
+                            modifier = Modifier.size(if (selected) 16.dp else 16.dp),
                             tint = if (selected) Color.White else Color(0xFF9B9B9B)
                         )
                     }
-                    Spacer(modifier = Modifier.height(6.dp))
+                    Spacer(modifier = Modifier.height(2.dp))
                     Text(
                         text = item.label,
                         fontSize = 12.sp,

@@ -78,6 +78,7 @@ class LoginViewModel(
             codeLoginData = if (isSuccess) response.data else null
         )
         if (isSuccess && response.data != null) {
+            logD("handleLoginResponse:"+response.data.toString())
             viewModelScope.launch {
                 WanHelper.setToken(response.data.token)
                 WanHelper.setLoginData(response.data)

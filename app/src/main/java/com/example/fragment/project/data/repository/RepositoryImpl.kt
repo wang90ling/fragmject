@@ -14,9 +14,19 @@ import com.example.fragment.project.data.ShareArticleList
 import com.example.fragment.project.data.TopArticle
 import com.example.fragment.project.data.TreeList
 import com.example.fragment.project.data.UserCoin
+import com.example.fragment.project.data.bean.BaseResponse
 import com.example.miaow.base.http.CoroutineHttp
 import com.example.miaow.base.http.HttpRequest
 import com.example.miaow.base.http.HttpResponse
+import com.example.fragment.project.data.bean.request.RecommendRequest
+import com.example.fragment.project.data.bean.response.HomeRecommend
+
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.Path
+import retrofit2.http.Query
+import kotlin.String
 
 /**
  * 顶层 helper：把 [CoroutineHttp] 实例方法包装成不依赖 [kotlinx.coroutines.CoroutineScope] 接收者的形式。
@@ -82,6 +92,12 @@ internal class ArticleRepositoryImpl : ArticleRepository {
 
     override suspend fun getArticleListByCid(cid: String, page: Int): ArticleList =
         httpGet(articleListByCidSpec(cid, page))
+
+
+    @POST("accompany/accompanyPageList")
+    override suspend fun getRecommendListByTabId(
+        @Body body: RecommendRequest
+    ): BaseResponse<HomeRecommend>
 
     override suspend fun searchArticles(key: String, page: Int): ArticleList = httpPost {
         setUrl("article/query/{page}/json")

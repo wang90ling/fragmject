@@ -7,6 +7,7 @@ import com.example.fragment.project.data.History
 import com.example.fragment.project.data.User
 import com.example.miaow.base.database.KVDatabase
 import com.example.miaow.base.utils.GSonUtils
+import com.example.miaow.base.utils.logD
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.Flow
 
@@ -130,6 +131,7 @@ object WanHelper {
     }
 
     suspend fun isLoggedIn(): Boolean {
+        logD("wangling getToken:"+getToken());
         return getToken()?.isNotBlank() == true
     }
 
