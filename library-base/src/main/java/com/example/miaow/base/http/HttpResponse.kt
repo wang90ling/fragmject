@@ -17,9 +17,9 @@ open class HttpResponse @JvmOverloads constructor(
     var errorMsg: String = ""
 ) {
     /** 兼容 apitest.dianta.pw 返回的 `code` 字段。 */
-    var code: String = ""
+    open var code: String = ""
     /** 兼容 apitest.dianta.pw 返回的 `message` 字段。 */
-    var message: String = ""
+    open var message: String? = null
 
     var time = System.currentTimeMillis()
 

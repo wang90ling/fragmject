@@ -6,6 +6,8 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.google.gson.JsonPrimitive
 import okhttp3.ResponseBody
+import java.lang.reflect.ParameterizedType
+import java.lang.reflect.Type
 
 /**
  * Retrofit/OkHttp 响应 → DTO 的转换器。
@@ -33,10 +35,25 @@ class GSonConverter : CoroutineHttp.Converter {
         return fromJson(raw, type)
     }
 
+    override fun <T> converter(responseBody: ResponseBody, type: Type): T {
+        val raw = responseBody.charStream().readText()
+        return fromJson(raw, type)
+    }
+
     override fun <T> fromJson(json: String, classOfT: Class<T>): T {
-        // 非 HttpResponse 子类（极少）直接走标准路径，避免改坏已有逻辑。
-        if (!HttpResponse::class.java.isAssignableFrom(classOfT)) {
-            return gson.fromJson(json, classOfT)
+        return fromJson(json, classOfT as Type)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun <T> fromJson(json: String, typeOfT: Type): T {
+        // 判断原始类型是否为 HttpResponse 子类，决定是否走预处理逻辑。
+        val rawClass = when (typeOfT) {
+            is Class<*> -> typeOfT
+            is ParameterizedType -> typeOfT.rawType as? Class<*>
+            else -> null
+        }
+        if (rawClass == null || !HttpResponse::class.java.isAssignableFrom(rawClass)) {
+            return gson.fromJson(json, typeOfT)
         }
 
         // 预处理：统一字段名 + 剥离字符串型 data，避免子类 data:T? 解析崩溃。
@@ -52,7 +69,7 @@ class GSonConverter : CoroutineHttp.Converter {
         } catch (_: Exception) {
             json
         }
-        return gson.fromJson(sanitized, classOfT)
+        return gson.fromJson(sanitized, typeOfT)
     }
 
     /**

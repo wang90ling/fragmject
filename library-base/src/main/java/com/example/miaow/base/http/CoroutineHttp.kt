@@ -14,6 +14,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.http.*
 import java.io.File
+import java.lang.reflect.Type
 
 private const val TAG = "CoroutineHttp"
 
@@ -257,6 +258,36 @@ class CoroutineHttp private constructor() {
         }
     }
 
+    /**
+     * [postJson] 的 Type 重载：支持泛型响应（如 `BaseResponse<HomeRecommend>`）。
+     * `Class<T>` 版本在反序列化时会丢失泛型参数，此重载通过 Gson [Type] 保留完整类型信息。
+     */
+    @Suppress("UNCHECKED_CAST")
+    suspend fun <T : Any> postJson(
+        init: HttpRequest.() -> Unit,
+        type: Type,
+    ): T = postJson(HttpRequest().apply(init), type)
+
+    @Suppress("UNCHECKED_CAST")
+    suspend fun <T : Any> postJson(
+        request: HttpRequest,
+        type: Type,
+    ): T {
+        val headers = mergeHeaders(request.getHeader())
+        return try {
+            getService().postJson(
+                request.getUrl(baseUrl),
+                headers,
+                request.getJsonBody()
+            ).body()?.let { body ->
+                getConverter().converter(body, type) as T
+            } ?: throw IllegalStateException("response body is null")
+        } catch (e: Exception) {
+            Log.e(TAG, "POST-JSON ${request.getUrl(baseUrl)} failed", e)
+            throw e
+        }
+    }
+
     suspend fun <T : HttpResponse> form(
         init: HttpRequest.() -> Unit,
         type: Class<T>,
@@ -361,8 +392,13 @@ class CoroutineHttp private constructor() {
     interface Converter {
         fun <T> converter(responseBody: ResponseBody, type: Class<T>): T
 
+        fun <T> converter(responseBody: ResponseBody, type: Type): T
+
         @Throws(Exception::class)
         fun <T> fromJson(json: String, classOfT: Class<T>): T
+
+        @Throws(Exception::class)
+        fun <T> fromJson(json: String, typeOfT: Type): T
     }
 
 }

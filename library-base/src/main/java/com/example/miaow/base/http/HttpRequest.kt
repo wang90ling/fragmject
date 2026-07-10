@@ -1,6 +1,7 @@
 package com.example.miaow.base.http
 
 import android.util.Log
+import com.example.miaow.base.utils.GSonUtils
 import com.google.gson.JsonObject
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
@@ -8,15 +9,11 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.HttpUrl
 import java.io.File
 import java.io.UnsupportedEncodingException
 import java.net.URLConnection
 import java.net.URLEncoder
 import java.util.regex.Pattern
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.set
 
 /**
  * http请求体
@@ -29,6 +26,8 @@ open class HttpRequest @JvmOverloads constructor(
     private var params: MutableMap<String, String> = HashMap(),
     private var files: MutableMap<String, File> = HashMap()
 ) {
+
+    private var bodyObject: Any? = null
 
     var time = System.currentTimeMillis()
 
@@ -165,14 +164,29 @@ open class HttpRequest @JvmOverloads constructor(
         return obj.toString().toRequestBody(contentType)
     }
 
+    /**
+     * 直接设置一个对象作为 JSON 请求体（例如 `RecommendRequest`）。
+     * 若已调用 [putBody]，[getJsonBody] 会优先用它序列化后的 JSON，
+     * 不再走 [putParam] 的键值对拼装逻辑。
+     */
+    fun putBody(body: Any): HttpRequest {
+        this.bodyObject = body
+        return this
+    }
+
     fun getJsonBody(contentType: MediaType = "application/json; charset=utf-8".toMediaType()): RequestBody {
-        val obj = JsonObject()
-        getParam().forEach { (key, value) ->
-            if (value.isNotBlank()) {
-                obj.addProperty(key, value)
+        val json = bodyObject?.let {
+            GSonUtils.gson.toJson(it)
+        } ?: run {
+            val obj = JsonObject()
+            getParam().forEach { (key, value) ->
+                if (value.isNotBlank()) {
+                    obj.addProperty(key, value)
+                }
             }
+            obj.toString()
         }
-        return obj.toString().toRequestBody(contentType)
+        return json.toRequestBody(contentType)
     }
 
     private fun guessMimeType(path: String): MediaType {

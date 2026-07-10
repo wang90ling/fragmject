@@ -20,13 +20,7 @@ import com.example.miaow.base.http.HttpRequest
 import com.example.miaow.base.http.HttpResponse
 import com.example.fragment.project.data.bean.request.RecommendRequest
 import com.example.fragment.project.data.bean.response.HomeRecommend
-
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.Query
-import kotlin.String
+import com.google.gson.reflect.TypeToken
 
 /**
  * 顶层 helper：把 [CoroutineHttp] 实例方法包装成不依赖 [kotlinx.coroutines.CoroutineScope] 接收者的形式。
@@ -52,6 +46,17 @@ private suspend inline fun <reified T : HttpResponse> httpPost(
 private suspend inline fun <reified T : HttpResponse> httpPostJson(
     noinline init: HttpRequest.() -> Unit,
 ): T = CoroutineHttp.getInstance().postJson(init, T::class.java)
+
+/**
+ * [httpPostJson] 的泛型增强版：支持带泛型参数的响应（如 `BaseResponse<HomeRecommend>`）。
+ * 通过 Gson [TypeToken] 保留完整的泛型类型信息，避免 `data` 字段被反序列化为 `LinkedTreeMap`。
+ */
+private suspend inline fun <reified T> httpPostJsonTyped(
+    noinline init: HttpRequest.() -> Unit,
+): T {
+    val type = object : TypeToken<T>() {}.type
+    return CoroutineHttp.getInstance().postJson(init, type)
+}
 
 /**
  * 网络版本的 [ArticleRepository] 实现。
@@ -93,11 +98,12 @@ internal class ArticleRepositoryImpl : ArticleRepository {
     override suspend fun getArticleListByCid(cid: String, page: Int): ArticleList =
         httpGet(articleListByCidSpec(cid, page))
 
-
-    @POST("accompany/accompanyPageList")
     override suspend fun getRecommendListByTabId(
-        @Body body: RecommendRequest
-    ): BaseResponse<HomeRecommend>
+        body: RecommendRequest
+    ): BaseResponse<HomeRecommend> = httpPostJsonTyped {
+        setUrl("accompany/accompanyPageList")
+        putBody(body)
+    }
 
     override suspend fun searchArticles(key: String, page: Int): ArticleList = httpPost {
         setUrl("article/query/{page}/json")
