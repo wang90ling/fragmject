@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="AgreementCheckBox">
-        <attr name="normalTextColor" format="color" />
-        <attr name="linkTextColor" format="color" />
+    <!-- 占位：账号管理页标题栏属性 -->
+    <declare-styleable name="TitleBar">
+        <attr name="showBack" format="boolean" />
+        <attr name="titleText" format="string" />
     </declare-styleable>
 
-    <declare-styleable name="EntryItemView">
-        <attr name="iconSrc" format="reference" />
-        <attr name="text" format="string" />
+    <!-- 占位：账号管理页圆角/通用 View 属性 -->
+    <declare-styleable name="CornerView">
+        <attr name="corner_radius" format="dimension" />
+    </declare-styleable>
+
+    <!-- 占位：账号管理页设置项条目属性 -->
+    <declare-styleable name="SettingItemView">
+        <attr name="name" format="string" />
+        <attr name="backgroundDrawable" format="reference" />
+        <attr name="nameTextSize" format="dimension" />
+        <attr name="arrowSize" format="dimension" />
+        <attr name="nameTextColor" format="color" />
+        <attr name="canNav" format="boolean" />
+        <attr name="contentIsSelectable" format="boolean" />
     </declare-styleable>
 </resources>

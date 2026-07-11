@@ -200,7 +200,7 @@ fun FloatingBottomNavigation(
             .navigationBarsPadding()
             .padding(horizontal = 16.dp, vertical = 10.dp),
             //.shadow(18.dp, RoundedCornerShape(28.dp)),
-        shape = RoundedCornerShape(5.dp),
+        //shape = RoundedCornerShape(5.dp),
         color = Color.White,
         tonalElevation = 0.dp,
         shadowElevation = 0.dp

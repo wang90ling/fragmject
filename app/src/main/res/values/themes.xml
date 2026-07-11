@@ -11,9 +11,6 @@
         <item name="android:windowActionBar">false</item>
         <!--状态栏背景白色  文字深色-->
         <item name="android:statusBarColor">@android:color/white</item>
-        <!-- 添加缺失的TUIChat属性 -->
-        <item name="chat_jump_recent_down_icon">@drawable/chat_ic_arrow_down_dt</item>
-        <item name="chat_jump_recent_up_icon">@drawable/chat_ic_arrow_up_dt</item>
     </style>
 
     <style name="MyTabLayout">

@@ -26,6 +26,47 @@
     <color name="three_nine_gray">#39F5F5F5</color>
     <color name="transparent">#00000000</color>
 
+    <!-- IM/直播模块迁移过来的颜色占位，后续可替换为设计规范色值 -->
+    <color name="color_34C759">#34C759</color>
+    <color name="color_5E51FF">#5E51FF</color>
+    <color name="color_F3F4F7">#F3F4F7</color>
+    <color name="color_9B6527">#9B6527</color>
+    <color name="color_8C7DFC">#8C7DFC</color>
+    <color name="color_A2A2A2">#A2A2A2</color>
+    <color name="color_010101">#010101</color>
+    <color name="color_F3F4F8">#F3F4F8</color>
+    <color name="color_10_8C7DFC">#1A8C7DFC</color>
+
+    <!-- IM/直播模块迁移过来的扩展颜色占位 -->
+    <color name="color_5C5F70">#5C5F70</color>
+    <color name="color_5_000000">#0D000000</color>
+    <color name="color_70_FFFFFF">#B3FFFFFF</color>
+    <color name="color_F3F2FF">#F3F2FF</color>
+    <color name="color_10_010101">#1A010101</color>
+    <color name="color_FEEFFF">#FEEFFF</color>
+    <color name="color_C57DFC">#C57DFC</color>
+    <color name="color_F2F2F2">#F2F2F2</color>
+    <color name="color_F6F7F9">#F6F7F9</color>
+    <color name="color_F5F9FD">#F5F9FD</color>
+    <color name="color_F6F5FF">#F6F5FF</color>
+    <color name="color_EFEEFF">#EFEFFF</color>
+    <color name="color_20_000000">#33000000</color>
+    <color name="color_F6F6F8">#F6F6F8</color>
+    <color name="color_F4F5F9">#F4F5F9</color>
+    <color name="color_F3F2FE">#F3F2FE</color>
+    <color name="color_422EFF">#422EFF</color>
+
+    <!-- IM/直播模块迁移过来的第三批颜色占位 -->
+    <color name="color_CB35FD">#CB35FD</color>
+    <color name="color_FF3BF7">#FF3BF7</color>
+    <color name="color_F5F6FA">#F5F6FA</color>
+    <color name="color_FE393A">#FE393A</color>
+    <color name="color_FFF8E4">#FFF8E4</color>
+    <color name="color_FFE108">#FFE108</color>
+    <color name="color_85_010101">#D9010101</color>
+    <color name="color_30_010101">#4D010101</color>
+    <color name="color_5_010101">#0D010101</color>
+
     <!--文字颜色-->
     <color name="text_theme">@color/theme</color>
     <color name="text_333">#333</color>

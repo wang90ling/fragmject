@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/floating_post_highlight"
-    android:layout_width="67dp"
-    android:layout_height="67dp"
-    android:src="@drawable/ic_floating_post_highlight" />
