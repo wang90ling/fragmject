@@ -16,6 +16,7 @@ import com.example.fragment.project.data.TreeList
 import com.example.fragment.project.data.UserCoin
 import com.example.fragment.project.data.bean.BaseResponse
 import com.example.fragment.project.data.bean.request.RecommendRequest
+import com.example.fragment.project.data.bean.response.CategoryItem
 import com.example.fragment.project.data.bean.response.HomeRecommend
 import com.example.miaow.base.http.HttpResponse
 import kotlinx.coroutines.flow.Flow
@@ -39,7 +40,16 @@ interface ArticleRepository {
     /** 关键字搜索文章（page 从 0 开始） */
     suspend fun searchArticles(key: String, page: Int): ArticleList
 
+
+    //获取首页游戏种类接口对接
+    suspend fun getCategoryList(): BaseResponse<List<CategoryItem>>
+
+    /**
+     * 首页获取推荐的搭子列表
+     */
     suspend fun getRecommendListByTabId(body: RecommendRequest): BaseResponse<HomeRecommend>
+
+
 
     /** 我的收藏列表（page 从 0 开始） */
     suspend fun getCollectList(page: Int): ArticleList

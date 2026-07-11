@@ -51,6 +51,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.fragment.project.AppTheme
+import com.example.fragment.project.data.bean.response.CategoryItem
 import com.example.fragment.project.data.bean.response.UserRecord
 
 @Composable
@@ -67,7 +68,7 @@ fun HomeNewScreen(
             .fillMaxSize()
             .background(Color(0xFFF6F4FF)),
         contentPadding = androidx.compose.foundation.layout.PaddingValues(bottom = 20.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(7.dp)
     ) {
         item(key = "topBar") {
             HomeTopBar()
@@ -77,8 +78,15 @@ fun HomeNewScreen(
             HomeHeroSection()
         }
 
-        item(key = "categoryTabs") {
-            HomeCategoryTabs()
+        itemsIndexed(
+            items = uiState.categoryList ?: emptyList(),
+            key = { index, item ->
+                item.id.ifBlank { "category_$index" }
+            }
+
+        ) { _, item ->
+            //HomeTalentCard(record = item)
+            HomeCategoryTabs(category = item)
         }
 
         item(key = "filters") {
@@ -86,10 +94,11 @@ fun HomeNewScreen(
         }
 
         itemsIndexed(
-            items = uiState.result.records ?: emptyList(),
+            items = uiState.homeRecommendResult.records ?: emptyList(),
             key = { index, item ->
                 item.userId.ifBlank { "user_$index" }
             }
+
         ) { _, item ->
             HomeTalentCard(record = item)
         }
@@ -101,7 +110,7 @@ private fun HomeTopBar() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 18.dp, vertical = 12.dp),
+            .padding(start = 18.dp, end = 18.dp, top = 4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -260,11 +269,13 @@ private fun HomeActionCard(
 }
 
 @Composable
-private fun HomeCategoryTabs() {
+private fun HomeCategoryTabs(
+    category: CategoryItem,
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 16.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         HomeTab(text = "推荐", selected = true)

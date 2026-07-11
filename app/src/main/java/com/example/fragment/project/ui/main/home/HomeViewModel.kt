@@ -7,6 +7,7 @@ import com.example.fragment.project.data.BannerList
 import com.example.fragment.project.data.Coin
 import com.example.fragment.project.data.TopArticle
 import com.example.fragment.project.data.bean.request.RecommendRequest
+import com.example.fragment.project.data.bean.response.CategoryItem
 import com.example.fragment.project.data.bean.response.HomeRecommend
 import com.example.fragment.project.data.bean.response.UserRecord
 import com.example.fragment.project.data.repository.ArticleRepository
@@ -22,6 +23,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 /**
@@ -32,7 +34,8 @@ data class HomeUiState(
     val isRefreshing: Boolean = false,
     val isLoading: Boolean = false,
     val isFinishing: Boolean = false,
-    val result: HomeRecommend = HomeRecommend(),
+    val homeRecommendResult: HomeRecommend = HomeRecommend(),
+    val categoryList:List<CategoryItem> = emptyList()
 )
 
 class HomeViewModel(
@@ -55,15 +58,22 @@ class HomeViewModel(
             isFinishing = false
         )
         viewModelScope.launch {
+
+            //获取首页游戏分类列表
+            val categoryResponse = articleRepo.getCategoryList()
+            logD("wangling categoryResponse:"+categoryResponse.data.toString())
+
             val request = RecommendRequest(1, 20)
             val response = articleRepo.getRecommendListByTabId(request)
             logD("wangling response:${response.toString()}")
             val data = response.data ?: HomeRecommend()
+
             _uiState.value = _uiState.value.copy(
                 isRefreshing = false,
                 isLoading = hasNextPage(),
                 isFinishing = !hasNextPage(),
-                result = data,
+                homeRecommendResult = data,
+                categoryList = categoryResponse.data?: emptyList(),
             )
         }
     }
@@ -81,7 +91,7 @@ class HomeViewModel(
             val appended = response.data?.datas
             val current = _uiState.value
             val newRecords = if (!appended.isNullOrEmpty()) {
-                (current.result.records ?: emptyList()) + appended.map { article ->
+                (current.homeRecommendResult.records ?: emptyList()) + appended.map { article ->
                     UserRecord(
                         accompanyLevel = 0,
                         avatar = "",
@@ -104,20 +114,20 @@ class HomeViewModel(
                     )
                 }
             } else {
-                current.result.records
+                current.homeRecommendResult.records
             }
             val newResult = HomeRecommend(
-                pageNo = current.result.pageNo,
-                pageSize = current.result.pageSize,
-                pages = current.result.pages,
+                pageNo = current.homeRecommendResult.pageNo,
+                pageSize = current.homeRecommendResult.pageSize,
+                pages = current.homeRecommendResult.pages,
                 records = newRecords,
-                total = current.result.total,
+                total = current.homeRecommendResult.total,
             )
             _uiState.value = current.copy(
                 isRefreshing = false,
                 isLoading = hasNextPage(),
                 isFinishing = !hasNextPage(),
-                result = newResult,
+                homeRecommendResult = newResult,
             )
         }
     }

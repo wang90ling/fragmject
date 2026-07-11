@@ -19,6 +19,7 @@ import com.example.miaow.base.http.CoroutineHttp
 import com.example.miaow.base.http.HttpRequest
 import com.example.miaow.base.http.HttpResponse
 import com.example.fragment.project.data.bean.request.RecommendRequest
+import com.example.fragment.project.data.bean.response.CategoryItem
 import com.example.fragment.project.data.bean.response.HomeRecommend
 import com.google.gson.reflect.TypeToken
 
@@ -98,6 +99,11 @@ internal class ArticleRepositoryImpl : ArticleRepository {
     override suspend fun getArticleListByCid(cid: String, page: Int): ArticleList =
         httpGet(articleListByCidSpec(cid, page))
 
+    //获取首页游戏分类
+    override suspend fun getCategoryList(): BaseResponse<List<CategoryItem>> = httpGet {
+        setUrl("homePage/getCategoryList")
+    }
+
     override suspend fun getRecommendListByTabId(
         body: RecommendRequest
     ): BaseResponse<HomeRecommend> = httpPostJsonTyped {
@@ -110,6 +116,8 @@ internal class ArticleRepositoryImpl : ArticleRepository {
         putParam("k", key)
         putPath("page", page.toString())
     }
+
+
 
     override suspend fun getCollectList(page: Int): ArticleList = httpGet {
         setUrl("lg/collect/list/{page}/json")
