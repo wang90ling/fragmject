@@ -1,5 +1,6 @@
 package com.example.fragment.project.ui.main
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -53,6 +54,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.rememberAsyncImagePainter
 import com.example.fragment.project.AppTheme
 import com.example.fragment.project.R
 import com.example.fragment.project.SearchRoute
@@ -66,6 +68,7 @@ import com.example.fragment.project.ui.main.my.MyScreen
 import com.example.fragment.project.ui.main.nav.NavScreen
 import com.example.fragment.project.ui.main.project.ProjectScreen
 import kotlinx.coroutines.launch
+import androidx.compose.ui.res.colorResource
 
 @Composable
 fun MainScreen(
@@ -78,10 +81,10 @@ fun MainScreen(
     var navIndex by rememberSaveable { mutableIntStateOf(0) }
     val navItems = remember {
         listOf(
-            NavigationItem("首页", R.mipmap.ic_bottom_bar_home),
-            NavigationItem("导航", R.mipmap.ic_bottom_bar_navigation),
-            NavigationItem("项目", R.mipmap.ic_bottom_bar_project),
-            NavigationItem("我的", R.mipmap.ic_bottom_bar_user),
+            NavigationItem("首页", R.drawable.tab_home_normal),
+            NavigationItem("圈子", R.drawable.tab_circle_normal),
+            NavigationItem("消息", R.drawable.tab_chat_normal),
+            NavigationItem("我的", R.drawable.tab_me_normal),
         )
     }
     Scaffold(
@@ -139,7 +142,7 @@ fun SearchBar(
             .background(MaterialTheme.colorScheme.primaryContainer)
             .statusBarsPadding()
             .fillMaxWidth()
-            .height(45.dp)
+            .height(42.dp)
             .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -197,11 +200,12 @@ fun FloatingBottomNavigation(
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .navigationBarsPadding()
-            .padding(horizontal = 16.dp, vertical = 10.dp),
+            .height(80.dp)
+            .navigationBarsPadding(),
+            //.padding(horizontal = 16.dp, vertical = 10.dp),
             //.shadow(18.dp, RoundedCornerShape(28.dp)),
         //shape = RoundedCornerShape(5.dp),
-        color = Color.White,
+        color = colorResource(R.color.color_70_FFFFFF),
         tonalElevation = 0.dp,
         shadowElevation = 0.dp
     ) {
@@ -214,36 +218,24 @@ fun FloatingBottomNavigation(
         ) {
             items.forEachIndexed { index, item ->
                 val selected = selectedIndex == index
-                val bg = if (selected) {
-                    Brush.linearGradient(listOf(Color(0xFF7B6BFF), Color(0xFFB866FF)))
-                } else {
-                    Brush.linearGradient(listOf(Color.Transparent, Color.Transparent))
-                }
                 Column(
                     modifier = Modifier
                         .weight(1f)
-                        .clip(RoundedCornerShape(20.dp))
-                        .background(if (selected) Color(0xFFF2EDFF) else Color.Transparent)
-                        .clickable { onClick(index) }
-                        .padding(vertical = 2.dp),
+                        //.clip(RoundedCornerShape(20.dp))
+                        //.background(if (selected) Color(0xFFF2EDFF) else Color.Transparent)
+                        .clickable { onClick(index) },
+                        //.padding(vertical = 2.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Box(
+                    Image(
+                        painter = painterResource(id = item.resId),
+                        contentDescription = null,
                         modifier = Modifier
-                            .size(if (selected) 33.dp else 33.dp)
-                            .clip(CircleShape)
-                            .background(if (selected) Color(0xFF7B6BFF) else Color(0xFFF3F3F3)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            painter = painterResource(id = item.resId),
-                            contentDescription = null,
-                            modifier = Modifier.size(if (selected) 16.dp else 16.dp),
-                            tint = if (selected) Color.White else Color(0xFF9B9B9B)
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(2.dp))
+                            .width(30.dp)
+                            .height(30.dp)
+                    )
+
                     Text(
                         text = item.label,
                         fontSize = 12.sp,
@@ -272,8 +264,8 @@ fun SearchBarPreview() {
 fun WanBottomNavigationPreview() {
     val navItems = listOf(
         NavigationItem("首页", R.mipmap.ic_bottom_bar_home),
-        NavigationItem("导航", R.mipmap.ic_bottom_bar_navigation),
-        NavigationItem("项目", R.mipmap.ic_bottom_bar_project),
+        NavigationItem("圈子", R.mipmap.ic_bottom_bar_navigation),
+        NavigationItem("消息", R.mipmap.ic_bottom_bar_project),
         NavigationItem("我的", R.mipmap.ic_bottom_bar_user),
     )
     AppTheme { FloatingBottomNavigation(items = navItems, selectedIndex = 0, onClick = { _ -> }) }

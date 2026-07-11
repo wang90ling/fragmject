@@ -66,8 +66,8 @@ fun HomeNewScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFF6F4FF)),
-        contentPadding = androidx.compose.foundation.layout.PaddingValues(bottom = 24.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        contentPadding = androidx.compose.foundation.layout.PaddingValues(bottom = 20.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         item(key = "topBar") {
             HomeTopBar()
@@ -132,6 +132,7 @@ private fun HomeHeroSection() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         Card(
@@ -213,7 +214,7 @@ private fun HomeActionCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(93.dp),
+            .height(82.dp),
         shape = RoundedCornerShape(18.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
