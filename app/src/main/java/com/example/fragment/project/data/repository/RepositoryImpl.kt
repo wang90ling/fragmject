@@ -101,7 +101,7 @@ internal class ArticleRepositoryImpl : ArticleRepository {
     override suspend fun getRecommendListByTabId(
         body: RecommendRequest
     ): BaseResponse<HomeRecommend> = httpPostJsonTyped {
-        setUrl("accompany/accompanyPageList")
+        setUrl("homePage/accompanyRecommendList")
         putBody(body)
     }
 

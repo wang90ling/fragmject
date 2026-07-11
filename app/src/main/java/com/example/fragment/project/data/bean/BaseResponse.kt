@@ -4,11 +4,9 @@ import com.example.miaow.base.http.HttpResponse
 
 data class BaseResponse<T>(
     val request_id: String = "",
-    override var code: String = "",
-    override var message: String? = null,
     val data: T? = null
-) : HttpResponse(errorCode = "", errorMsg = "") {
+) : HttpResponse() {
     fun isSuccess(): Boolean {
-        return code == "200"
+        return code == "200" || errorCode == "200"
     }
 }

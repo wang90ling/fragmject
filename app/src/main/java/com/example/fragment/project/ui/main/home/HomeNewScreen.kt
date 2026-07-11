@@ -51,8 +51,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.fragment.project.AppTheme
-import com.example.fragment.project.WebRoute
-import com.example.fragment.project.data.Article
+import com.example.fragment.project.data.bean.response.UserRecord
 
 @Composable
 fun HomeNewScreen(
@@ -87,19 +86,12 @@ fun HomeNewScreen(
         }
 
         itemsIndexed(
-            items = uiState.result,
+            items = uiState.result.records ?: emptyList(),
             key = { index, item ->
-                when {
-                    item.viewType == 0 -> "banner_$index"
-                    else -> item.id.ifBlank { "article_$index" }
-                }
+                item.userId.ifBlank { "user_$index" }
             }
         ) { _, item ->
-            if (item.viewType != 0) {
-                HomeTalentCard(
-                    article = item,
-                )
-            }
+            HomeTalentCard(record = item)
         }
     }
 }
@@ -352,9 +344,8 @@ private fun FilterChip(text: String) {
 
 @Composable
 private fun HomeTalentCard(
-    article: Article,
+    record: UserRecord,
 ) {
-    val imageUrl = article.httpsEnvelopePic.ifBlank { article.link }
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -370,7 +361,7 @@ private fun HomeTalentCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
-                model = imageUrl,
+                model = record.avatar,
                 contentDescription = null,
                 modifier = Modifier
                     .size(76.dp)
@@ -381,8 +372,8 @@ private fun HomeTalentCard(
             Column(modifier = Modifier.weight(1f)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        text = article.title.ifBlank { "未命名" },
-                        fontSize = 17.sp,
+                        text = record.nickName.ifBlank { "未命名" },
+                        fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color(0xFF111111),
                         maxLines = 1,
@@ -397,7 +388,7 @@ private fun HomeTalentCard(
                             .padding(horizontal = 8.dp, vertical = 2.dp)
                     ) {
                         Text(
-                            text = "Lv.0",
+                            text = "Lv.${record.level}",
                             fontSize = 11.sp,
                             color = Color(0xFF19A55A),
                             fontWeight = FontWeight.SemiBold
@@ -406,8 +397,7 @@ private fun HomeTalentCard(
                 }
                 Spacer(modifier = Modifier.height(7.dp))
                 Text(
-                    text = article.chapterName.ifBlank { "三角洲端游" } + " · " +
-                        (article.superChapterName.ifBlank { "大神" }),
+                    text = record.categoryList?.firstOrNull()?.categoryName ?: "暂无分类",
                     fontSize = 12.sp,
                     color = Color(0xFF7A7A7A),
                     maxLines = 1,
@@ -423,7 +413,7 @@ private fun HomeTalentCard(
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = article.niceDate.ifBlank { "5'" },
+                        text = "${record.scoreAvg} 分",
                         fontSize = 12.sp,
                         color = Color(0xFF9A86FF)
                     )
@@ -432,13 +422,13 @@ private fun HomeTalentCard(
             Spacer(modifier = Modifier.width(10.dp))
             Column(horizontalAlignment = Alignment.End) {
                 Text(
-                    text = "在线",
+                    text = if (record.onlineFlag == 1) "在线" else "离线",
                     fontSize = 12.sp,
-                    color = Color(0xFF18C57A)
+                    color = if (record.onlineFlag == 1) Color(0xFF18C57A) else Color(0xFF9B9B9B)
                 )
                 Spacer(modifier = Modifier.height(24.dp))
                 Text(
-                    text = "600 钻/小时",
+                    text = "${record.orderAmount} 单",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF7A6DF6)

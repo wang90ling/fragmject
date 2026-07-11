@@ -3,12 +3,12 @@ package com.example.fragment.project.data.bean.response
 import pw.z.baselibrary.bean.RoomLevelConfigDto
 import pw.z.baselibrary.bean.UserPropDetailDto
 
-data class HomeRecommend(
-    val pageNo: String,
-    val pageSize: String,
-    val pages: String,
-    val records: List<UserRecord>,
-    val total: String
+open class HomeRecommend @JvmOverloads constructor(
+    val pageNo: String? = null,
+    val pageSize: String? = null,
+    val pages: String? = null,
+    val records: List<UserRecord>? = null,
+    val total: String? = null,
 )
 
 data class UserRecord(
