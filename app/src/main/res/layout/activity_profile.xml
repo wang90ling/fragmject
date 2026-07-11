@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <View
+        android:id="@+id/top_view"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <pw.z.baselibrary.view.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toTopOf="@id/layout_profile_page_footer"
+        app:layout_constraintTop_toTopOf="@id/top_view">
+
+        <pw.z.baselibrary.view.nsvrv.ParentRecyclerView
+            android:id="@+id/rv_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </pw.z.baselibrary.view.SmartRefreshLayout>
+
+    <include
+        android:id="@+id/layout_profile_page_footer"
+        layout="@layout/layout_profile_page_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_title"
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/v_top_space"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:paddingHorizontal="13dp"
+            android:src="@drawable/dt_ic_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/v_top_space"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            app:layout_constraintBottom_toBottomOf="@id/iv_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/transparent"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:text="标题" />
+
+        <TextView
+            android:id="@+id/tv_follow_state"
+            android:layout_width="65dp"
+            android:layout_height="27dp"
+            android:background="@drawable/bg_profile_unflow"
+            android:gravity="center"
+            android:textColor="#ffffffff"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_more"
+            app:layout_constraintEnd_toStartOf="@id/iv_more"
+            app:layout_constraintTop_toTopOf="@id/iv_more"
+            tools:text="+关注" />
+
+        <ImageView
+            android:id="@+id/iv_more"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:paddingHorizontal="13dp"
+            android:src="@drawable/ic_more_horizontal"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/iv_back"
+            app:layout_constraintEnd_toStartOf="@id/iv_edit"
+            app:layout_constraintTop_toTopOf="@id/iv_back"
+            app:tint="@color/white" />
+
+        <ImageView
+            android:id="@+id/iv_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:paddingHorizontal="13dp"
+            android:src="@drawable/ic_edit"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/iv_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_back"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--空布局-->
+    <FrameLayout
+        android:id="@+id/layout_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="@id/top_view">
+        <include layout="@layout/layout_profile_page_header" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="84dp">
+
+            <ImageView
+                android:id="@+id/iv_empty_back"
+                android:layout_width="wrap_content"
+                android:layout_height="42dp"
+                android:layout_gravity="bottom"
+                android:paddingHorizontal="13dp"
+                android:src="@drawable/dt_ic_back"
+                app:tint="@color/white" />
+        </FrameLayout>
+    </FrameLayout>
+
+    <!--  全屏播放主页动效 -->
+    <pw.z.baselibrary.view.DtSVGAImageView
+        android:id="@+id/dialog_full_screen_svg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

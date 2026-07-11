@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_cp_yes"
+        android:layout_width="match_parent"
+        android:layout_height="198dp"
+        android:layout_marginHorizontal="13.5dp"
+        android:background="@drawable/social_guard_normal_bg"
+        app:layout_constraintDimensionRatio="333:198"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_cp_other_yes_line_left"
+            android:layout_width="67dp"
+            android:layout_height="67dp"
+            android:layout_marginTop="84dp"
+            android:layout_marginStart="27dp"
+            android:src="@drawable/social_guard_avatar_bg"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_cp_other_yes_line_right"
+            android:layout_width="67dp"
+            android:layout_height="67dp"
+            android:layout_marginTop="84dp"
+            android:layout_marginEnd="27dp"
+            android:src="@drawable/social_guard_avatar_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_cp_other_yes_seat_left"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:src="@drawable/ic_cp_seat"
+            app:layout_constraintTop_toTopOf="@id/iv_cp_other_yes_line_left"
+            app:layout_constraintBottom_toBottomOf="@id/iv_cp_other_yes_line_left"
+            app:layout_constraintStart_toStartOf="@id/iv_cp_other_yes_line_left"
+            app:layout_constraintEnd_toEndOf="@id/iv_cp_other_yes_line_left"/>
+
+        <ImageView
+            android:id="@+id/iv_cp_other_yes_seat_right"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:src="@drawable/ic_cp_seat"
+            app:layout_constraintTop_toTopOf="@id/iv_cp_other_yes_line_right"
+            app:layout_constraintBottom_toBottomOf="@id/iv_cp_other_yes_line_right"
+            app:layout_constraintStart_toStartOf="@id/iv_cp_other_yes_line_right"
+            app:layout_constraintEnd_toEndOf="@id/iv_cp_other_yes_line_right"/>
+
+
+        <com.tencent.qcloud.tuikit.timcommon.component.RoundCornerImageView
+            android:id="@+id/iv_cp_other_yes_seat_left_avatar"
+            android:layout_width="57dp"
+            android:layout_height="57dp"
+            android:scaleType="centerCrop"
+            app:corner_radius="57dp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_cp_other_yes_seat_left"
+            app:layout_constraintEnd_toEndOf="@id/iv_cp_other_yes_seat_left"
+            app:layout_constraintStart_toStartOf="@id/iv_cp_other_yes_seat_left"
+            app:layout_constraintTop_toTopOf="@id/iv_cp_other_yes_seat_left" />
+
+        <com.tencent.qcloud.tuikit.timcommon.component.RoundCornerImageView
+            android:id="@+id/iv_cp_other_yes_seat_right_avatar"
+            android:layout_width="57dp"
+            android:layout_height="57dp"
+            android:scaleType="centerCrop"
+            app:corner_radius="57dp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_cp_other_yes_seat_right"
+            app:layout_constraintEnd_toEndOf="@id/iv_cp_other_yes_seat_right"
+            app:layout_constraintStart_toStartOf="@id/iv_cp_other_yes_seat_right"
+            app:layout_constraintTop_toTopOf="@id/iv_cp_other_yes_seat_right" />
+
+        <TextView
+            android:id="@+id/tv_cp_other_yes_seat_left_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_guard_name"
+            android:gravity="center"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:maxWidth="100dp"
+            android:includeFontPadding="false"
+            android:paddingHorizontal="13dp"
+            android:paddingVertical="4dp"
+            android:textColor="#946AFF"
+            android:textSize="11sp"
+            android:fontFamily="sans-serif-medium"
+            app:layout_constraintEnd_toEndOf="@id/iv_cp_other_yes_seat_left"
+            app:layout_constraintStart_toStartOf="@id/iv_cp_other_yes_seat_left"
+            app:layout_constraintTop_toBottomOf="@id/iv_cp_other_yes_seat_left"
+            tools:text="自己自己自己自己自己" />
+
+        <TextView
+            android:id="@+id/tv_cp_other_yes_seat_right_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_guard_name"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:paddingHorizontal="13dp"
+            android:paddingVertical="4dp"
+            android:text="@string/cp_self_wait"
+            android:textColor="#946AFF"
+            android:textSize="11sp"
+            android:fontFamily="sans-serif-medium"
+            app:layout_constraintEnd_toEndOf="@id/iv_cp_other_yes_seat_right"
+            app:layout_constraintStart_toStartOf="@id/iv_cp_other_yes_seat_right"
+            app:layout_constraintTop_toBottomOf="@id/iv_cp_other_yes_seat_right" />
+
+        <TextView
+            android:id="@+id/tv_cp_other_yes_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_marginTop="99dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="?" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_guard_value_layout"
+            android:layout_width="98dp"
+            android:layout_height="27dp"
+            android:layout_marginTop="146dp"
+            android:background="@drawable/social_guard_btn_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/cl_guard_value"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:maxWidth="100dp"
+                android:textColor="#946AFF"
+                android:textSize="11sp"
+                android:fontFamily="sans-serif-medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="亲密值：暂无"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <View
+        android:id="@+id/relation_tips"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="50dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

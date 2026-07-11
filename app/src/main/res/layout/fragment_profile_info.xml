@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="guardianInfo"
+            type="pw.z.common.feature.fm.bean.GuardianBean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="ContentDescription">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_gift"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_profile_info_gift"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/ic_profile_info_gift"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_gift_wall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="@string/gift_wall"
+                android:textColor="@color/color_85_010101"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/iv_profile_info_gift" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_light_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="13dp"
+                android:drawableEnd="@drawable/ic_arrow"
+                android:drawableTint="#cca2a2a2"
+                android:gravity="center"
+                android:textColor="#ffa2a2a2"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/iv_profile_info_gift"
+                tools:text="18/20" />
+
+            <pw.z.baselibrary.view.InRecyclerView
+                android:id="@+id/rv_gift"
+                android:layout_width="match_parent"
+                android:layout_height="92dp"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_gift_wall" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_empty_gift"
+                android:layout_width="match_parent"
+                android:layout_height="92dp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_gift_wall">
+
+                <ImageView
+                    android:id="@+id/empty_iv"
+                    android:layout_width="60dp"
+                    android:layout_height="71dp"
+                    android:src="@drawable/ic_empty_data"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/empty_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center"
+                    android:text="暂未收到礼物"
+                    android:textColor="#4d000000"
+                    android:textSize="13sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/empty_iv" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clGuardian"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="19dp"
+            android:layout_marginEnd="13dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cl_gift">
+
+            <TextView
+                android:id="@+id/tvGuardian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="守护团"
+                android:textColor="@color/color_85_010101"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivMore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow"
+                app:layout_constraintBottom_toBottomOf="@+id/tvGuardian"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvGuardian"
+                app:tint="#cca2a2a2" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/tvGuardian">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/guardian_user_item"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/ivXin"
+                    android:layout_width="31dp"
+                    android:layout_height="31dp"
+                    android:layout_marginStart="24dp"
+                    android:src="@drawable/guardian_xin"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="17dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="9dp"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:lineHeight="17dp"
+                    android:text="守护团"
+                    android:textColor="#ffffffff"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toEndOf="@+id/ivXin"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="14dp"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:lineHeight="14dp"
+                    android:text="@{guardianInfo.streamGuardian()}"
+                    android:textColor="#ffffffff"
+                    android:textSize="10sp"
+                    app:layout_constraintStart_toStartOf="@+id/tvName"
+                    app:layout_constraintTop_toBottomOf="@+id/tvName" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="34dp"
+                    android:layout_height="38dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="22dp"
+                    android:layout_marginBottom="10dp"
+                    app:userGuardianTxVisible="@{guardianInfo.topGuardianAvatar}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/guardian_tx" />
+
+                    <com.small.uikit.ui.view.UiImageView
+                        android:layout_width="27dp"
+                        android:layout_height="27dp"
+                        android:layout_margin="1dp"
+                        app:is_circle="true"
+                        app:userImages="@{guardianInfo.topGuardianAvatar}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/iv_profile_info_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/ic_profile_info_update"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/clGuardian" />
+
+        <TextView
+            android:id="@+id/tv_ta_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="Ta的动态"
+            android:textColor="@color/color_85_010101"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_profile_info_update" />
+
+        <pw.z.baselibrary.view.nsvrv.ChildRecyclerView
+            android:id="@+id/rv_post"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_ta_post"
+            tools:listitem="@layout/item_highlight" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

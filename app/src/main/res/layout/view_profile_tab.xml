@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="33dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_tab_accompany"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:includeFontPadding="false"
+        android:paddingHorizontal="13dp"
+        android:paddingBottom="3dp"
+        android:text="@string/profile_accompany"
+        android:textColor="@color/color_A2A2A2"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_tab_information"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/v_indicator_accompany"
+        android:layout_width="23dp"
+        android:layout_height="4dp"
+        android:background="@drawable/shape_profile_tab_indicator"
+        app:layout_constraintEnd_toEndOf="@id/tv_tab_accompany"
+        app:layout_constraintStart_toStartOf="@id/tv_tab_accompany"
+        app:layout_constraintTop_toBottomOf="@id/tv_tab_accompany" />
+
+    <TextView
+        android:id="@+id/tv_tab_information"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:includeFontPadding="false"
+        android:paddingHorizontal="13dp"
+        android:paddingBottom="3dp"
+        android:text="@string/profile_information"
+        android:textColor="@color/color_A2A2A2"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_tab_evaluation"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/v_indicator_information"
+        android:layout_width="23dp"
+        android:layout_height="4dp"
+        android:background="@drawable/shape_profile_tab_indicator"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@id/tv_tab_information"
+        app:layout_constraintStart_toStartOf="@id/tv_tab_information"
+        app:layout_constraintTop_toBottomOf="@id/tv_tab_information" />
+
+    <TextView
+        android:id="@+id/tv_tab_evaluation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:includeFontPadding="false"
+        android:paddingHorizontal="13dp"
+        android:paddingBottom="3dp"
+        android:text="@string/profile_evaluation"
+        android:textColor="@color/color_A2A2A2"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_tab_social"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/v_indicator_evaluation"
+        android:layout_width="23dp"
+        android:layout_height="4dp"
+        android:background="@drawable/shape_profile_tab_indicator"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@id/tv_tab_evaluation"
+        app:layout_constraintStart_toStartOf="@id/tv_tab_evaluation"
+        app:layout_constraintTop_toBottomOf="@id/tv_tab_evaluation" />
+
+    <TextView
+        android:id="@+id/tv_tab_social"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:includeFontPadding="false"
+        android:paddingHorizontal="13dp"
+        android:paddingBottom="3dp"
+        android:text="@string/profile_social"
+        android:textColor="@color/color_A2A2A2"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/v_indicator_social"
+        android:layout_width="15dp"
+        android:layout_height="4dp"
+        android:background="@drawable/shape_profile_tab_indicator_cp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@id/tv_tab_social"
+        app:layout_constraintStart_toStartOf="@id/tv_tab_social"
+        app:layout_constraintTop_toBottomOf="@id/tv_tab_social" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.scwang.smart.refresh.layout.SmartRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/refreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <pw.z.baselibrary.view.CustomRefreshHeader
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:background="#F5F6FA">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_channel_info"
+            android:layout_width="match_parent"
+            android:layout_height="69dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_ffffff_r10" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_channel_normal_corner"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.tencent.qcloud.tuikit.timcommon.component.RoundCornerImageView
+                android:id="@+id/iv_channel_icon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="9dp"
+                android:scaleType="centerCrop"
+                app:corner_radius="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_channel_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:maxWidth="123dp"
+                android:maxLines="1"
+                android:textColor="@color/color_85_010101"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/tv_channel_id"
+                app:layout_constraintStart_toEndOf="@id/iv_channel_icon"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="永劫无间官方社区" />
+
+            <FrameLayout
+                android:id="@+id/fl_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/tv_channel_id"
+                app:layout_constraintStart_toStartOf="@id/tv_channel_name"
+                app:layout_constraintTop_toTopOf="@id/tv_channel_id">
+
+                <TextView
+                    android:id="@+id/tv_me_created"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/shape_me_created"
+                    android:paddingHorizontal="6dp"
+                    android:paddingVertical="1dp"
+                    android:text="@string/me_created"
+                    android:textColor="#ff8c7dfc"
+                    android:textSize="10sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_me_manage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/shape_me_created"
+                    android:paddingHorizontal="6dp"
+                    android:paddingVertical="1dp"
+                    android:text="@string/me_manage"
+                    android:textColor="#ff8c7dfc"
+                    android:textSize="10sp"
+                    android:visibility="gone" />
+            </FrameLayout>
+            <TextView
+                android:id="@+id/tv_channel_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/color_20_010101"
+                android:textSize="13sp"
+                app:layout_goneMarginStart="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/fl_tag"
+                app:layout_constraintTop_toBottomOf="@id/tv_channel_name"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="ID：1234" />
+
+            <TextView
+                android:id="@+id/tv_hot_value"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/shape_bg_hot_value"
+                android:drawableStart="@drawable/ic_channel_hot"
+                android:drawablePadding="3dp"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="2dp"
+                android:textColor="#b3fe606f"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_channel_name"
+                app:layout_constraintStart_toEndOf="@id/tv_channel_name"
+                app:layout_constraintTop_toTopOf="@id/tv_channel_name"
+                tools:text="251" />
+            <ImageView
+                android:id="@+id/iv_channel_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:padding="8dp"
+                android:visibility="gone"
+                android:src="@drawable/ic_channel_normal_more"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ExpandableListView
+            android:id="@+id/expandable_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="12dp"
+            android:childDivider="@color/transparent"
+            android:childIndicator="@color/transparent"
+            android:divider="@color/transparent"
+            android:groupIndicator="@color/transparent"
+            android:listSelector="@color/transparent"
+            app:layout_constrainedHeight="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_channel_info" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/empty_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingHorizontal="13dp"
+            android:visibility="gone"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_channel_info">
+
+            <TextView
+                android:id="@+id/tv_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_empty_data"
+                android:drawablePadding="15dp"
+                android:gravity="center"
+                android:text="@string/channel_group_empty"
+                android:textColor="#80000000"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.3" />
+
+            <TextView
+                android:id="@+id/btn_channel_group_create"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:visibility="gone"
+                android:layout_marginHorizontal="13dp"
+                android:layout_marginTop="31dp"
+                android:background="@drawable/selector_channel_create_btn_bg"
+                android:enabled="true"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:paddingVertical="11dp"
+                android:text="@string/channel_group_create"
+                android:textColor="@color/selector_channel_create_btn_color"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/tv_empty" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:id="@+id/cl_join_channel"
+            android:layout_width="match_parent"
+            android:layout_height="69dp"
+            android:background="@drawable/ic_channel_join_gradient"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                android:id="@+id/btn_join_channel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_101010_r20"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:paddingVertical="11dp"
+                android:text="@string/join_channel"
+                android:textColor="#ffffffff"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.scwang.smart.refresh.layout.SmartRefreshLayout>

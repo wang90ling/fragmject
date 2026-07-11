@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_bottom_shadow">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="13dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:id="@+id/btn_send_gift"
+            android:layout_width="0dp"
+            android:layout_height="38dp"
+            android:layout_marginEnd="13dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_profile_btn_send_gift">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableStart="@drawable/ic_profile_gift"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:text="@string/profile_send_gift"
+                android:textColor="#ff8c7dfc"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/btn_chat"
+            android:layout_width="0dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="13dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_def_button">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableStart="@drawable/ic_profile_chat"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:text="@string/chat"
+                android:textColor="#ffffffff"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fl_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    tools:background="@drawable/bg_item_ability">
+
+    <TextView
+        android:id="@+id/tv_label_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:paddingTop="9dp"
+        android:paddingBottom="8dp"
+        android:singleLine="true"
+        android:textColor="#d9010101"
+        android:textSize="11sp"
+        tools:text="安琪拉" />
+</FrameLayout>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F6FA"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_title"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="13dp"
+            android:src="@drawable/dt_ic_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#d9010101"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="标题" />
+
+        <TextView
+            android:id="@+id/btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingHorizontal="13dp"
+            android:text="@string/save"
+            android:textColor="#000000"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="293dp"
+        android:layout_marginHorizontal="13dp"
+        android:layout_marginTop="19dp"
+        android:background="@drawable/shape_ffffff_r15">
+
+        <EditText
+            android:id="@+id/et_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            android:gravity="start"
+            android:paddingHorizontal="13dp"
+            android:paddingVertical="11dp"
+            android:textColor="#d9010101"
+            android:textColorHint="#4d010101"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:hint="Hint" />
+
+        <TextView
+            android:id="@+id/tv_count_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_85_010101"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_count_line"
+            app:layout_constraintEnd_toStartOf="@id/tv_count_line"
+            app:layout_constraintTop_toTopOf="@id/tv_count_line"
+            tools:text="5" />
+
+        <TextView
+            android:id="@+id/tv_count_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="/"
+            android:textColor="@color/color_20_010101"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_count_all"
+            app:layout_constraintEnd_toStartOf="@id/tv_count_all"
+            app:layout_constraintTop_toTopOf="@id/tv_count_all" />
+
+        <TextView
+            android:id="@+id/tv_count_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="13dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/color_20_010101"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="200" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>

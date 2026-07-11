@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="gameInfo"
+            type="pw.z.imchat.bean.SudGameBean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:visibility="invisible"
+        app:layout_constraintDimensionRatio="161:161">
+
+        <com.small.uikit.ui.layout.UiConstraintLayout
+            android:layout_width="161dp"
+            android:layout_height="161dp"
+            app:background_normal="@color/white"
+            app:corner_radius="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.small.uikit.ui.layout.UiLinearLayout
+                android:id="@+id/ll_game_info"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:background_normal="#F8F8F8"
+                app:corner_radius="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.small.uikit.ui.view.UiImageView
+                    android:id="@+id/iv_game_cover"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_marginStart="2dp"
+                    app:loadImage="@{gameInfo.smallIconUrl}"
+                    app:corner_radius="100dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:text="@{gameInfo.gameName}"
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_game_cover"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="合成大西瓜" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="10dp"
+                    android:layout_marginStart="5dp"
+                    android:background="#1A000000" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="@{gameInfo.gameStatusDesc}"
+                    android:textColor="#66000000"
+                    android:textSize="12sp"
+                    tools:text="游戏中" />
+
+            </com.small.uikit.ui.layout.UiLinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="13dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="@{gameInfo.roomName}"
+                android:textColor="#000000"
+                android:lines="1"
+                android:ellipsize="end"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ll_game_info" />
+
+            <com.small.uikit.ui.view.UiImageView
+                android:id="@+id/iv_host"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="10dp"
+                app:corner_radius="100dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_host_sex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/iv_host"
+                app:layout_constraintEnd_toEndOf="@id/iv_host" />
+
+            <com.small.uikit.ui.layout.UiConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="21dp"
+                android:layout_marginEnd="7dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal"
+                app:background_normal="#F5F5F5"
+                app:corner_radius="11dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.small.uikit.ui.view.UiImageView
+                    android:id="@+id/iv_player_avatar_1"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:layout_marginEnd="13dp"
+                    android:visibility="gone"
+                    app:border_color="#DADADA"
+                    app:border_width="1dp"
+                    app:corner_radius="100dp"
+                    app:layout_constraintEnd_toEndOf="@id/iv_player_avatar_2" />
+
+                <com.small.uikit.ui.view.UiImageView
+                    android:id="@+id/iv_player_avatar_2"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:layout_marginEnd="13dp"
+                    android:visibility="gone"
+                    app:border_color="#DADADA"
+                    app:border_width="1dp"
+                    app:corner_radius="100dp"
+                    app:layout_constraintEnd_toEndOf="@id/iv_player_avatar_3" />
+
+                <com.small.uikit.ui.view.UiImageView
+                    android:id="@+id/iv_player_avatar_3"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:layout_marginEnd="4dp"
+                    app:border_color="#DADADA"
+                    android:scaleType="centerCrop"
+                    app:border_width="1dp"
+                    app:corner_radius="100dp"
+                    app:layout_constraintEnd_toStartOf="@id/tv_player_number" />
+
+                <TextView
+                    android:id="@+id/tv_player_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:drawableStart="@drawable/ic_game_player_numer"
+                    android:text='@{gameInfo.memberList.size() + ""}'
+                    android:textColor="#4D000000"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="1000" />
+
+            </com.small.uikit.ui.layout.UiConstraintLayout>
+
+        </com.small.uikit.ui.layout.UiConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

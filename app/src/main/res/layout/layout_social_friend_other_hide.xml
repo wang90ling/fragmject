@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_cp_other_hide"
+        android:layout_width="match_parent"
+        android:layout_height="207dp"
+        android:layout_marginHorizontal="13.5dp"
+        android:background="@drawable/social_friend_hide_bg"
+        app:layout_constraintDimensionRatio="333:207"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_cp_other_hide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_marginTop="115dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="?" />
+        <TextView
+            android:id="@+id/cl_guard_value"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_marginTop="146dp"
+            android:background="@drawable/bg_guard_name_friend_hide"
+            android:maxLines="1"
+            android:paddingVertical="4dp"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            android:fontFamily="sans-serif-medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="嘿嘿，就不告诉你，猜去吧~" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <View
+        android:id="@+id/relation_tips"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="50dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

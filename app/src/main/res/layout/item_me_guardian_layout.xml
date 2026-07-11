@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="ContentDescription">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="itemUser"
+            type="pw.z.common.feature.fm.bean.GuardianBean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.small.uikit.ui.view.UiImageView
+            android:id="@+id/ivImage"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:scaleType="centerCrop"
+            app:is_circle="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:userImages="@{itemUser.streamerAvatar}" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivImage"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:lineHeight="20dp"
+                android:text="@{itemUser.streamerNickname}"
+                android:textColor="#ffffffff"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_guard_level"
+                    android:layout_width="67dp"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_guard_level_bg"
+                        android:layout_width="61dp"
+                        android:layout_height="16dp"
+                        app:iconGuardianBg="@{itemUser}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:background="@drawable/dt_z_bg_6" />
+
+                    <ImageView
+                        android:id="@+id/iv_guard_level_ic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="22dp"
+                        android:adjustViewBounds="true"
+                        app:iconGuardianIc="@{itemUser}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/dt_z_bg_ic_6" />
+
+                    <ImageView
+                        android:id="@+id/iv_guard_level_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="6dp"
+                        android:layout_marginTop="2dp"
+                        android:adjustViewBounds="true"
+                        app:iconGuardianNum="@{itemUser}"
+                        app:layout_constraintBottom_toBottomOf="@id/iv_guard_level_ic"
+                        app:layout_constraintEnd_toEndOf="@id/iv_guard_level_ic"
+                        app:layout_constraintStart_toStartOf="@id/iv_guard_level_ic"
+                        app:layout_constraintTop_toTopOf="@id/iv_guard_level_ic"
+                        tools:src="@drawable/dt_z_num_30" />
+
+                    <TextView
+                        android:id="@+id/tv_guard_level_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="1dp"
+                        android:gravity="center_vertical"
+                        android:singleLine="true"
+                        android:text="@{itemUser.guardianMedal}"
+                        android:textColor="#ffffffff"
+                        android:textSize="8sp"
+                        app:layout_constraintBottom_toBottomOf="@id/iv_guard_level_bg"
+                        app:layout_constraintEnd_toEndOf="@id/iv_guard_level_bg"
+                        app:layout_constraintStart_toEndOf="@id/iv_guard_level_ic"
+                        app:layout_constraintTop_toTopOf="@id/iv_guard_level_bg"
+                        tools:text="西瓜.西瓜" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:lineHeight="14dp"
+                    android:text="已过期"
+                    android:textColor="#80ffffff"
+                    android:textSize="10sp"
+                    android:visibility="@{itemUser.isExpired ? View.VISIBLE : View.GONE}" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvQuit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:lineHeight="17dp"
+            android:text="退团"
+            android:textColor="#ff8c7dfc"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.small.uikit.ui.view.UiTextView
+            android:id="@+id/tvPay"
+            android:layout_width="67dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="13dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:lineHeight="14dp"
+            android:text="续费守护团"
+            android:textColor="#ffffffff"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:background_normal="#8C7DFC"
+            app:corner_radius="38dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvQuit"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

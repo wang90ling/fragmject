@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/msg_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        tools:ignore="MissingConstraints">
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginHorizontal="30dp"
+            android:background="@color/color_CCCCCC"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <com.tencent.qcloud.tuikit.timcommon.component.RoundCornerImageView
+            android:id="@+id/profile_pic"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:scaleType="centerCrop"
+            android:layout_marginVertical="16dp"
+            android:src="@drawable/ic_room_owner_default"
+            android:layout_marginStart="20dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:corner_radius="28dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginVertical="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/profile_pic"
+            app:layout_constraintEnd_toStartOf="@+id/media_pic_layout">
+
+            <TextView
+                android:id="@+id/profile_nick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/color_50_010101"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="点唱小队" />
+            <TextView
+                android:id="@+id/profile_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/color_85_010101"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/profile_nick"
+                tools:text="你好" />
+
+            <TextView
+                android:id="@+id/action_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/color_30_010101"
+                android:textSize="11sp"
+                app:layout_constraintTop_toBottomOf="@+id/profile_action"
+                tools:text="20:20" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/media_pic_layout"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginVertical="16dp"
+            android:background="@drawable/interactive_msg_text_bg"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+            <com.tencent.qcloud.tuikit.timcommon.component.RoundCornerImageView
+                android:id="@+id/media_pic"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_room_default"
+                app:corner_radius="6dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+            <ImageView
+                android:id="@+id/media_play_icon"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_msg_play"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/dynamic_message_layout"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginVertical="16dp"
+            android:background="@drawable/interactive_msg_text_bg"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+            <TextView
+                android:id="@+id/dynamic_message"
+                android:layout_width="38dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_50_010101"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:gravity="center"
+                tools:text="消息"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

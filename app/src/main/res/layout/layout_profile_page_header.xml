@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_cover"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@color/green" />
+
+    <ImageView
+        android:id="@+id/iv_top_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/ic_top_shadow"
+        app:layout_constraintDimensionRatio="360:133"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_cover" />
+
+    <ImageView
+        android:id="@+id/iv_bottom_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/ic_bottom_shadow"
+        app:layout_constraintBottom_toBottomOf="@id/iv_cover"
+        app:layout_constraintDimensionRatio="360:194"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/fl_iv_avatar"
+        android:layout_width="67dp"
+        android:layout_height="67dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="11dp"
+        app:layout_constraintBottom_toTopOf="@id/tv_nickname"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.tencent.qcloud.tuikit.timcommon.component.RoundCornerImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="3dp"
+            android:scaleType="centerCrop"
+            app:corner_radius="67dp"
+            tools:src="@color/black" />
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/iv_avatar_stroke"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:src="@drawable/bg_profile_avatar"
+        app:layout_constraintBottom_toBottomOf="@id/fl_iv_avatar"
+        app:layout_constraintEnd_toEndOf="@id/fl_iv_avatar"
+        app:layout_constraintStart_toStartOf="@id/fl_iv_avatar"
+        app:layout_constraintTop_toTopOf="@id/fl_iv_avatar" />
+
+    <ImageView
+        android:id="@+id/iv_room_state_stroke"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:src="@drawable/bg_profile_in_room_stroke"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/fl_iv_avatar"
+        app:layout_constraintEnd_toEndOf="@id/fl_iv_avatar"
+        app:layout_constraintStart_toStartOf="@id/fl_iv_avatar"
+        app:layout_constraintTop_toTopOf="@id/fl_iv_avatar" />
+
+    <ImageView
+        android:id="@+id/iv_room_state"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:src="@drawable/bg_profile_in_room"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/fl_iv_avatar"
+        app:layout_constraintEnd_toEndOf="@id/fl_iv_avatar"
+        app:layout_constraintStart_toStartOf="@id/fl_iv_avatar"
+        app:layout_constraintTop_toTopOf="@id/fl_iv_avatar" />
+
+    <pw.z.baselibrary.view.DtSVGAImageView
+        android:id="@+id/iv_avatar_frame"
+        android:layout_width="87dp"
+        android:layout_height="87dp"
+        app:layout_constraintBottom_toBottomOf="@id/fl_iv_avatar"
+        app:layout_constraintEnd_toEndOf="@id/fl_iv_avatar"
+        app:layout_constraintStart_toStartOf="@id/fl_iv_avatar"
+        app:layout_constraintTop_toTopOf="@id/fl_iv_avatar" />
+
+    <ImageView
+        android:id="@+id/iv_online_state"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_marginVertical="5dp"
+        android:layout_marginEnd="3dp"
+        android:src="@drawable/ic_post_online"
+        app:layout_constraintBottom_toBottomOf="@id/fl_iv_avatar"
+        app:layout_constraintEnd_toEndOf="@id/fl_iv_avatar" />
+
+    <TextView
+        android:id="@+id/tv_room_state"
+        android:layout_width="42dp"
+        android:layout_height="16dp"
+        android:layout_marginTop="56dp"
+        android:background="@drawable/bg_in_room"
+        android:gravity="center"
+        android:text="@string/in_room"
+        android:textColor="#ffffffff"
+        android:textSize="10sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/fl_iv_avatar"
+        app:layout_constraintStart_toStartOf="@id/fl_iv_avatar"
+        app:layout_constraintTop_toTopOf="@id/fl_iv_avatar" />
+
+    <pw.z.imchat.feature.dressup.view.GradientTextView
+        android:id="@+id/tv_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:minHeight="24dp"
+        android:textColor="#ffffffff"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toTopOf="@id/ll_sex_age_container"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Tuse1" />
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/ll_custom_identity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="9dp"
+        android:layout_marginBottom="6dp"
+        app:flexDirection="row"
+        app:flexWrap="wrap"
+        app:layout_constraintBottom_toTopOf="@id/tv_introduced"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:maxLine="2">
+        <!-- 顺序：房间等级>身份牌(NJ)>搭子>接待>官方自定义身份>铭牌 -->
+        <!-- 房间等级-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/room_level_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="4dp">
+
+            <TextView
+                android:id="@+id/room_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="4dp"
+                android:fontFamily="@font/d_dinexp"
+                android:gravity="center_vertical"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="251" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- 魅力等级-->
+        <ImageView
+            android:id="@+id/iv_charm_level"
+            android:layout_width="wrap_content"
+            android:layout_height="17dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="4dp"
+            android:visibility="gone" />
+        <!-- 身份牌（NJ）-->
+        <ImageView
+            android:id="@+id/iv_module_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="4dp"
+            android:minWidth="43dp"
+            android:visibility="gone" />
+        <!-- 搭子-->
+        <ImageView
+            android:id="@+id/iv_dazi_image"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="4dp"
+            android:minWidth="43dp"
+            android:visibility="gone" />
+        <!--接待-->
+        <ImageView
+            android:id="@+id/iv_host"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="4dp"
+            android:minWidth="43dp"
+            android:visibility="gone" />
+        <!-- 官方自定义身份-->
+        <View
+            android:id="@+id/custom_identity_start"
+            android:layout_width="1px"
+            android:layout_height="1px"/>
+        <!-- 铭牌 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/user_brand_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="4dp"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/user_brand_image"
+                android:layout_width="wrap_content"
+                android:layout_height="14dp"
+                android:minWidth="47.6dp"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_sex_age_container"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:layout_marginBottom="5dp"
+        android:paddingStart="13dp"
+        android:paddingEnd="0dp"
+        app:layout_constraintBottom_toTopOf="@id/ll_custom_identity"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_ip"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/bg_profile_id"
+            android:drawableStart="@drawable/drawable_profile_ip"
+            android:drawablePadding="3dp"
+            android:gravity="center"
+            android:paddingEnd="3dp"
+            android:textColor="#ffffffff"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@id/ll_sex_age_container"
+            app:layout_constraintStart_toEndOf="@id/ll_sex_age_container"
+            app:layout_constraintTop_toTopOf="@id/ll_sex_age_container"
+            tools:text="北京" />
+
+        <LinearLayout
+            android:id="@+id/ll_sex_age"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/bg_profile_sex_age_m"
+            android:gravity="center_vertical"
+            android:minHeight="16dp"
+            android:orientation="horizontal"
+            android:paddingHorizontal="3dp">
+
+            <ImageView
+                android:id="@+id/sex_iv"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                tools:src="@drawable/ic_profile_sex_man" />
+
+            <TextView
+                android:id="@+id/tv_age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:textColor="#FFFFFF"
+                android:textSize="10sp"
+                android:fontFamily="sans-serif-medium"
+                tools:text="23" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_id"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/bg_profile_id"
+            android:drawableStart="@drawable/drawable_profile_id"
+            android:drawablePadding="3dp"
+            android:gravity="center"
+            android:paddingEnd="3dp"
+            android:textColor="#ffffffff"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@id/ll_sex_age_container"
+            app:layout_constraintStart_toEndOf="@id/ll_sex_age_container"
+            app:layout_constraintTop_toTopOf="@id/ll_sex_age_container"
+            tools:text="8000299" />
+
+        <ImageView
+            android:id="@+id/ivXz"
+            android:layout_width="19dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_introduced"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="13dp"
+        android:layout_marginBottom="13dp"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:textColor="#b2ffffff"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/v_bottom_round"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="哈喽，哈喽，老板好，素素未蒙面却一见倾心，明人从不说暗话暗话暗话暗话暗话暗话暗话暗话暗话暗话暗话暗话暗话暗话暗话暗话暗话暗话暗话暗话暗话暗话暗话暗话暗话暗话暗话暗话暗暗话暗话暗话暗..." />
+
+    <View
+        android:id="@+id/v_bottom_round"
+        android:layout_width="match_parent"
+        android:layout_height="13dp"
+        android:background="@drawable/shape_ffffff_top_r13"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

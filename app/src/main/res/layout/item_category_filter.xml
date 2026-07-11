@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="6dp">
+
+    <TextView
+        android:id="@+id/category_filter_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_category_filter_nor_bg"
+        android:drawableEnd="@drawable/drawable_category_filter_nor"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="6dp"
+        android:textColor="@color/color_30_010101"
+        android:textSize="12sp" />
+</FrameLayout>

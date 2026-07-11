@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/tv_switch_cp"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="13dp"
+            android:drawableEnd="@drawable/ic_cp_switch_on"
+            android:drawablePadding="6dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:text="@string/cp_state_open"
+            android:textColor="#ffa0a0a0"
+            android:textSize="11sp"
+            android:layout_alignParentEnd="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_mengxin_tips"
+            android:layout_toLeftOf="@+id/tv_switch_cp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tv_switch_cp"/>
+
+        <TextView
+            android:id="@+id/rankingList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_guard_name_hide"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:paddingHorizontal="13dp"
+            android:paddingVertical="4dp"
+            android:text="师徒排行榜"
+            android:textColor="#946AFF"
+            android:textSize="11sp"
+            android:fontFamily="sans-serif-medium"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <include
+        android:id="@+id/layout_cp_self_not_create"
+        layout="@layout/layout_social_sect_self_not_create"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <include
+        android:id="@+id/layout_cp_self_create"
+        layout="@layout/layout_social_sect_self_create"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <include
+        android:id="@+id/layout_cp_other_no"
+        layout="@layout/layout_social_sect_other_no"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <include
+        android:id="@+id/layout_cp_other_yes"
+        layout="@layout/layout_social_sect_other_yes"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+
+</LinearLayout>

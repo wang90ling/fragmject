@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parent_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="180dp">
+
+        <FrameLayout
+            android:id="@+id/fl_kol_reward_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_kol_reward_top_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="168dp"
+            app:layout_constraintTop_toTopOf="@id/fl_kol_reward_top">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_kol_reward_bottom_bg"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <!-- 奖励容器 -->
+                <LinearLayout
+                    android:id="@+id/ll_reward_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- 第一行 -->
+                    <LinearLayout
+                        android:id="@+id/ll_row_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <include
+                            android:id="@+id/item_reward_1"
+                            layout="@layout/item_kol_reward"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <include
+                            android:id="@+id/item_reward_2"
+                            layout="@layout/item_kol_reward"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:visibility="visible" />
+
+                        <include
+                            android:id="@+id/item_reward_3"
+                            layout="@layout/item_kol_reward"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <!-- 第二行 -->
+                    <LinearLayout
+                        android:id="@+id/ll_row_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <include
+                            android:id="@+id/item_reward_4"
+                            layout="@layout/item_kol_reward"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <include
+                            android:id="@+id/item_reward_5"
+                            layout="@layout/item_kol_reward"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <include
+                            android:id="@+id/item_reward_6"
+                            layout="@layout/item_kol_reward"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/iv_kol_reward_know"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="23dp"
+                    android:src="@drawable/ic_kol_reward_know" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

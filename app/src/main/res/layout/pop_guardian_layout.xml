@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="20dp"
+            android:layout_height="10dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/pop_guardian_icon"
+            />
+
+        <com.small.uikit.ui.layout.UiLinearLayout
+            android:layout_width="94dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingBottom="13dp"
+            android:paddingTop="13dp"
+            app:corner_radius="10dp"
+            app:background_normal="#32304C"
+            android:layout_marginTop="6dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvJs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:text="守护团介绍"
+                android:textColor="#ffeae6ff"
+                android:textSize="13sp" />
+
+            <View
+                android:id="@+id/vLine"
+                android:layout_width="60dp"
+                android:layout_height="0.5dp"
+                android:background="#1affffff"
+                android:layout_marginTop="7dp" />
+
+            <TextView
+                android:id="@+id/tvRank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:text="守护团榜单"
+                android:textColor="#ffeae6ff"
+                android:textSize="13sp" />
+
+        </com.small.uikit.ui.layout.UiLinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

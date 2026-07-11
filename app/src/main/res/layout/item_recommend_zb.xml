@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.small.uikit.ui.layout.UiConstraintLayout
+        android:layout_width="161dp"
+        android:layout_height="182dp"
+        app:layout_constraintDimensionRatio="161:182"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.tencent.qcloud.tuikit.timcommon.component.RoundCornerImageView
+            android:id="@+id/iv_cover"
+            android:layout_width="match_parent"
+            android:layout_height="174dp"
+            android:scaleType="centerCrop"
+            app:corner_radius="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ll_bottom_bg"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:background="@drawable/ic_recommend_zb_item_bottom_bg"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <pw.z.imchat.feature.dressup.view.GradientTextView
+                android:id="@+id/recommend_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="6dp"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-medium"
+                android:includeFontPadding="false"
+                android:lines="1"
+                android:maxWidth="111dp"
+                android:singleLine="true"
+                android:textColor="@color/color_85_010101"
+                android:textSize="13sp"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="七七七七七七七七七七七七七七七七七七七七七七七七" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_sex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="6dp"
+                android:src="@drawable/ic_recommend_sex_m"
+                app:layout_constraintBottom_toBottomOf="@id/recommend_name"
+                app:layout_constraintStart_toEndOf="@id/recommend_name"
+                app:layout_constraintTop_toTopOf="@id/recommend_name" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.small.uikit.ui.layout.UiConstraintLayout
+            android:id="@+id/ll_live_status"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.small.uikit.ui.view.UiImageView
+                android:id="@+id/iv_avatar"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:scaleType="centerCrop"
+                app:corner_radius="100dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.small.uikit.ui.view.UiTextView
+                android:id="@+id/tv_live_status"
+                android:layout_width="38dp"
+                android:layout_height="13dp"
+                android:gravity="center|center_vertical"
+                android:text="正在直播"
+                android:textColor="#FFFFFF"
+                android:textSize="8sp"
+                app:background_normal="#8C7DFC"
+                app:corner_radius="10dp"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </com.small.uikit.ui.layout.UiConstraintLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="38dp"
+            app:cardBackgroundColor="@color/transparent"
+            app:cardCornerRadius="38dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:id="@+id/ll_voice_info"
+                android:layout_width="62dp"
+                android:layout_height="18dp"
+                android:background="@drawable/ic_recommend_voice_bg"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingEnd="4dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_audio_play"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/ic_recommend_voice_play" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/voice_playing_iv"
+                    android:layout_width="14dp"
+                    android:layout_height="8dp"
+                    android:layout_marginStart="4dp"
+                    android:src="@drawable/ic_home_recommend_voice" />
+
+                <com.opensource.svgaplayer.SVGAImageView
+                    android:id="@+id/iv_voice_anim"
+                    android:layout_width="14dp"
+                    android:layout_height="8dp"
+                    android:layout_marginStart="4dp"
+                    android:visibility="gone"
+                    app:autoPlay="false"
+                    app:source="ic_voice_anim.svga" />
+
+                <TextView
+                    android:id="@+id/tv_voice_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10sp"
+                    tools:text="11”" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+    </com.small.uikit.ui.layout.UiConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_recommend_bg"
+        android:layout_width="161dp"
+        android:layout_height="182dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

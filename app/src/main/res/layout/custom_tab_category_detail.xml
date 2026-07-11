@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/tab_head"
+        android:layout_width="56dp"
+        android:layout_height="56dp">
+
+        <!--缩放0.75-->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/tab_icon"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop"
+            android:scaleX="0.75"
+            android:scaleY="0.75" />
+    </RelativeLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tab_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:includeFontPadding="false"
+        android:lines="1"
+        android:maxLines="1"
+        android:paddingHorizontal="9dp"
+        android:paddingVertical="2dp"
+        android:scaleType="centerCrop"
+        android:singleLine="true"
+        android:textColor="@color/color_2F2406"
+        android:textSize="10sp" />
+</LinearLayout>

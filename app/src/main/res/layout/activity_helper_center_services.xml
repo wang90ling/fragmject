@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F6FA">
+
+    <pw.z.baselibrary.view.CustomTitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:showBack="true"
+        app:titleText="@string/helper_center_services_title" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_bar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="13dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="12dp"
+                android:text="@string/helper_center_services_about"
+                android:textColor="#d9010101"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="13dp"
+                android:background="@drawable/shape_ffffff_r13"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/fl_service_title_yhxy"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:paddingHorizontal="11dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|start"
+                        android:gravity="center_vertical"
+                        android:text="@string/service_title_yhxy"
+                        android:textColor="#d9010101"
+                        android:textSize="13sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|end"
+                        android:src="@drawable/ic_arrow"
+                        app:tint="#66010101" />
+                </FrameLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#05010101" />
+
+                <FrameLayout
+                    android:id="@+id/fl_service_title_ptyszc"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:paddingHorizontal="11dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|start"
+                        android:gravity="center_vertical"
+                        android:text="@string/service_title_ptyszc"
+                        android:textColor="#d9010101"
+                        android:textSize="13sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|end"
+                        android:src="@drawable/ic_arrow"
+                        app:tint="#66010101" />
+                </FrameLayout>
+
+                <!--          <View
+                              android:layout_width="match_parent"
+                              android:layout_height="1dp"
+                              android:background="#05010101" />
+
+                          <FrameLayout
+                              android:id="@+id/fl_service_title_dzrzxy"
+                              android:layout_width="match_parent"
+                              android:layout_height="46dp"
+                              android:paddingHorizontal="11dp">
+
+                              <TextView
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_gravity="center_vertical|start"
+                                  android:gravity="center_vertical"
+                                  android:text="@string/service_title_dzrzxy"
+                                  android:textColor="#d9010101"
+                                  android:textSize="13sp" />
+
+                              <ImageView
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_gravity="center_vertical|end"
+                                  android:src="@drawable/ic_arrow"
+                                  app:tint="#66010101" />
+                          </FrameLayout>
+
+                          <View
+                              android:layout_width="match_parent"
+                              android:layout_height="1dp"
+                              android:background="#05010101" />
+
+                          <FrameLayout
+                              android:id="@+id/fl_service_title_kbxy"
+                              android:layout_width="match_parent"
+                              android:layout_height="46dp"
+                              android:paddingHorizontal="11dp">
+
+                              <TextView
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_gravity="center_vertical|start"
+                                  android:gravity="center_vertical"
+                                  android:text="@string/service_title_kbxy"
+                                  android:textColor="#d9010101"
+                                  android:textSize="13sp" />
+
+                              <ImageView
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_gravity="center_vertical|end"
+                                  android:src="@drawable/ic_arrow"
+                                  app:tint="#66010101" />
+                          </FrameLayout>
+
+                          <View
+                              android:layout_width="match_parent"
+                              android:layout_height="1dp"
+                              android:background="#05010101" />
+
+                          <FrameLayout
+                              android:id="@+id/fl_service_title_yhtxxy"
+                              android:layout_width="match_parent"
+                              android:layout_height="46dp"
+                              android:paddingHorizontal="11dp">
+
+                              <TextView
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_gravity="center_vertical|start"
+                                  android:gravity="center_vertical"
+                                  android:text="@string/service_title_yhtxxy"
+                                  android:textColor="#d9010101"
+                                  android:textSize="13sp" />
+
+                              <ImageView
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_gravity="center_vertical|end"
+                                  android:src="@drawable/ic_arrow"
+                                  app:tint="#66010101" />
+                          </FrameLayout>
+
+                          <View
+                              android:layout_width="match_parent"
+                              android:layout_height="1dp"
+                              android:background="#05010101" />
+
+                          <FrameLayout
+                              android:id="@+id/fl_service_title_yhczfw"
+                              android:layout_width="match_parent"
+                              android:layout_height="46dp"
+                              android:paddingHorizontal="11dp">
+
+                              <TextView
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_gravity="center_vertical|start"
+                                  android:gravity="center_vertical"
+                                  android:text="@string/service_title_yhczfw"
+                                  android:textColor="#d9010101"
+                                  android:textSize="13sp" />
+
+                              <ImageView
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_gravity="center_vertical|end"
+                                  android:src="@drawable/ic_arrow"
+                                  app:tint="#66010101" />
+                          </FrameLayout>
+
+                          <View
+                              android:layout_width="match_parent"
+                              android:layout_height="1dp"
+                              android:background="#05010101" />
+
+                          <FrameLayout
+                              android:id="@+id/fl_service_title_ptscfwxy"
+                              android:layout_width="match_parent"
+                              android:layout_height="46dp"
+                              android:paddingHorizontal="11dp">
+
+                              <TextView
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_gravity="center_vertical|start"
+                                  android:gravity="center_vertical"
+                                  android:text="@string/service_title_ptscfwxy"
+                                  android:textColor="#d9010101"
+                                  android:textSize="13sp" />
+
+                              <ImageView
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_gravity="center_vertical|end"
+                                  android:src="@drawable/ic_arrow"
+                                  app:tint="#66010101" />
+                          </FrameLayout>-->
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="13dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="12dp"
+                android:text="@string/helper_center_services_rule"
+                android:textColor="#d9010101"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="13dp"
+                android:background="@drawable/shape_ffffff_r13"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/fl_service_title_zhzxxy"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:paddingHorizontal="11dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|start"
+                        android:gravity="center_vertical"
+                        android:text="@string/service_title_zhzxxy"
+                        android:textColor="#d9010101"
+                        android:textSize="13sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|end"
+                        android:src="@drawable/ic_arrow"
+                        app:tint="#66010101" />
+                </FrameLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#05010101" />
+
+                <FrameLayout
+                    android:id="@+id/fl_service_title_etysbhzy"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:paddingHorizontal="11dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|start"
+                        android:gravity="center_vertical"
+                        android:text="@string/service_title_etysbhzy"
+                        android:textColor="#d9010101"
+                        android:textSize="13sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|end"
+                        android:src="@drawable/ic_arrow"
+                        app:tint="#66010101" />
+                </FrameLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#05010101" />
+
+                <FrameLayout
+                    android:id="@+id/fl_service_title_wcnrbh"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:paddingHorizontal="11dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|start"
+                        android:gravity="center_vertical"
+                        android:text="@string/service_title_wcnrbh"
+                        android:textColor="#d9010101"
+                        android:textSize="13sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|end"
+                        android:src="@drawable/ic_arrow"
+                        app:tint="#66010101" />
+                </FrameLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#05010101" />
+
+                <FrameLayout
+                    android:id="@+id/fl_service_title_ggfjgl"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:paddingHorizontal="11dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|start"
+                        android:gravity="center_vertical"
+                        android:text="@string/service_title_ggfjgl"
+                        android:textColor="#d9010101"
+                        android:textSize="13sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|end"
+                        android:src="@drawable/ic_arrow"
+                        app:tint="#66010101" />
+                </FrameLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#05010101" />
+
+                <FrameLayout
+                    android:id="@+id/fl_service_title_qqts"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:paddingHorizontal="11dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|start"
+                        android:gravity="center_vertical"
+                        android:text="@string/service_title_qqts"
+                        android:textColor="#d9010101"
+                        android:textSize="13sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|end"
+                        android:src="@drawable/ic_arrow"
+                        app:tint="#66010101" />
+                </FrameLayout>
+
+               <!-- <FrameLayout
+                    android:id="@+id/fl_service_title_yhczdjxy"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:paddingHorizontal="11dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|start"
+                        android:gravity="center_vertical"
+                        android:text="@string/service_title_yhczdjxy"
+                        android:textColor="#d9010101"
+                        android:textSize="13sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|end"
+                        android:src="@drawable/ic_arrow"
+                        app:tint="#66010101" />
+                </FrameLayout>-->
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="13dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="12dp"
+                android:text="@string/helper_center_services_ohter"
+                android:textColor="#d9010101"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="13dp"
+                android:background="@drawable/shape_ffffff_r13"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/fl_service_title_gswtcx"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:paddingHorizontal="11dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|start"
+                        android:gravity="center_vertical"
+                        android:text="@string/service_title_gswtcx"
+                        android:textColor="#d9010101"
+                        android:textSize="13sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|end"
+                        android:src="@drawable/ic_arrow"
+                        app:tint="#66010101" />
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

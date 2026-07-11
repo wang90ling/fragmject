@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F3F4">
+
+    <View
+        android:id="@+id/top_view"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        app:layout_constraintTop_toTopOf="parent" />
+
+<!--
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_home_head_bg"
+        app:layout_constraintDimensionRatio="360:306"
+        app:layout_constraintTop_toTopOf="parent" />
+-->
+    <com.opensource.svgaplayer.SVGAImageView
+        android:id="@+id/svga_main_top_bg"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:autoPlay="true"
+        app:layout_constraintDimensionRatio="360:306"
+        app:layout_constraintTop_toTopOf="parent"
+        app:source="main_top_bg.svga" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/home_search_icon"
+        android:layout_width="23dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="13dp"
+        android:src="@drawable/ic_search"
+        app:layout_constraintBottom_toBottomOf="@id/ll_tab"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ll_tab" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ll_tab"
+        android:layout_width="0dp"
+        android:layout_height="42dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toStartOf="@id/home_search_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_view">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_tab_sd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:src="@drawable/selector_tab_sd"
+            app:layout_constraintBottom_toBottomOf="@id/ll_tab"
+            app:layout_constraintEnd_toStartOf="@id/iv_tab_xxw"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ll_tab" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_tab_xxw"
+            android:layout_width="67dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:src="@drawable/selector_tab_leisure_play"
+            app:layout_constraintBottom_toBottomOf="@id/ll_tab"
+            app:layout_constraintStart_toEndOf="@id/iv_tab_sd"
+            app:layout_constraintTop_toTopOf="@id/ll_tab" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_tab" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

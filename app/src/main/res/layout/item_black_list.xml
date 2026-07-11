@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="75dp">
+
+    <ImageView
+        android:id="@+id/iv_black_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:src="@drawable/ic_black_normal"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.tencent.qcloud.tuikit.timcommon.component.RoundCornerImageView
+        android:id="@+id/iv_black_avatar"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="10dp"
+        app:corner_radius="6dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_black_check"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@color/black" />
+
+    <TextView
+        android:id="@+id/tv_black_name"
+        android:layout_width="81dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="7dp"
+        tools:text="爱睡觉的大橘"
+        android:textColor="#d9010101"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toTopOf="@id/tv_black_id"
+        app:layout_constraintStart_toEndOf="@id/iv_black_avatar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <ImageView
+        android:id="@+id/iv_black_sex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@id/tv_black_name"
+        app:layout_constraintTop_toTopOf="@id/tv_black_name"
+        tools:src="@drawable/ic_new_sex_man" />
+
+    <TextView
+        android:id="@+id/tv_black_id"
+        android:layout_width="42dp"
+        android:layout_height="16dp"
+        android:layout_marginTop="6dp"
+        android:visibility="gone"
+        android:drawableStart="@drawable/ic_id"
+        android:drawablePadding="2dp"
+        android:gravity="center_vertical"
+        android:text="666666"
+        android:textColor="#4d010101"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tv_black_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_black_name"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/tv_black_remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/remove_black"
+        android:textColor="#ffff494c"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

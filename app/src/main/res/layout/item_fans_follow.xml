@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingHorizontal="13dp"
+        android:paddingVertical="12dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        app:layout_constraintDimensionRatio="360:79"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:id="@+id/fl_conversation_icon"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.tencent.qcloud.tuikit.deskcommon.component.RoundCornerImageView
+                android:id="@+id/avatar_iv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:scaleType="centerCrop"
+                android:background="@drawable/shape_circle_avatar"
+                app:corner_radius="999dp" />
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/iv_room_state_stroke"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/bg_profile_in_room_stroke"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/fl_conversation_icon"
+            app:layout_constraintEnd_toEndOf="@id/fl_conversation_icon"
+            app:layout_constraintStart_toStartOf="@id/fl_conversation_icon"
+            app:layout_constraintTop_toTopOf="@id/fl_conversation_icon" />
+
+        <ImageView
+            android:id="@+id/iv_room_state"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/bg_profile_in_room"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/fl_conversation_icon"
+            app:layout_constraintEnd_toEndOf="@id/fl_conversation_icon"
+            app:layout_constraintStart_toStartOf="@id/fl_conversation_icon"
+            app:layout_constraintTop_toTopOf="@id/fl_conversation_icon" />
+
+        <View
+            android:id="@+id/online_v"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:background="@drawable/drawable_online_while"
+            app:layout_constraintBottom_toBottomOf="@+id/fl_conversation_icon"
+            app:layout_constraintEnd_toEndOf="@+id/fl_conversation_icon" />
+
+
+        <TextView
+            android:id="@+id/tv_room_state"
+            android:layout_width="31dp"
+            android:layout_height="13dp"
+            android:layout_marginBottom="-3dp"
+            android:background="@drawable/bg_post_in_room"
+            android:gravity="center"
+            android:text="@string/in_room"
+            android:textColor="#ffffffff"
+            android:textSize="8sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/fl_conversation_icon"
+            app:layout_constraintStart_toStartOf="@id/fl_conversation_icon"
+            app:layout_constraintBottom_toBottomOf="@id/fl_conversation_icon" />
+        
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/follow_state_btn"
+            app:layout_constraintStart_toEndOf="@+id/fl_conversation_icon"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/nickname_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:textColor="@color/color_010101"
+                android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="昵称" />
+
+            <ImageView
+                android:id="@+id/sex_iv"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:layout_marginStart="4dp"
+                android:src="@drawable/ic_new_sex_man"
+                app:layout_constraintBottom_toBottomOf="@+id/nickname_tv"
+                app:layout_constraintStart_toEndOf="@+id/nickname_tv"
+                app:layout_constraintTop_toTopOf="@+id/nickname_tv" />
+
+            <TextView
+                android:id="@+id/online_time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:textColor="@color/color_40_010101"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nickname_tv"
+                tools:text="1个小时前在线" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/follow_state_btn"
+            android:layout_width="0dp"
+            android:layout_height="23dp"
+            android:background="@drawable/shape_follow_state_btn_sel"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@string/dt_follow_state_not_follow"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="63:23"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

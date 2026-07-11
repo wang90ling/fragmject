@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="16dp">
+
+    <!-- 左侧类型标题 -->
+    <TextView
+        android:id="@+id/filter_type_title"
+        android:layout_width="72dp"
+        android:layout_height="40dp"
+        android:padding="3.5dp"
+        android:textColor="#80FFFFFF"
+        android:textSize="12sp"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="性别" />
+
+    <!-- 右侧选项列表 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/filter_rv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="12dp"
+        android:isScrollContainer="false"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/filter_type_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:spanCount="3" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

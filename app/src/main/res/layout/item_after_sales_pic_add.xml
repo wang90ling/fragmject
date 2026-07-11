@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_f6f7f9_r10">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:text="@string/upload_image_or_video"
+        android:textColor="#80060400"
+        android:textSize="12sp"
+        app:drawableTopCompat="@drawable/ic_post_upload" />
+
+    <TextView
+        android:layout_width="42dp"
+        android:layout_height="15dp"
+        android:background="@drawable/bg_ic_must"
+        android:gravity="center"
+        android:text="@string/optional_input"
+        android:textColor="#ff8c7dfc"
+        android:textSize="10sp" />
+</FrameLayout>

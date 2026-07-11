@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_ffffff_top_r13"
+    android:paddingTop="19dp"
+    android:paddingBottom="44dp">
+
+    <TextView
+        android:id="@+id/record_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/recording_title"
+        android:textColor="@color/color_85_000000"
+        android:textFontWeight="500"
+        android:textSize="19sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/upload_recording_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:gravity="center"
+        android:text="@string/upload_recording_tip"
+        android:textColor="@color/color_20_000000"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@+id/record_title" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/upload_recording_tip">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="12dp">
+
+            <FrameLayout
+                android:id="@+id/rerecording_action"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/shape_record_action_bg">
+
+                <pw.z.baselibrary.view.CircularProgressView
+                    android:id="@+id/record_rerecording_cpv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="6dp" />
+
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/shape_record_start_bg" />
+            </FrameLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/rerecording"
+                android:textColor="@color/color_40_000000"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/record_time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_record_time_bg"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:paddingHorizontal="9dp"
+                android:paddingVertical="1dp"
+                android:text="0S"
+                android:textColor="@color/color_85_000000"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/upload_recording_tip" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/record_action_cl"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp">
+
+                <pw.z.baselibrary.view.CircularProgressView
+                    android:id="@+id/record_time_cpv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <ImageView
+                    android:id="@+id/record_state_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/shape_record_start_bg"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_recoed_state_start"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:text="@string/rerecord_sp"
+                android:textColor="@color/color_85_000000"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="12dp">
+
+            <ImageView
+                android:id="@+id/record_save_iv"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/shape_record_action_bg"
+                android:padding="6dp"
+                android:src="@drawable/ic_record_save" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/record_save"
+                android:textColor="@color/color_40_000000"
+                android:textSize="10sp" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="71dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/shape_1affffff_r12">
+
+        <ImageView
+            android:id="@+id/iv_channel_room_avatar"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="14dp"
+            android:src="@drawable/ic_channel_room_voice"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_channel_room_name"
+            android:layout_width="0dp"
+            android:layout_height="21dp"
+            android:layout_marginStart="5dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:lines="1"
+            android:textColor="#d9010101"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_channel_room_avatar"
+            app:layout_constraintEnd_toStartOf="@id/layout_queue_state"
+            app:layout_constraintStart_toEndOf="@id/iv_channel_room_avatar"
+            app:layout_constraintTop_toTopOf="@id/iv_channel_room_avatar"
+            tools:text="接待1厅" />
+
+        <FrameLayout
+            android:id="@+id/layout_preside_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="@id/tv_channel_room_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_channel_room_name">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.tencent.qcloud.tuikit.timcommon.component.RoundCornerImageView
+                    android:id="@+id/iv_channel_room_preside_avatar"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:scaleType="centerCrop"
+                    app:corner_radius="17dp"
+                    tools:src="@color/black" />
+
+                <TextView
+                    android:id="@+id/tv_channel_room_preside_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:textColor="#80010101"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_channel_room_preside_avatar"
+                    app:layout_constraintStart_toEndOf="@id/iv_channel_room_preside_avatar"
+                    app:layout_constraintTop_toTopOf="@id/iv_channel_room_preside_avatar"
+                    tools:text="云宫-玉兔" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_channel_room_preside_back_soon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/preside_back_soon"
+                android:textColor="#80010101"
+                android:textSize="12sp" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/layout_queue_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_channel_room_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_channel_room_name"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/layout_queue_idle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/in_the_idle"
+                android:textColor="#ff8c7dfc"
+                android:textSize="10sp" />
+
+            <LinearLayout
+                android:id="@+id/layout_queue_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_channel_room_queue_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fffd9515"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    tools:text="5" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/room_queue_count"
+                    android:textColor="@color/color_30_010101"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

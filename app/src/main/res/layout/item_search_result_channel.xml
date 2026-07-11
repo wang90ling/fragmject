@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="98dp"
+    android:layout_marginVertical="5dp"
+    android:background="@drawable/shape_bg_popular_companionship">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="6dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_ffffff_r10" />
+
+        <com.tencent.qcloud.tuikit.timcommon.component.RoundCornerImageView
+            android:id="@+id/iv_channel_icon"
+            android:layout_width="86dp"
+            android:layout_height="86dp"
+            app:corner_radius="10dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_channel_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/color_85_010101"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/iv_channel_icon"
+            app:layout_constraintTop_toTopOf="@id/iv_channel_icon"
+            tools:text="永劫无间官方社区" />
+
+        <TextView
+            android:id="@+id/tv_channel_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/color_20_010101"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/iv_channel_icon"
+            app:layout_constraintTop_toBottomOf="@id/tv_channel_name"
+            tools:text="ID：1234" />
+
+        <TextView
+            android:id="@+id/tv_hot_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="6dp"
+            android:background="@drawable/shape_bg_hot_value"
+            android:drawableStart="@drawable/ic_channel_hot"
+            android:drawablePadding="1dp"
+            android:paddingHorizontal="3dp"
+            android:paddingVertical="2dp"
+            android:text="251"
+            android:textColor="#B2FE606F"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_channel_icon"
+            app:layout_constraintStart_toEndOf="@id/iv_channel_icon" />
+
+        <TextView
+            android:id="@+id/tv_join"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:layout_marginStart="10dp"
+            android:text="@string/join"
+            android:gravity="center"
+            android:background="@drawable/ic_channel_join"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:paddingVertical="10dp"
+            android:src="@drawable/dt_ic_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/person_info"
+            android:textStyle="bold"
+            android:textColor="#d9010101"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/fl_avatar"
+                android:layout_width="match_parent"
+                android:layout_height="94dp"
+                android:layout_marginHorizontal="13dp">
+
+                <TextView
+                    android:id="@+id/iv_avatar_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/avatar"
+                    android:textColor="#d9010101"
+                    android:textSize="15sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+                <TextView
+                    android:id="@+id/privilege_deadline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="#FF494C"
+                    android:textSize="12sp"
+                    android:layout_marginStart="6dp"
+                    android:fontFamily="sans-serif"
+                    app:layout_constraintStart_toEndOf="@+id/iv_avatar_tv"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_avatar_tv"
+                    app:layout_constraintTop_toTopOf="@+id/iv_avatar_tv"
+                    tools:text="(有效期至2026/04/26)"/>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="10dp"
+                    app:cardCornerRadius="56dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <ImageView
+                        android:id="@+id/iv_avatar"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:scaleType="centerCrop"
+                        tools:src="@color/black" />
+                </androidx.cardview.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="13dp"
+                android:background="#0A010101" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/privilege_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="13dp"
+                android:layout_marginVertical="12dp">
+
+                <TextView
+                    android:id="@+id/privilege_tips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="23dp"
+                    android:gravity="center"
+                    android:text="特权"
+                    android:paddingHorizontal="15dp"
+                    android:textColor="#944822"
+                    android:textSize="13sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:background="@drawable/bg_person_info_privilege"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <TextView
+                    android:id="@+id/privilege_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginStart="6dp"
+                    android:text="动态头像特权玩法"
+                    android:textColor="@color/color_40_010101"
+                    android:textSize="12sp"
+                    android:fontFamily="sans-serif"
+                    app:layout_constraintStart_toEndOf="@+id/privilege_tips"
+                    app:layout_constraintTop_toTopOf="@+id/privilege_tips"
+                    app:layout_constraintBottom_toBottomOf="@+id/privilege_tips"/>
+
+                <TextView
+                    android:id="@+id/privilege_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="12dp"
+                    android:text="点击了解>"
+                    android:textColor="#8C7DFC"
+                    android:textSize="12sp"
+                    android:fontFamily="sans-serif-medium"
+                    app:layout_constraintStart_toEndOf="@+id/privilege_text"
+                    app:layout_constraintTop_toTopOf="@+id/privilege_tips"
+                    app:layout_constraintBottom_toBottomOf="@+id/privilege_tips"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="13dp"
+                android:background="#F5F6FA" />
+            <FrameLayout
+                android:id="@+id/fl_name"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginHorizontal="13dp"
+                android:layout_marginTop="10dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/nick_name"
+                    android:textColor="#d9010101"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="10dp"
+                    android:drawablePadding="4dp"
+                    android:gravity="end|center_vertical"
+                    android:textColor="#66010101"
+                    android:textColorHint="#66010101"
+                    android:textSize="13sp"
+                    app:drawableEndCompat="@drawable/draw_person_info_arrow"
+                    tools:text="韩嘻嘻" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fl_id"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginHorizontal="13dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#0A010101" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:text="ID"
+                    android:textColor="#d9010101"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="25dp"
+                    android:gravity="end|center_vertical"
+                    android:textColor="#66010101"
+                    android:textColorHint="#66010101"
+                    android:textSize="13sp"
+                    tools:text="666666" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fl_sex"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginHorizontal="13dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#0A010101" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/sex"
+                    android:textColor="#d9010101"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:id="@+id/ll_sex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_sex"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
+                        android:gravity="end|center_vertical"
+                        android:hint="@string/please_select"
+                        android:textColor="#66010101"
+                        android:textColorHint="#66010101"
+                        android:textSize="13sp" />
+
+                    <ImageView
+                        android:id="@+id/iv_sex_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/draw_person_info_arrow" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fl_city"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginHorizontal="13dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#0A010101" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/home_town"
+                    android:textColor="#d9010101"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="10dp"
+                    android:drawablePadding="4dp"
+                    android:gravity="end|center_vertical"
+                    android:hint="@string/please_select"
+                    android:textColor="#66010101"
+                    android:textColorHint="#66010101"
+                    android:textSize="13sp"
+                    app:drawableEndCompat="@drawable/draw_person_info_arrow" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fl_constellation"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginHorizontal="13dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#0A010101" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/constellation"
+                    android:textColor="#d9010101"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_constellation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="10dp"
+                    android:drawablePadding="4dp"
+                    android:gravity="end|center_vertical"
+                    android:hint="@string/please_select"
+                    android:textColor="#66010101"
+                    android:textColorHint="#66010101"
+                    android:textSize="13sp"
+                    app:drawableEndCompat="@drawable/draw_person_info_arrow" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fl_birthday"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginHorizontal="13dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#0A010101" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/birthday"
+                    android:textColor="#d9010101"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_birthday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
+                        android:gravity="end|center_vertical"
+                        android:hint="@string/please_select"
+                        android:textColor="#66010101"
+                        android:textColorHint="#66010101"
+                        android:textSize="13sp" />
+
+                    <ImageView
+                        android:id="@+id/iv_birthday_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/draw_person_info_arrow" />
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fl_labels"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginHorizontal="13dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#0A010101" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/user_labels"
+                    android:textColor="#d9010101"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_labels"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="10dp"
+                    android:drawablePadding="4dp"
+                    app:drawableEndCompat="@drawable/draw_person_info_arrow" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fl_introduce"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginHorizontal="13dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#0A010101" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/user_introduce"
+                    android:textColor="#d9010101"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_introduce"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginEnd="10dp"
+                    android:drawablePadding="4dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:hint="@string/please_select"
+                    android:maxLines="2"
+                    android:textColor="#66010101"
+                    android:textColorHint="#66010101"
+                    android:textSize="13sp"
+                    app:drawableEndCompat="@drawable/draw_person_info_arrow" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fl_cover"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="13dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#0A010101" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/user_cover"
+                    android:textColor="#d9010101"
+                    android:textSize="15sp" />
+
+                <FrameLayout
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginVertical="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/shape_f9f9f9_r13">
+
+                    <TextView
+                        android:id="@+id/tv_cover"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:drawableTint="@color/color_33010101"
+                        android:gravity="center"
+                        android:text="0/1"
+                        android:textColor="#d9010101"
+                        android:textColorHint="#66010101"
+                        android:textSize="13sp"
+                        app:drawableBottomCompat="@drawable/ic_order_add" />
+
+                    <com.tencent.qcloud.tuikit.timcommon.component.RoundCornerImageView
+                        android:id="@+id/iv_cover"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:scaleType="centerCrop"
+                        app:corner_radius="13dp" />
+                </FrameLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.small.uikit.ui.layout.UiConstraintLayout
+        android:id="@+id/parent_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="38dp"
+        app:background_normal="@color/white"
+        app:corner_radius="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="说明"
+            android:textColor="@color/color_85_010101"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif-medium"/>
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="13dp"
+            android:src="@drawable/dialog_close_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="13dp"
+            android:layout_marginTop="52dp"
+            android:text="1、如何绑定："
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="12sp"
+            android:textColor="@color/color_70_000000"/>
+
+        <LinearLayout
+            android:id="@+id/ll_step_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="13dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="·"
+                android:textSize="12sp"
+                android:layout_marginStart="4dp"
+                android:textColor="@color/color_70_000000"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="第一步：使用手机号验证码登录，既登录关联号；"
+                android:textSize="12sp"
+                android:textColor="@color/color_70_000000"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_step_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="13dp"
+            app:layout_constraintTop_toBottomOf="@id/ll_step_1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="·"
+                android:textSize="12sp"
+                android:layout_marginStart="4dp"
+                android:textColor="@color/color_70_000000"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="第二步：点击「添加新账号」跳转登录页面，使用同手机号验证码登录即可绑定\n"
+                android:textSize="12sp"
+                android:textColor="@color/color_70_000000"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="13dp"
+            android:layout_marginBottom="19dp"
+            android:text="2、修改手机号后，与手机号关联的账号全部修改为新手机号；\n\n3、每个手机号最多可绑定3个账号。\n\n4、关联成功后账号不可取消关联，注销账号后空出额度；\n\n5、同一手机号下的账号在APP端不可同时登录；\n\n6、同一手机号下的账号实名制必须一致；\n\n7、功能解释权归点TA所有；"
+            app:layout_constraintTop_toBottomOf="@id/ll_step_2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="12sp"
+            android:textColor="@color/color_70_000000"/>
+
+    </com.small.uikit.ui.layout.UiConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/room_info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/play_room_item_bg"
+        android:padding="11dp"
+        tools:ignore="MissingConstraints">
+
+        <com.tencent.qcloud.tuikit.timcommon.component.RoundCornerImageView
+            android:id="@+id/room_icon"
+            android:layout_width="83dp"
+            android:layout_height="83dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/ic_room_default"
+            app:corner_radius="12dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="72dp"
+            android:layout_marginStart="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/room_icon"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/room_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxWidth="140dp"
+                android:singleLine="true"
+                android:textColor="#d9010101"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="点唱小队接单唱歌" />
+
+            <ImageView
+                android:id="@+id/room_tips_icon"
+                android:layout_width="36dp"
+                android:layout_height="15dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toStartOf="@id/room_title"
+                app:layout_constraintTop_toBottomOf="@+id/room_title"
+                tools:src="@drawable/ic_play_room_dianchang"/>
+
+            <com.tencent.qcloud.tuikit.timcommon.component.RoundCornerImageView
+                android:id="@+id/owner_icon"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_room_owner_default"
+                app:corner_radius="21dp"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <TextView
+                android:id="@+id/owner_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="4dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:singleLine="true"
+                android:textColor="#4d010101"
+                android:textSize="10sp"
+                android:fontFamily="sans-serif"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/owner_icon"
+                app:layout_constraintTop_toTopOf="@+id/owner_icon"
+                tools:text="歌手昵称歌手昵昵昵" />
+
+            <ImageView
+                android:id="@+id/room_play"
+                android:layout_width="13dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginBottom="6dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/owner_name" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
