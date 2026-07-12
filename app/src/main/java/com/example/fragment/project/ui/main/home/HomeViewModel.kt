@@ -36,7 +36,8 @@ data class HomeUiState(
     val isLoading: Boolean = false,
     val isFinishing: Boolean = false,
     val homeRecommendResult: HomeRecommend = HomeRecommend(),
-    val categoryList:List<CategoryItem> = emptyList()
+    val categoryList: List<CategoryItem> = emptyList(),
+    val selectedCategoryId: String = ""
 )
 
 class HomeViewModel(
@@ -73,27 +74,31 @@ class HomeViewModel(
             val response = articleRepo.getRecommendListByTabId(request)
             logD("wangling response:${response.toString()}")
             val data = response.data ?: HomeRecommend()
-            val categoryList = runCatching {
-                data.records?.firstOrNull()?.categoryList?.map { category ->
-                    com.example.fragment.project.data.bean.response.CategoryItem(
-                        categoryName = category.categoryName,
-                        categoryType = "mobile",
-                        coverImageUrl = category.categoryCoverImageUrl,
-                        fileUrl = category.categoryFileUrl,
-                        id = category.id,
-                        weighted = 0,
-                        isSelected = false,
-                        sampleImageUrl = category.fileList?.firstOrNull()?.fileUrl,
-                    )
-                }.orEmpty()
-            }.getOrDefault(emptyList())
-
             _uiState.value = _uiState.value.copy(
                 isRefreshing = false,
                 isLoading = hasNextPage(),
                 isFinishing = !hasNextPage(),
                 homeRecommendResult = data,
                 categoryList = newCategoryListData,
+                selectedCategoryId = firstCategoryItem.id
+            )
+        }
+    }
+
+    fun selectCategory(category: CategoryItem) {
+        _uiState.value = _uiState.value.copy(
+            selectedCategoryId = category.id
+        )
+        viewModelScope.launch {
+            val request = RecommendRequest(1, 20,category.id)
+            val response = articleRepo.getRecommendListByTabId(request)
+            logD("wangling response:${response.toString()}")
+            val data = response.data ?: HomeRecommend()
+            _uiState.value = _uiState.value.copy(
+                isRefreshing = false,
+                isLoading = hasNextPage(),
+                isFinishing = !hasNextPage(),
+                homeRecommendResult = data,
             )
         }
     }

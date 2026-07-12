@@ -67,7 +67,7 @@ fun HomeNewScreen(
 
     val firstCategory = uiState.categoryList.firstOrNull()
     Log.d("wangling", "firstCategory: "+firstCategory.toString())
-    val selectedCategory = uiState.categoryList.firstOrNull { it.isSelected } ?: firstCategory
+    val selectedCategory = uiState.categoryList.firstOrNull { it.id == uiState.selectedCategoryId } ?: firstCategory
 
     LazyColumn(
         state = listState,
@@ -87,13 +87,17 @@ fun HomeNewScreen(
 
         //游戏种类列表展示
         item(key = "categoryTabs") {
-            if (firstCategory != null && selectedCategory != null) {
+            if (uiState.categoryList != null
+                && uiState.categoryList.isNotEmpty()
+                && firstCategory != null
+                && selectedCategory != null) {
+
                 HomeCategoryTabs(
-                    categoryTabs = uiState.categoryList ?:emptyList(),
+                    categoryTabs = uiState.categoryList,
                     category = firstCategory,
                     selectedCategory = selectedCategory,
                     onCategorySelected = { selected ->
-                        //viewModel.selectCategory(selected)
+                        viewModel.selectCategory(selected)
                     }
                 )
             }
