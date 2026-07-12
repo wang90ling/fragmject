@@ -3,7 +3,7 @@ package com.example.fragment.project.data.bean.response
 import pw.z.baselibrary.bean.RoomLevelConfigDto
 import pw.z.baselibrary.bean.UserPropDetailDto
 
-open class HomeRecommend @JvmOverloads constructor(
+data class HomeRecommend @JvmOverloads constructor(
     val pageNo: String? = null,
     val pageSize: String? = null,
     val pages: String? = null,

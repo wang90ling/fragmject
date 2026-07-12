@@ -11,12 +11,19 @@ import coil.decode.ImageDecoderDecoder
 import coil.decode.SvgDecoder
 import coil.decode.VideoFrameDecoder
 import com.example.fragment.project.ui.web.WebViewManager
+import com.example.fragment.project.utils.WanHelper
 import com.example.miaow.base.http.OkHelper
 import com.example.miaow.base.http.setBaseUrl
 import com.example.miaow.base.http.setHttpClientLazy
 import com.example.miaow.base.http.updateDefaultHeaders
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 class AppApplication : Application(), ImageLoaderFactory {
+
+    private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
     //应用刚启动时，只做必要的轻量初始化，避免主线程过重
     override fun onCreate() {
@@ -33,6 +40,12 @@ class AppApplication : Application(), ImageLoaderFactory {
                 "x-device" to "APP",
             )
         )
+        // 异步恢复本地缓存的 Token 到默认请求头，保证已登录用户冷启动后请求自动带鉴权
+        applicationScope.launch {
+            WanHelper.getToken()?.takeIf { it.isNotBlank() }?.let { token ->
+                WanHelper.setToken(token)
+            }
+        }
     }
 
     //加载图片加载的组件

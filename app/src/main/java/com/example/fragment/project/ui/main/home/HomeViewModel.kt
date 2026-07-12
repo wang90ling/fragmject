@@ -71,7 +71,7 @@ class HomeViewModel(
             val newCategoryListData = listOf(firstCategoryItem) + categoryListData;
 
             val request = RecommendRequest(1, 20)
-            val response = articleRepo.getRecommendListByTabId(request)
+            val response = articleRepo.getRecommendList(request)
             logD("wangling response:${response.toString()}")
             val data = response.data ?: HomeRecommend()
             _uiState.value = _uiState.value.copy(
@@ -80,7 +80,7 @@ class HomeViewModel(
                 isFinishing = !hasNextPage(),
                 homeRecommendResult = data,
                 categoryList = newCategoryListData,
-                selectedCategoryId = firstCategoryItem.id
+                //selectedCategoryId = firstCategoryItem.id
             )
         }
     }
@@ -92,7 +92,7 @@ class HomeViewModel(
         viewModelScope.launch {
             val request = RecommendRequest(1, 20,category.id)
             val response = articleRepo.getRecommendListByTabId(request)
-            logD("wangling response:${response.toString()}")
+            logD("wangling response:${response.data?.records.toString()}")
             val data = response.data ?: HomeRecommend()
             _uiState.value = _uiState.value.copy(
                 isRefreshing = false,

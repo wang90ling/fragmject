@@ -6,6 +6,7 @@ import com.example.fragment.project.data.CodeLoginData
 import com.example.fragment.project.data.History
 import com.example.fragment.project.data.User
 import com.example.miaow.base.database.KVDatabase
+import com.example.miaow.base.http.CoroutineHttp
 import com.example.miaow.base.utils.GSonUtils
 import com.example.miaow.base.utils.logD
 import com.google.gson.reflect.TypeToken
@@ -24,9 +25,28 @@ object WanHelper {
     private const val TOKEN_KEY = "user_token"
     private const val USER_DATA_KEY = "user_data"
 
+    // 后端接口统一的认证请求头字段名
+    private const val TOKEN_HEADER_KEY = "token"
+
     // Gson 线程安全，复用全局单例避免重复创建。
     private val gson get() = GSonUtils.gson
     private val scheduleListType = object : TypeToken<List<String>>() {}.type
+
+    /**
+     * 同步当前 Token 到全局默认请求头。
+     * 设置、清除 Token 时都必须调用，确保后续请求自动携带/移除认证信息。
+     */
+    private fun syncTokenToHeaders(token: String?) {
+        val headers = LinkedHashMap<String, String>().apply {
+            put("Content-Type", "application/json")
+            put("Accept", "application/json")
+            put("x-device", "APP")
+            if (!token.isNullOrBlank()) {
+                put(TOKEN_HEADER_KEY, token)
+            }
+        }
+        CoroutineHttp.getInstance().updateDefaultHeaders(headers)
+    }
 
     suspend fun setBookmark(value: String, url: String) {
         val historyDao = AppDatabase.getHistoryDao()
@@ -115,6 +135,7 @@ object WanHelper {
 
     suspend fun setToken(token: String) {
         KVDatabase.set(TOKEN_KEY, token)
+        syncTokenToHeaders(token)
     }
 
     suspend fun getToken(): String? {
@@ -128,6 +149,7 @@ object WanHelper {
 
     suspend fun clearToken() {
         KVDatabase.set(TOKEN_KEY, "")
+        syncTokenToHeaders(null)
     }
 
     suspend fun isLoggedIn(): Boolean {

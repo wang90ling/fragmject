@@ -115,10 +115,18 @@ internal class ArticleRepositoryImpl : ArticleRepository {
         setUrl("homePage/getCategoryList")
     }
 
+    //首页推荐接口数据
+    override suspend fun getRecommendList(body: RecommendRequest): BaseResponse<HomeRecommend> =
+        httpPostJsonTyped {
+            setUrl("/app/homePage/accompanyRecommendList")
+            putBody(body)
+        }
+
+    //首页切换 游戏类型tab 请求接口数据
     override suspend fun getRecommendListByTabId(
         body: RecommendRequest
     ): BaseResponse<HomeRecommend> = httpPostJsonTyped {
-        setUrl("homePage/accompanyRecommendList")
+        setUrl("/app/accompany/accompanyPageList")
         putBody(body)
     }
 

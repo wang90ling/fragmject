@@ -263,13 +263,13 @@ class CoroutineHttp private constructor() {
      * `Class<T>` 版本在反序列化时会丢失泛型参数，此重载通过 Gson [Type] 保留完整类型信息。
      */
     @Suppress("UNCHECKED_CAST")
-    suspend fun <T : Any> postJson(
+    suspend fun <T : HttpResponse> postJson(
         init: HttpRequest.() -> Unit,
         type: Type,
     ): T = postJson(HttpRequest().apply(init), type)
 
     @Suppress("UNCHECKED_CAST")
-    suspend fun <T : Any> postJson(
+    suspend fun <T : HttpResponse> postJson(
         request: HttpRequest,
         type: Type,
     ): T {
@@ -280,11 +280,11 @@ class CoroutineHttp private constructor() {
                 headers,
                 request.getJsonBody()
             ).body()?.let { body ->
-                getConverter().converter(body, type) as T
-            } ?: throw IllegalStateException("response body is null")
+                (getConverter().converter(body, type) as T).apply { setRequestTime(request.time) }
+            } ?: buildTypeResponse("-1", "response body is null", type)
         } catch (e: Exception) {
             Log.e(TAG, "POST-JSON ${request.getUrl(baseUrl)} failed", e)
-            throw e
+            fallbackTypeResponse(request, type, e)
         }
     }
 
@@ -293,24 +293,24 @@ class CoroutineHttp private constructor() {
      * `Class<T>` 版本在反序列化时会丢失泛型参数，此重载通过 Gson [Type] 保留完整类型信息。
      */
     @Suppress("UNCHECKED_CAST")
-    suspend fun <T : Any> get(
+    suspend fun <T : HttpResponse> get(
         init: HttpRequest.() -> Unit,
         type: Type,
     ): T = get(HttpRequest().apply(init), type)
 
     @Suppress("UNCHECKED_CAST")
-    suspend fun <T : Any> get(
+    suspend fun <T : HttpResponse> get(
         request: HttpRequest,
         type: Type,
     ): T {
         val headers = mergeHeaders(request.getHeader())
         return try {
             getService().get(request.getUrl(baseUrl), headers).body()?.let { body ->
-                getConverter().converter(body, type) as T
-            } ?: throw IllegalStateException("response body is null")
+                (getConverter().converter(body, type) as T).apply { setRequestTime(request.time) }
+            } ?: buildTypeResponse("-1", "response body is null", type)
         } catch (e: Exception) {
             Log.e(TAG, "GET ${request.getUrl(baseUrl)} failed", e)
-            throw e
+            fallbackTypeResponse(request, type, e)
         }
     }
 
@@ -413,6 +413,37 @@ class CoroutineHttp private constructor() {
             addProperty("errorMsg", msg)
         }
         return getConverter().fromJson(obj.toString(), type)
+    }
+
+    /**
+     * [buildResponse] 的 Type 版本：用于带泛型参数的响应类型（如 `BaseResponse<List<CategoryItem>>`）。
+     */
+    @Suppress("UNCHECKED_CAST")
+    private fun <T : HttpResponse> buildTypeResponse(code: String, msg: String, type: Type): T {
+        val obj = JsonObject().apply {
+            addProperty("errorCode", code)
+            addProperty("errorMsg", msg)
+        }
+        return getConverter().fromJson(obj.toString(), type) as T
+    }
+
+    /**
+     * [fallbackResponse] 的 Type 版本：用于带泛型参数的响应类型。
+     */
+    @Suppress("UNCHECKED_CAST")
+    private fun <T : HttpResponse> fallbackTypeResponse(
+        request: HttpRequest,
+        type: Type,
+        e: Exception
+    ): T {
+        if (DebugBridge.allowAssetsFallback) {
+            val jsonName = request.getUrl(baseUrl).replace("/", "-").replace("?", "_")
+            val json = FileUtil.readAssetString("json/${jsonName}.json")
+            if (json.isNotBlank()) {
+                return getConverter().fromJson(json, type) as T
+            }
+        }
+        return buildTypeResponse("-1", e.message ?: e.javaClass.simpleName, type)
     }
 
     interface Converter {

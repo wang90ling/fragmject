@@ -44,12 +44,13 @@ interface ArticleRepository {
     //获取首页游戏种类接口对接
     suspend fun getCategoryList(): BaseResponse<List<CategoryItem>>
 
+    //首页推荐列表接口
+    suspend fun getRecommendList(body: RecommendRequest): BaseResponse<HomeRecommend>
+
     /**
      * 首页获取推荐的搭子列表
      */
     suspend fun getRecommendListByTabId(body: RecommendRequest): BaseResponse<HomeRecommend>
-
-
 
     /** 我的收藏列表（page 从 0 开始） */
     suspend fun getCollectList(page: Int): ArticleList
