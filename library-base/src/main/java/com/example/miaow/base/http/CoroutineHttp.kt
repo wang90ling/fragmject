@@ -288,6 +288,32 @@ class CoroutineHttp private constructor() {
         }
     }
 
+    /**
+     * [get] 的 Type 重载：支持泛型响应（如 `BaseResponse<List<CategoryItem>>`）。
+     * `Class<T>` 版本在反序列化时会丢失泛型参数，此重载通过 Gson [Type] 保留完整类型信息。
+     */
+    @Suppress("UNCHECKED_CAST")
+    suspend fun <T : Any> get(
+        init: HttpRequest.() -> Unit,
+        type: Type,
+    ): T = get(HttpRequest().apply(init), type)
+
+    @Suppress("UNCHECKED_CAST")
+    suspend fun <T : Any> get(
+        request: HttpRequest,
+        type: Type,
+    ): T {
+        val headers = mergeHeaders(request.getHeader())
+        return try {
+            getService().get(request.getUrl(baseUrl), headers).body()?.let { body ->
+                getConverter().converter(body, type) as T
+            } ?: throw IllegalStateException("response body is null")
+        } catch (e: Exception) {
+            Log.e(TAG, "GET ${request.getUrl(baseUrl)} failed", e)
+            throw e
+        }
+    }
+
     suspend fun <T : HttpResponse> form(
         init: HttpRequest.() -> Unit,
         type: Class<T>,

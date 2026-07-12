@@ -1,7 +1,9 @@
 package com.example.fragment.project.ui.main.home
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +20,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -62,6 +65,10 @@ fun HomeNewScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    val firstCategory = uiState.categoryList.firstOrNull()
+    Log.d("wangling", "firstCategory: "+firstCategory.toString())
+    val selectedCategory = uiState.categoryList.firstOrNull { it.isSelected } ?: firstCategory
+
     LazyColumn(
         state = listState,
         modifier = Modifier
@@ -78,15 +85,18 @@ fun HomeNewScreen(
             HomeHeroSection()
         }
 
-        itemsIndexed(
-            items = uiState.categoryList ?: emptyList(),
-            key = { index, item ->
-                item.id.ifBlank { "category_$index" }
+        //游戏种类列表展示
+        item(key = "categoryTabs") {
+            if (firstCategory != null && selectedCategory != null) {
+                HomeCategoryTabs(
+                    categoryTabs = uiState.categoryList ?:emptyList(),
+                    category = firstCategory,
+                    selectedCategory = selectedCategory,
+                    onCategorySelected = { selected ->
+                        //viewModel.selectCategory(selected)
+                    }
+                )
             }
-
-        ) { _, item ->
-            //HomeTalentCard(record = item)
-            HomeCategoryTabs(category = item)
         }
 
         item(key = "filters") {
@@ -94,7 +104,7 @@ fun HomeNewScreen(
         }
 
         itemsIndexed(
-            items = uiState.homeRecommendResult.records ?: emptyList(),
+            items = uiState.homeRecommendResult.records.orEmpty(),
             key = { index, item ->
                 item.userId.ifBlank { "user_$index" }
             }
@@ -270,22 +280,31 @@ private fun HomeActionCard(
 
 @Composable
 private fun HomeCategoryTabs(
+    categoryTabs:List<CategoryItem>,
     category: CategoryItem,
+    selectedCategory: CategoryItem,
+    onCategorySelected: (CategoryItem) -> Unit,
 ) {
+    val scrollState = rememberScrollState()
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 10.dp),
+            .padding(horizontal = 16.dp, vertical = 10.dp)
+            .horizontalScroll(scrollState),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        HomeTab(text = "推荐", selected = true)
-        Spacer(modifier = Modifier.width(18.dp))
-        HomeTab(text = "三角洲端游")
-        Spacer(modifier = Modifier.width(18.dp))
-        HomeTab(text = "三角洲-可下单")
-        Spacer(modifier = Modifier.width(18.dp))
-        HomeTab(text = "无畏契约")
-        Spacer(modifier = Modifier.weight(1f))
+        categoryTabs.forEachIndexed { index, item ->
+            val selected = item.id == selectedCategory.id
+            HomeTab(
+                text = item.categoryName,
+                selected = selected,
+                onClick = { onCategorySelected(item) }
+            )
+            if (index != categoryTabs.lastIndex) {
+                Spacer(modifier = Modifier.width(18.dp))
+            }
+        }
+        Spacer(modifier = Modifier.width(10.dp))
         Icon(
             imageVector = Icons.Filled.AccountCircle,
             contentDescription = null,
@@ -299,8 +318,12 @@ private fun HomeCategoryTabs(
 private fun HomeTab(
     text: String,
     selected: Boolean = false,
+    onClick: () -> Unit = {},
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.clickable(onClick = onClick)
+    ) {
         Text(
             text = text,
             fontSize = 15.sp,

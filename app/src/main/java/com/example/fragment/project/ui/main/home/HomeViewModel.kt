@@ -13,6 +13,7 @@ import com.example.fragment.project.data.bean.response.UserRecord
 import com.example.fragment.project.data.repository.ArticleRepository
 import com.example.fragment.project.data.repository.CachedResult
 import com.example.fragment.project.data.repository.WanRepositoryProvider
+import com.example.miaow.base.utils.GSonUtils
 import com.example.miaow.base.utils.logD
 import com.example.miaow.base.vm.BaseViewModel
 import kotlinx.coroutines.CompletableDeferred
@@ -59,21 +60,40 @@ class HomeViewModel(
         )
         viewModelScope.launch {
 
-            //获取首页游戏分类列表
             val categoryResponse = articleRepo.getCategoryList()
-            logD("wangling categoryResponse:"+categoryResponse.data.toString())
+            logD("wangling categoryResponse:"+categoryResponse.toString())
+            val categoryListData:List<CategoryItem> = categoryResponse.data ?:emptyList();
+            logD("wangling categoryListData:"+categoryListData.toString())
+
+            //添加“推荐”tab在第一个选项位置
+            val firstCategoryItem:CategoryItem = CategoryItem("推荐","","","","001",0,true)
+            val newCategoryListData = listOf(firstCategoryItem) + categoryListData;
 
             val request = RecommendRequest(1, 20)
             val response = articleRepo.getRecommendListByTabId(request)
             logD("wangling response:${response.toString()}")
             val data = response.data ?: HomeRecommend()
+            val categoryList = runCatching {
+                data.records?.firstOrNull()?.categoryList?.map { category ->
+                    com.example.fragment.project.data.bean.response.CategoryItem(
+                        categoryName = category.categoryName,
+                        categoryType = "mobile",
+                        coverImageUrl = category.categoryCoverImageUrl,
+                        fileUrl = category.categoryFileUrl,
+                        id = category.id,
+                        weighted = 0,
+                        isSelected = false,
+                        sampleImageUrl = category.fileList?.firstOrNull()?.fileUrl,
+                    )
+                }.orEmpty()
+            }.getOrDefault(emptyList())
 
             _uiState.value = _uiState.value.copy(
                 isRefreshing = false,
                 isLoading = hasNextPage(),
                 isFinishing = !hasNextPage(),
                 homeRecommendResult = data,
-                categoryList = categoryResponse.data?: emptyList(),
+                categoryList = newCategoryListData,
             )
         }
     }

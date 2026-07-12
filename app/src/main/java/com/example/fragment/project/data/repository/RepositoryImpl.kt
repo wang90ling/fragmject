@@ -49,15 +49,26 @@ private suspend inline fun <reified T : HttpResponse> httpPostJson(
 ): T = CoroutineHttp.getInstance().postJson(init, T::class.java)
 
 /**
- * [httpPostJson] 的泛型增强版：支持带泛型参数的响应（如 `BaseResponse<HomeRecommend>`）。
- * 通过 Gson [TypeToken] 保留完整的泛型类型信息，避免 `data` 字段被反序列化为 `LinkedTreeMap`。
- */
-private suspend inline fun <reified T> httpPostJsonTyped(
-    noinline init: HttpRequest.() -> Unit,
-): T {
-    val type = object : TypeToken<T>() {}.type
-    return CoroutineHttp.getInstance().postJson(init, type)
-}
+     * [httpPostJson] 的泛型增强版：支持带泛型参数的响应（如 `BaseResponse<HomeRecommend>`）。
+     * 通过 Gson [TypeToken] 保留完整的泛型类型信息，避免 `data` 字段被反序列化为 `LinkedTreeMap`。
+     */
+    private suspend inline fun <reified T> httpPostJsonTyped(
+        noinline init: HttpRequest.() -> Unit,
+    ): T {
+        val type = object : TypeToken<T>() {}.type
+        return CoroutineHttp.getInstance().postJson(init, type)
+    }
+
+    /**
+     * [httpGet] 的泛型增强版：支持带泛型参数的响应（如 `BaseResponse<List<CategoryItem>>`）。
+     * 通过 Gson [TypeToken] 保留完整的泛型类型信息，避免 `data` 字段被反序列化为 `LinkedTreeMap`。
+     */
+    private suspend inline fun <reified T> httpGetTyped(
+        noinline init: HttpRequest.() -> Unit,
+    ): T {
+        val type = object : TypeToken<T>() {}.type
+        return CoroutineHttp.getInstance().get(init, type)
+    }
 
 /**
  * 网络版本的 [ArticleRepository] 实现。
@@ -100,7 +111,7 @@ internal class ArticleRepositoryImpl : ArticleRepository {
         httpGet(articleListByCidSpec(cid, page))
 
     //获取首页游戏分类
-    override suspend fun getCategoryList(): BaseResponse<List<CategoryItem>> = httpGet {
+    override suspend fun getCategoryList(): BaseResponse<List<CategoryItem>> = httpGetTyped {
         setUrl("homePage/getCategoryList")
     }
 
