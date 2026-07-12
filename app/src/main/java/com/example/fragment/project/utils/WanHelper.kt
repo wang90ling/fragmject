@@ -25,9 +25,6 @@ object WanHelper {
     private const val TOKEN_KEY = "user_token"
     private const val USER_DATA_KEY = "user_data"
 
-    // 后端接口统一的认证请求头字段名
-    private const val TOKEN_HEADER_KEY = "token"
-
     // Gson 线程安全，复用全局单例避免重复创建。
     private val gson get() = GSonUtils.gson
     private val scheduleListType = object : TypeToken<List<String>>() {}.type
@@ -42,7 +39,7 @@ object WanHelper {
             put("Accept", "application/json")
             put("x-device", "APP")
             if (!token.isNullOrBlank()) {
-                put(TOKEN_HEADER_KEY, token)
+                put("Authorization", "$token")
             }
         }
         CoroutineHttp.getInstance().updateDefaultHeaders(headers)

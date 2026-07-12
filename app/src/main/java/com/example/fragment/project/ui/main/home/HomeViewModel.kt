@@ -90,16 +90,30 @@ class HomeViewModel(
             selectedCategoryId = category.id
         )
         viewModelScope.launch {
-            val request = RecommendRequest(1, 20,category.id)
-            val response = articleRepo.getRecommendListByTabId(request)
-            logD("wangling response:${response.data?.records.toString()}")
-            val data = response.data ?: HomeRecommend()
-            _uiState.value = _uiState.value.copy(
-                isRefreshing = false,
-                isLoading = hasNextPage(),
-                isFinishing = !hasNextPage(),
-                homeRecommendResult = data,
-            )
+            if(category.id === "001"){
+                val request = RecommendRequest(1, 20)
+                val response = articleRepo.getRecommendList(request)
+                logD("wangling response:${response.toString()}")
+                val data = response.data ?: HomeRecommend()
+                _uiState.value = _uiState.value.copy(
+                    isRefreshing = false,
+                    isLoading = hasNextPage(),
+                    isFinishing = !hasNextPage(),
+                    homeRecommendResult = data,
+                )
+            }else{
+                val request = RecommendRequest(1, 20,category.id)
+                val response = articleRepo.getRecommendListByTabId(request)
+                logD("wangling response:${response.data?.records.toString()}")
+                val data = response.data ?: HomeRecommend()
+                _uiState.value = _uiState.value.copy(
+                    isRefreshing = false,
+                    isLoading = hasNextPage(),
+                    isFinishing = !hasNextPage(),
+                    homeRecommendResult = data,
+                )
+            }
+
         }
     }
 
