@@ -64,7 +64,7 @@ import com.example.fragment.project.components.LoopVerticalPager
 import com.example.fragment.project.data.HotKey
 import com.example.fragment.project.data.NavigationItem
 import com.example.fragment.project.ui.main.home.HomeNewScreen
-import com.example.fragment.project.ui.main.my.MyScreen
+import com.example.fragment.project.ui.main.my.MimeScreen
 import com.example.fragment.project.ui.main.nav.NavScreen
 import com.example.fragment.project.ui.main.project.ProjectScreen
 import kotlinx.coroutines.launch
@@ -125,7 +125,7 @@ fun MainScreen(
                     ProjectScreen(onNavigate = onNavigate)
                 }
                 3 -> saveableStateHolder.SaveableStateProvider(navItems[3].label) {
-                    MyScreen(onNavigate = onNavigate)
+                    MimeScreen(onNavigate = onNavigate)
                 }
             }
         }
