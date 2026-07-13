@@ -17,9 +17,10 @@ import androidx.navigation.navDeepLink
 import androidx.navigation.toRoute
 import com.example.fragment.project.data.User
 import com.example.fragment.project.ui.browse_history.BrowseHistoryScreen
-import com.example.fragment.project.ui.circle.ImagePreviewScreen
-import com.example.fragment.project.ui.circle.VideoPlayerScreen
 import com.example.fragment.project.ui.circle.CircleListScreen
+import com.example.fragment.project.ui.circle.ImagePreviewScreen
+import com.example.fragment.project.ui.circle.PublishPostScreen
+import com.example.fragment.project.ui.circle.VideoPlayerScreen
 import com.example.fragment.project.ui.demo.DemoScreen
 import com.example.fragment.project.ui.login.LoginNewScreen
 import com.example.fragment.project.ui.main.MainScreen
@@ -93,6 +94,9 @@ fun AppNavGraph(modifier: Modifier = Modifier) {
             val route = backStackEntry.toRoute<CircleVideoRoute>()
             VideoPlayerScreen(videoUrl = route.videoUrl, thumbnailUrl = route.thumbnailUrl, onNavigateUp = { wanNavActions.navigateUp() })
         }
+        composable<CirclePublishRoute> {
+            PublishPostScreen(onNavigateUp = { wanNavActions.navigateUp() })
+        }
     }
 }
 
@@ -122,6 +126,7 @@ class WanNavActions(private val navController: NavHostController, private val us
 @Serializable object DispatchCenterRoute
 @Serializable object HotLiveRoomsRoute
 @Serializable object CircleRoute
+@Serializable object CirclePublishRoute
 @Serializable data class CircleVideoRoute(val videoUrl: String, val thumbnailUrl: String = "")
 @Serializable data class CircleUserRoute(val userId: String)
 @Serializable data class CircleCommentRoute(val postId: String)

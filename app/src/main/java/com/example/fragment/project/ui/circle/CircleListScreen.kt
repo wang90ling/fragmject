@@ -36,6 +36,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.fragment.project.AppTheme
 import com.example.fragment.project.CircleCommentRoute
+import com.example.fragment.project.CirclePublishRoute
 import com.example.fragment.project.CircleShareRoute
 import com.example.fragment.project.CircleUserRoute
 import com.example.fragment.project.CircleVideoRoute
@@ -57,14 +58,13 @@ fun CircleListScreen(
     var selectedImageIndex by rememberSaveable { mutableIntStateOf(0) }
     var showImagePreview by remember { mutableStateOf(false) }
     var imageList by remember { mutableStateOf<List<MediaItem>>(emptyList()) }
-    var showPublishSheet by remember { mutableStateOf(false) }
     var showMoreMenu by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick = { showPublishSheet = true },
+                    onClick = { onNavigate(CirclePublishRoute) },
                     containerColor = AppTheme.blue,
                     contentColor = Color.White,
                     shape = CircleShape,
@@ -96,15 +96,21 @@ fun CircleListScreen(
                     onUserClick = { userId ->
                         onNavigate(CircleUserRoute(userId))
                     },
-                    onImageClick = { index ->
-                        selectedImageIndex = index
-                        imageList = item.mediaUrls.filter { it.isImage }
+                    onImageClick = { mediaIndex ->
+                        val images = item.mediaUrls.filter { it.isImage }
+                        // mediaIndex 是媒体列表中的原始索引，需要转换为图片列表中的索引
+                        val imageIndex = item.mediaUrls
+                            .take(mediaIndex + 1)
+                            .count { it.isImage } - 1
+                        imageList = images
+                        selectedImageIndex = imageIndex.coerceAtLeast(0)
                         showImagePreview = true
                     },
-                    onVideoClick = { index ->
-                        val video = item.mediaUrls.filter { it.isVideo }.getOrNull(index)
-                        video?.let {
-                            onNavigate(CircleVideoRoute(it.url, it.thumbnailUrl))
+                    onVideoClick = { mediaIndex ->
+                        // mediaIndex 是媒体列表中的原始索引，找到对应的视频项
+                        val video = item.mediaUrls.getOrNull(mediaIndex)
+                        if (video?.isVideo == true) {
+                            onNavigate(CircleVideoRoute(video.url, video.thumbnailUrl))
                         }
                     },
                     onLikeClick = {
@@ -157,16 +163,6 @@ fun CircleListScreen(
             mediaList = imageList,
             initialIndex = selectedImageIndex,
             onNavigateUp = { showImagePreview = false }
-        )
-    }
-
-    if (showPublishSheet) {
-        PublishPostScreen(
-            onNavigateUp = { showPublishSheet = false },
-            onPublish = { content, mediaList ->
-                viewModel.publishPost(content, mediaList)
-                showPublishSheet = false
-            }
         )
     }
 }

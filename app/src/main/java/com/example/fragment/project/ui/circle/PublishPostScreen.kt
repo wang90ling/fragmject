@@ -71,6 +71,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.fragment.project.data.circle.MediaItem
 import com.example.fragment.project.data.circle.MediaType
@@ -85,7 +86,8 @@ import com.example.fragment.project.data.circle.MediaType
 @Composable
 fun PublishPostScreen(
     onNavigateUp: () -> Unit = {},
-    onPublish: (content: String, mediaList: List<MediaItem>) -> Unit = { _, _ -> }
+    onPublish: (content: String, mediaList: List<MediaItem>) -> Unit = { _, _ -> },
+    viewModel: CircleViewModel = viewModel()
 ) {
     val context = LocalContext.current
     val content = remember { mutableStateOf("") }
@@ -154,7 +156,9 @@ fun PublishPostScreen(
     fun handlePublish() {
         if (content.value.isBlank() && selectedMedia.isEmpty()) return
         isPublishing = true
+        viewModel.publishPost(content.value, selectedMedia.toList())
         onPublish(content.value, selectedMedia.toList())
+        onNavigateUp()
     }
 
     Scaffold(
