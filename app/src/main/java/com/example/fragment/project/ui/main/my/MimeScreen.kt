@@ -177,6 +177,11 @@ private fun MyHeader(
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.weight(1f)
                     )
+                    Text(
+                        text = "个人主页",
+                        fontSize = 13.sp,
+                        color = Color(0xFF8F718E)
+                    )
                     IconButton(onClick = onProfileClick, modifier = Modifier.size(28.dp)) {
                         Icon(
                             imageVector = Icons.Filled.ChevronRight,
@@ -210,24 +215,6 @@ private fun MyHeader(
             }
         }
 
-        Row(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(top = 6.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "个人主页",
-                fontSize = 13.sp,
-                color = Color(0xFF8F718E)
-            )
-            Icon(
-                imageVector = Icons.Filled.ArrowForwardIos,
-                contentDescription = null,
-                tint = Color(0xFF8F718E),
-                modifier = Modifier.size(12.dp)
-            )
-        }
 
         Row(
             modifier = Modifier

@@ -138,8 +138,6 @@ private fun HomeTopBar() {
         Spacer(modifier = Modifier.width(14.dp))
         Text(text = "树洞", fontSize = 15.sp, color = Color(0xFF616161))
         Spacer(modifier = Modifier.width(14.dp))
-        Text(text = "休闲玩", fontSize = 15.sp, color = Color(0xFF616161))
-        Spacer(modifier = Modifier.weight(1f))
         IconButton(onClick = {}) {
             Icon(Icons.Filled.Search, contentDescription = null, tint = Color(0xFF191919))
         }
