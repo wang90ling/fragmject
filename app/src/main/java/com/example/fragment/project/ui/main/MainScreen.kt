@@ -67,6 +67,7 @@ import com.example.fragment.project.ui.main.home.HomeNewScreen
 import com.example.fragment.project.ui.main.my.MimeScreen
 import com.example.fragment.project.ui.main.nav.NavScreen
 import com.example.fragment.project.ui.main.project.ProjectScreen
+import com.example.fragment.project.ui.circle.CircleListScreen
 import kotlinx.coroutines.launch
 import androidx.compose.ui.res.colorResource
 
@@ -116,8 +117,7 @@ fun MainScreen(
                     )
                 }
                 1 -> saveableStateHolder.SaveableStateProvider(navItems[1].label) {
-                    NavScreen(
-                        systemData = uiState.treeResult,
+                    CircleListScreen(
                         onNavigate = onNavigate,
                     )
                 }

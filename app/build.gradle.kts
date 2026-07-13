@@ -126,6 +126,7 @@ dependencies {
     implementation(libs.barcode.scanning)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.runtime.saveable)
+    implementation(libs.androidx.compose.foundation)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.animation)
     implementation(libs.androidx.compose.material)
