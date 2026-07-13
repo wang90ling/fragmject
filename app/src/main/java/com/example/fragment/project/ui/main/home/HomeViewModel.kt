@@ -1,30 +1,17 @@
 package com.example.fragment.project.ui.main.home
 
 import androidx.lifecycle.viewModelScope
-import com.example.fragment.project.data.Article
-import com.example.fragment.project.data.ArticleList
-import com.example.fragment.project.data.BannerList
-import com.example.fragment.project.data.Coin
-import com.example.fragment.project.data.TopArticle
 import com.example.fragment.project.data.bean.request.RecommendRequest
 import com.example.fragment.project.data.bean.response.CategoryItem
 import com.example.fragment.project.data.bean.response.HomeRecommend
 import com.example.fragment.project.data.bean.response.UserRecord
 import com.example.fragment.project.data.repository.ArticleRepository
-import com.example.fragment.project.data.repository.CachedResult
 import com.example.fragment.project.data.repository.WanRepositoryProvider
-import com.example.miaow.base.utils.GSonUtils
 import com.example.miaow.base.utils.logD
 import com.example.miaow.base.vm.BaseViewModel
-import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 /**
@@ -37,7 +24,8 @@ data class HomeUiState(
     val isFinishing: Boolean = false,
     val homeRecommendResult: HomeRecommend = HomeRecommend(),
     val categoryList: List<CategoryItem> = emptyList(),
-    val selectedCategoryId: String = ""
+    val selectedCategoryId: String = "",
+    val topTab: TopTabPage = TopTabPage.Home,
 )
 
 class HomeViewModel(
@@ -54,6 +42,8 @@ class HomeViewModel(
     }
 
     fun getHome(userTriggered: Boolean = false) {
+        // 首次加载时记录当前 tab，避免被覆盖
+        val currentTopTab = _uiState.value.topTab
         _uiState.value = _uiState.value.copy(
             isRefreshing = userTriggered,
             isLoading = false,
@@ -66,7 +56,7 @@ class HomeViewModel(
             val categoryListData:List<CategoryItem> = categoryResponse.data ?:emptyList();
             logD("wangling categoryListData:"+categoryListData.toString())
 
-            //添加“推荐”tab在第一个选项位置
+            //添加"推荐"tab在第一个选项位置
             val firstCategoryItem:CategoryItem = CategoryItem("推荐","","","","001",0,true)
             val newCategoryListData = listOf(firstCategoryItem) + categoryListData;
 
@@ -74,15 +64,30 @@ class HomeViewModel(
             val response = articleRepo.getRecommendList(request)
             logD("wangling response:${response.toString()}")
             val data = response.data ?: HomeRecommend()
+            // 首次加载时如果 selectedCategoryId 还没设置，初始化为"推荐"tab
+            val currentSelected = _uiState.value.selectedCategoryId.ifBlank { firstCategoryItem.id }
             _uiState.value = _uiState.value.copy(
                 isRefreshing = false,
                 isLoading = hasNextPage(),
                 isFinishing = !hasNextPage(),
                 homeRecommendResult = data,
                 categoryList = newCategoryListData,
-                //selectedCategoryId = firstCategoryItem.id
+                selectedCategoryId = currentSelected,
+                topTab = currentTopTab,
             )
         }
+    }
+
+    /**
+     * 切换顶部 Tab（点Ta / 派单厅 / 树洞 / 休闲玩）。
+     * 仅切换内容区域视图，不影响：
+     * 1. 选中的二级分类（selectedCategoryId），避免"点Ta"内的状态被误清；
+     * 2. 当前列表数据（homeRecommendResult），避免反复重新请求接口。
+     * 3. 重复点击同一 Tab 时不做任何变更，防止动画叠加造成状态抖动。
+     */
+    fun selectTopTab(page: TopTabPage) {
+        if (_uiState.value.topTab == page) return
+        _uiState.value = _uiState.value.copy(topTab = page)
     }
 
     fun selectCategory(category: CategoryItem) {
@@ -140,11 +145,11 @@ class HomeViewModel(
                         grade = null,
                         introduced = null,
                         level = 0,
-                        nickName = article.author ?: "",
+                        nickName = article.author,
                         orderAmount = 0,
                         scoreAvg = 0.0,
                         sex = null,
-                        userId = article.id ?: "",
+                        userId = article.id,
                         userPropListDto = null,
                         userPropDetailDto = null,
                         onlineFlag = null,

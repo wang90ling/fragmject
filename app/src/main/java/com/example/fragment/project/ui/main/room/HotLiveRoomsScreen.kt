@@ -1,206 +1,278 @@
 package com.example.fragment.project.ui.main.room
 
-import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.fragment.project.R
-import com.example.fragment.project.RankRoute
+import coil.compose.AsyncImage
 import com.example.fragment.project.AppTheme
-import com.example.fragment.project.components.SwipeRefreshBox
-import com.example.fragment.project.ui.my_coin.MyCoinViewModel
-import com.example.miaow.base.utils.getScreenWidth
-import kotlinx.coroutines.launch
-import kotlin.math.abs
 
 /**
- * @author wangling
- * @date 2026/7/13 10:56
- * @description  热门直播频道列表
+ * 树洞内容页。
+ *
+ * 重要：顶部"点Ta / 派单厅 / 树洞 / 休闲玩" Tab 已经在 [com.example.fragment.project.ui.main.home.HomeNewScreen] 中
+ * 唯一驱动，本页只负责次级 Tab（热门 / 小圈 / 点唱 / 情感 / 交友 / 电台）和内容区。
+ *
+ * 视觉按截图：
+ * - 次级 Tab 是一排胶囊，选中态使用淡紫色背景 + 紫色描边 + 紫色粗体文字
+ * - 内容区是 2 列网格卡片，卡片上方有彩色 tag（"交友"/"点唱"/"电台"），右上角有热度（如 1.4w）
+ * - 卡片底部白色"暂无主持~"+ 大字标题
  */
 @Composable
 fun HotLiveRoomsScreen(
-    viewModel: MyCoinViewModel = viewModel(),
     onNavigate: (route: Any) -> Unit = {},
-    onNavigateUp: () -> Unit = {},
 ) {
-    val context = LocalContext.current
-    val density = LocalDensity.current
-    val scope = rememberCoroutineScope()
-    val sw = context.getScreenWidth()
-    val titleBarSize = 45.dp
-    val titleBarSizePx = with(density) { titleBarSize.roundToPx() }
-    val coinOffsetXPx = (sw - titleBarSizePx) / 2
-    val targetHeight = 100.dp
-    val targetHeightPx = with(density) { targetHeight.roundToPx() }
-    val targetPercent by remember { mutableStateOf(Animatable(1f)) }
-
-    val nestedScrollConnection = remember {
-        object : NestedScrollConnection {
-
-            var dyConsumed = 0f
-
-            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-                val delta = available.y
-                dyConsumed += delta
-                dyConsumed = dyConsumed.coerceAtMost(0f)
-                val percent = dyConsumed / targetHeightPx
-                scope.launch {
-                    targetPercent.animateTo(1 - abs(percent.coerceIn(-1f, 0f)))
-                }
-                if (percent > -1 && percent < 0) {
-                    return Offset(0f, delta)
-                }
-                return Offset.Zero
-            }
-        }
+    val tabs = remember {
+        listOf("热门", "小圈", "点唱", "情感", "交友", "电台")
     }
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    Scaffold(
-        modifier = Modifier.nestedScroll(nestedScrollConnection),
-        topBar = {
-            Box(
-                modifier = Modifier
-                    .background(AppTheme.theme)
-                    .statusBarsPadding()
-                    .fillMaxWidth()
-                    .height(titleBarSize + targetHeight * targetPercent.value)
-            ) {
-                IconButton(
-                    modifier = Modifier.height(45.dp),
-                    onClick = onNavigateUp
-                ) {
-                    Icon(
-                        Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
-                }
-                IconButton(
-                    modifier = Modifier
-                        .height(45.dp)
-                        .align(Alignment.TopEnd),
-                    onClick = { onNavigate(RankRoute) }
-                ) {
-                    Icon(
-                        painter = painterResource(R.mipmap.ic_rank),
-                        contentDescription = null,
-                        modifier = Modifier.size(16.dp),
-                        tint = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
-                }
-                Text(
-                    text = "我的积分",
-                    modifier = Modifier
-                        .offset {
-                            IntOffset(
-                                x = -((coinOffsetXPx - titleBarSizePx - with(density) { 10.dp.roundToPx() }) * (1 - targetPercent.value)).toInt(),
-                                y = -(titleBarSizePx * targetPercent.value).toInt()
-                            )
-                        }
-                        .align(Alignment.Center),
-                    fontSize = 16.sp,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                )
-                Text(
-                    text = uiState.userCoinResult.coinCount,
-                    modifier = Modifier
-                        .offset {
-                            IntOffset(
-                                x = -((coinOffsetXPx - titleBarSizePx - with(density) { 75.dp.roundToPx() }) * (1 - targetPercent.value)).toInt(),
-                                y = (with(density) { 10.dp.roundToPx() } * targetPercent.value).toInt()
-                            )
-                        }
-                        .align(Alignment.Center),
-                    fontSize = 64.sp * targetPercent.value.coerceAtLeast(0.25f),
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                )
-            }
-        },
-        contentWindowInsets = WindowInsets.statusBars
-    ) { innerPadding ->
-        SwipeRefreshBox(
-            items = uiState.myCoinResult,
-            isRefreshing = uiState.isRefreshing,
-            isLoading = uiState.isLoading,
-            isFinishing = uiState.isFinishing,
-            onRefresh = { viewModel.getHome() },
-            onLoad = { viewModel.getNext() },
+    var selectedTab by rememberSaveable { mutableStateOf(tabs.first()) }
+    val rooms = remember(selectedTab) { buildHotRooms(selectedTab) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFF6F4FF))
+    ) {
+        // 次级 Tab
+        HotTabs(
+            tabs = tabs,
+            selectedTab = selectedTab,
+            onTabSelected = { selectedTab = it }
+        )
+
+        // 2 列网格
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding),
-            key = { _, item -> item.id },
-        ) { _, item ->
-            Row(
-                modifier = Modifier
-                    .background(MaterialTheme.colorScheme.surfaceContainer)
-                    .fillMaxWidth()
-                    .padding(10.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                Column {
-                    Text(
-                        text = item.getTitle(),
-                        fontSize = 14.sp,
-                        color = MaterialTheme.colorScheme.onSecondary,
-                    )
-                    Text(
-                        text = item.getTime(),
-                        fontSize = 14.sp,
-                        color = MaterialTheme.colorScheme.onTertiary,
-                    )
-                }
-                Text(
-                    text = item.coinCount,
-                    fontSize = 14.sp,
-                    color = AppTheme.orange,
-                )
+                .padding(horizontal = 14.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            contentPadding = androidx.compose.foundation.layout.PaddingValues(bottom = 16.dp)
+        ) {
+            items(rooms) { room ->
+                HotRoomCard(room = room)
             }
-            HorizontalDivider()
         }
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFFF0F0F0)
+@Composable
+private fun HotTabs(
+    tabs: List<String>,
+    selectedTab: String,
+    onTabSelected: (String) -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 10.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        tabs.forEach { tab ->
+            val selected = tab == selectedTab
+            // 切换 Tab 时背景 / 文字色 / 边框色都用 animateColorAsState 缓动，避免硬切
+            val bgColor by animateColorAsState(
+                targetValue = if (selected) Color(0xFFEEE4FF) else Color.White,
+                animationSpec = tween(220),
+                label = "tab_bg"
+            )
+            val borderColor by animateColorAsState(
+                targetValue = if (selected) Color(0xFFB69CFF) else Color(0xFFEEE6F7),
+                animationSpec = tween(220),
+                label = "tab_border"
+            )
+            val textColor by animateColorAsState(
+                targetValue = if (selected) Color(0xFF6C47FF) else Color(0xFF8F8396),
+                animationSpec = tween(220),
+                label = "tab_text"
+            )
+            Box(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(999.dp))
+                    .background(bgColor)
+                    .border(1.dp, borderColor, RoundedCornerShape(999.dp))
+                    .clickable(onClick = { onTabSelected(tab) })
+                    .padding(horizontal = 14.dp, vertical = 7.dp)
+            ) {
+                Text(
+                    text = tab,
+                    fontSize = 13.sp,
+                    fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium,
+                    color = textColor
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun HotRoomCard(room: HotRoom) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .aspectRatio(0.92f),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            AsyncImage(
+                model = room.coverUrl,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color(0xFFE0D7FF))
+            )
+            // 底部暗色渐变，让白色文字可读
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        Brush.verticalGradient(
+                            listOf(
+                                Color.Transparent,
+                                Color.Black.copy(alpha = 0.05f),
+                                Color.Black.copy(alpha = 0.6f)
+                            )
+                        )
+                    )
+            )
+            // 左上角 tag
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .padding(8.dp)
+                    .clip(RoundedCornerShape(999.dp))
+                    .background(room.tagColor.copy(alpha = 0.92f))
+                    .padding(horizontal = 8.dp, vertical = 3.dp)
+            ) {
+                Text(room.tag, color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+            }
+            // 右上角热度
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(8.dp)
+                    .clip(RoundedCornerShape(999.dp))
+                    .background(Color(0xFFF4EEF8).copy(alpha = 0.95f))
+                    .padding(horizontal = 8.dp, vertical = 3.dp)
+            ) {
+                Text(room.heat, color = Color(0xFF8B6CFF), fontSize = 10.sp, fontWeight = FontWeight.Bold)
+            }
+            // 加密房间加锁图标
+            if (room.locked) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .size(36.dp)
+                        .clip(CircleShape)
+                        .background(Color.Black.copy(alpha = 0.45f)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(Icons.Filled.Lock, contentDescription = null, tint = Color.White, modifier = Modifier.size(18.dp))
+                }
+            }
+            // 底部 host + title
+            Column(
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(10.dp)
+            ) {
+                Text(
+                    text = room.host,
+                    color = Color.White.copy(alpha = 0.92f),
+                    fontSize = 11.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(modifier = Modifier.height(2.dp))
+                Text(
+                    text = room.title,
+                    color = Color.White,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+        }
+    }
+}
+
+private data class HotRoom(
+    val title: String,
+    val host: String,
+    val heat: String,
+    val coverUrl: String,
+    val tag: String,
+    val tagColor: Color,
+    val locked: Boolean = false,
+)
+
+private fun buildHotRooms(selectedTab: String): List<HotRoom> {
+    return when (selectedTab) {
+        "交友" -> listOf(
+            HotRoom("Pink公馆10麦房", "暂无主持-", "1.4w", "https://images.unsplash.com/photo-1521334884684-d80222895322?w=800", "交友", Color(0xFFFF5DB1)),
+            HotRoom("测试3-6 的 通用十麦房", "暂无主持-", "1100", "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800", "点唱", Color(0xFF9B6BFF)),
+            HotRoom("测试4-0 适用十麦房", "暂无主持-", "1100", "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800", "点唱", Color(0xFFD65DFF)),
+            HotRoom("测试5-1 的通用十麦房", "暂无主持-", "1100", "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800", "交友", Color(0xFFFF5D7A)),
+            HotRoom("小浣熊010", "暂无主持-", "2.11w", "https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?w=800", "点唱", Color(0xFF7A66FF)),
+            HotRoom("头牌电台", "暂无主持-", "1.51w", "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800", "电台", Color(0xFF4E9BFF), locked = true),
+        )
+        else -> listOf(
+            HotRoom("Pink公馆10麦房", "暂无主持-", "1.4w", "https://images.unsplash.com/photo-1521334884684-d80222895322?w=800", "交友", Color(0xFFFF5DB1)),
+            HotRoom("测试3-6 的 通用十麦房", "暂无主持-", "1100", "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800", "点唱", Color(0xFF9B6BFF)),
+            HotRoom("测试4-0 适用十麦房", "暂无主持-", "1100", "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800", "点唱", Color(0xFFD65DFF)),
+            HotRoom("测试5-1 的通用十麦房", "暂无主持-", "1100", "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800", "交友", Color(0xFFFF5D7A)),
+            HotRoom("小浣熊010", "暂无主持-", "2.11w", "https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?w=800", "点唱", Color(0xFF7A66FF)),
+            HotRoom("头牌电台", "暂无主持-", "1.51w", "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800", "电台", Color(0xFF4E9BFF), locked = true),
+        )
+    }
+}
+
+@Preview(showBackground = true)
 @Composable
 fun HotLiveRoomsScreenPreview() {
     AppTheme { HotLiveRoomsScreen() }

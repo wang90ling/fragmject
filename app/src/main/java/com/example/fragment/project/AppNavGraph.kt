@@ -33,251 +33,83 @@ import com.example.fragment.project.ui.user.UserScreen
 import com.example.fragment.project.ui.web.WebScreen
 import com.example.fragment.project.utils.WanHelper
 import com.example.miaow.base.vm.TRANSITION_TIME
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 
 @Composable
-fun AppNavGraph(
-    modifier: Modifier = Modifier,
-) {
+fun AppNavGraph(modifier: Modifier = Modifier) {
     var user by remember { mutableStateOf<User?>(null) }
-    var isLoggedIn by remember { mutableStateOf(false) }
-    var isInitialized by remember { mutableStateOf(false) }
-    
-    LaunchedEffect(Unit) {
-        isLoggedIn = WanHelper.isLoggedIn()
-        isInitialized = true
-    }
-    
-    LaunchedEffect(Unit) {
-        WanHelper.getUser().collect {
-            user = it
-        }
-    }
-    
+    var startDestination by remember { mutableStateOf<Any?>(null) }
     val navController = rememberNavController()
+
+    LaunchedEffect(Unit) {
+        val token = withContext(Dispatchers.IO) { WanHelper.getToken() }
+        startDestination = if (token.isNullOrBlank()) LoginRoute else MainRoute
+    }
+    LaunchedEffect(Unit) { WanHelper.getUser().collect { user = it } }
+
+    if (startDestination == null) return
+
     val wanNavActions = remember(navController, user) { WanNavActions(navController, user) }
-    
+
     NavHost(
         navController = navController,
-        startDestination = if (isInitialized) {
-            if (isLoggedIn) MainRoute else LoginRoute
-        } else {
-            MainRoute
-        },
+        startDestination = startDestination!!,
         modifier = modifier,
         enterTransition = {
-            slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.Left,
-                animationSpec = tween(TRANSITION_TIME)
-            )
+            slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left, animationSpec = tween(TRANSITION_TIME))
         },
         exitTransition = {
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.Left,
-                animationSpec = tween(TRANSITION_TIME)
-            )
+            slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left, animationSpec = tween(TRANSITION_TIME))
         },
         popEnterTransition = {
-            slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.Right,
-                animationSpec = tween(TRANSITION_TIME)
-            )
+            slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right, animationSpec = tween(TRANSITION_TIME))
         },
         popExitTransition = {
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.Right,
-                animationSpec = tween(TRANSITION_TIME)
-            )
+            slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right, animationSpec = tween(TRANSITION_TIME))
         },
     ) {
-        composable<BrowseHistoryRoute> {
-            BrowseHistoryScreen(
-                onNavigate = { wanNavActions.navigate(it) },
-                onNavigateUp = { wanNavActions.navigateUp() }
-            )
-        }
-        composable<DemoRoute> {
-            DemoScreen(onNavigateUp = { wanNavActions.navigateUp() })
-        }
-        composable<LoginRoute> {
-            LoginNewScreen(
-                onNavigate = { wanNavActions.navigate(it) },
-                onNavigateUp = { wanNavActions.navigateUp() },
-                onPopBackStack = { wanNavActions.popBackStack(it) }
-            )
-        }
-        composable<MainRoute> {
-            MainScreen(
-                onNavigate = { wanNavActions.navigate(it) },
-            )
-        }
-        composable<MyCoinRoute> {
-            MyCoinScreen(
-                onNavigate = { wanNavActions.navigate(it) },
-                onNavigateUp = { wanNavActions.navigateUp() }
-            )
-        }
-        composable<MyCollectRoute> {
-            MyCollectScreen(
-                onNavigate = { wanNavActions.navigate(it) },
-                onNavigateUp = { wanNavActions.navigateUp() }
-            )
-        }
-        composable<MyShareRoute> {
-            MyShareScreen(
-                onNavigate = { wanNavActions.navigate(it) },
-                onNavigateUp = { wanNavActions.navigateUp() }
-            )
-        }
-        composable<RankRoute>(
-            deepLinks = listOf(
-                navDeepLink<RankRoute>(
-                    basePath = "$fragmentUri/rank",
-                )
-            )
-        ) {
-            RankScreen(
-                onNavigate = { wanNavActions.navigate(it) },
-                onNavigateUp = { wanNavActions.navigateUp() }
-            )
-        }
-        composable<RegisterRoute> {
-            RegisterScreen(
-                onNavigateUp = { wanNavActions.navigateUp() },
-                onPopBackStack = { wanNavActions.popBackStack(it) }
-            )
-        }
-        composable<SearchRoute>(
-            deepLinks = listOf(
-                navDeepLink<SearchRoute>(
-                    basePath = "$fragmentUri/search",
-                )
-            )
-        ) { backStackEntry ->
-            SearchScreen(
-                key = backStackEntry.toRoute<SearchRoute>().key,
-                onNavigate = { wanNavActions.navigate(it) },
-                onNavigateUp = { wanNavActions.navigateUp() }
-            )
-        }
-        composable<SettingRoute> {
-            SettingScreen(
-                onNavigate = { wanNavActions.navigate(it) },
-                onNavigateUp = { wanNavActions.navigateUp() }
-            )
-        }
-        composable<ShareArticleRoute> {
-            ShareArticleScreen(
-                onNavigate = { wanNavActions.navigate(it) },
-                onNavigateUp = { wanNavActions.navigateUp() }
-            )
-        }
-        composable<SystemRoute> { backStackEntry ->
-            SystemScreen(
-                cid = backStackEntry.toRoute<SystemRoute>().cid,
-                onNavigate = { wanNavActions.navigate(it) },
-                onNavigateUp = { wanNavActions.navigateUp() }
-            )
-        }
-        composable<UserRoute> { backStackEntry ->
-            UserScreen(
-                userId = backStackEntry.toRoute<UserRoute>().userId,
-                onNavigate = { wanNavActions.navigate(it) },
-                onNavigateUp = { wanNavActions.navigateUp() }
-            )
-        }
-        composable<WebRoute>(
-            deepLinks = listOf(
-                navDeepLink<WebRoute>(
-                    basePath = "$fragmentUri/web",
-                )
-            )
-        ) { backStackEntry ->
-            WebScreen(
-                url = backStackEntry.toRoute<WebRoute>().url,
-                onNavigate = { wanNavActions.navigate(it) },
-                onNavigateUp = { wanNavActions.navigateUp() },
-            )
-        }
+        composable<BrowseHistoryRoute> { BrowseHistoryScreen(onNavigate = { wanNavActions.navigate(it) }, onNavigateUp = { wanNavActions.navigateUp() }) }
+        composable<DemoRoute> { DemoScreen(onNavigateUp = { wanNavActions.navigateUp() }) }
+        composable<LoginRoute> { LoginNewScreen(onNavigate = { wanNavActions.navigate(it) }, onNavigateUp = { wanNavActions.navigateUp() }, onPopBackStack = { wanNavActions.popBackStack(it) }) }
+        composable<MainRoute> { MainScreen(onNavigate = { wanNavActions.navigate(it) }) }
+        composable<MyCoinRoute> { MyCoinScreen(onNavigate = { wanNavActions.navigate(it) }, onNavigateUp = { wanNavActions.navigateUp() }) }
+        composable<MyCollectRoute> { MyCollectScreen(onNavigate = { wanNavActions.navigate(it) }, onNavigateUp = { wanNavActions.navigateUp() }) }
+        composable<MyShareRoute> { MyShareScreen(onNavigate = { wanNavActions.navigate(it) }, onNavigateUp = { wanNavActions.navigateUp() }) }
+        composable<RankRoute>(deepLinks = listOf(navDeepLink<RankRoute>(basePath = "$fragmentUri/rank"))) { RankScreen(onNavigate = { wanNavActions.navigate(it) }, onNavigateUp = { wanNavActions.navigateUp() }) }
+        composable<RegisterRoute> { RegisterScreen(onNavigateUp = { wanNavActions.navigateUp() }, onPopBackStack = { wanNavActions.popBackStack(it) }) }
+        composable<SearchRoute>(deepLinks = listOf(navDeepLink<SearchRoute>(basePath = "$fragmentUri/search"))) { backStackEntry -> SearchScreen(key = backStackEntry.toRoute<SearchRoute>().key, onNavigate = { wanNavActions.navigate(it) }, onNavigateUp = { wanNavActions.navigateUp() }) }
+        composable<SettingRoute> { SettingScreen(onNavigate = { wanNavActions.navigate(it) }, onNavigateUp = { wanNavActions.navigateUp() }) }
+        composable<ShareArticleRoute> { ShareArticleScreen(onNavigate = { wanNavActions.navigate(it) }, onNavigateUp = { wanNavActions.navigateUp() }) }
+        composable<SystemRoute> { backStackEntry -> SystemScreen(cid = backStackEntry.toRoute<SystemRoute>().cid, onNavigate = { wanNavActions.navigate(it) }, onNavigateUp = { wanNavActions.navigateUp() }) }
+        composable<UserRoute> { backStackEntry -> UserScreen(userId = backStackEntry.toRoute<UserRoute>().userId, onNavigate = { wanNavActions.navigate(it) }, onNavigateUp = { wanNavActions.navigateUp() }) }
+        composable<WebRoute>(deepLinks = listOf(navDeepLink<WebRoute>(basePath = "$fragmentUri/web"))) { backStackEntry -> WebScreen(url = backStackEntry.toRoute<WebRoute>().url, onNavigate = { wanNavActions.navigate(it) }, onNavigateUp = { wanNavActions.navigateUp() }) }
     }
 }
 
 const val fragmentUri = "wan://com.fragment.project"
 
-class WanNavActions(
-    private val navController: NavHostController,
-    private val user: User?,
-) {
-
-    fun <T : Any> navigate(route: T) {
-        navController.graph.findNode(route) ?: return
-        if (requiredLoginRoute(route, user)) {
-            navController.navigate(LoginRoute)
-        } else {
-            navController.navigate(route)
-        }
-    }
-
-    fun navigateUp() {
-        if (!navController.navigateUp()) {
-            navigate(MainRoute)
-        }
-    }
-
-    fun <T : Any> popBackStack(route: T) {
-        navController.popBackStack(route, false)
-    }
+class WanNavActions(private val navController: NavHostController, private val user: User?) {
+    fun <T : Any> navigate(route: T) { navController.navigate(route) }
+    fun navigateUp() { navController.navigateUp() }
+    fun <T : Any> popBackStack(route: T) { navController.popBackStack(route, false) }
 }
 
-@Serializable
-object BrowseHistoryRoute
-
-@Serializable
-object DemoRoute
-
-@Serializable
-object LoginRoute
-
-@Serializable
-object MainRoute
-
-@Serializable
-object MyCoinRoute
-
-@Serializable
-object MyCollectRoute
-
-@Serializable
-object MyShareRoute
-
-@Serializable
-object RankRoute
-
-@Serializable
-object RegisterRoute
-
-@Serializable
-data class SearchRoute(val key: String)
-
-@Serializable
-object SettingRoute
-
-@Serializable
-object ShareArticleRoute
-
-@Serializable
-data class SystemRoute(val cid: String)
-
-@Serializable
-data class UserRoute(val userId: String)
-
-
-@Serializable
-data class WebRoute(val url: String)
-
-private fun <T : Any> requiredLoginRoute(route: T, user: User?): Boolean {
-    return (route is MyCoinRoute
-            || route is MyCollectRoute
-            || route is MyShareRoute)
-            && (user == null || user.id <= 0)
-}
+@Serializable object BrowseHistoryRoute
+@Serializable object DemoRoute
+@Serializable object LoginRoute
+@Serializable object MainRoute
+@Serializable object MyCoinRoute
+@Serializable object MyCollectRoute
+@Serializable object MyShareRoute
+@Serializable object RankRoute
+@Serializable object RegisterRoute
+@Serializable data class SearchRoute(val key: String)
+@Serializable object SettingRoute
+@Serializable object ShareArticleRoute
+@Serializable data class SystemRoute(val cid: String)
+@Serializable data class UserRoute(val userId: String)
+@Serializable data class WebRoute(val url: String)
+@Serializable object DispatchCenterRoute
+@Serializable object HotLiveRoomsRoute
