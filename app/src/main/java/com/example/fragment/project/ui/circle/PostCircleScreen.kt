@@ -214,7 +214,7 @@ fun PostCircleScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer
+                    containerColor = MaterialTheme.colorScheme.outlineVariant
                 )
             )
         },
@@ -226,15 +226,15 @@ fun PostCircleScreen(
                 .padding(innerPadding)
                 .imePadding()
                 .verticalScroll(rememberScrollState())
-                .padding(16.dp)
+                .padding(5.dp)
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(150.dp)
+                    .height(130.dp)
                     .clip(RoundedCornerShape(8.dp))
                     .background(MaterialTheme.colorScheme.surfaceVariant)
-                    .padding(12.dp)
+                    .padding(10.dp)
             ) {
                 BasicTextField(
                     value = state.content,
@@ -276,9 +276,9 @@ fun PostCircleScreen(
                     onMove = { fromIndex, toIndex, _, _ ->
                         viewModel.movePostImage(fromIndex, toIndex)
                     },
-                    columns = GridCells.Fixed(3),
+                    columns = GridCells.Fixed(4),
                     modifier = Modifier.height(
-                        ((state.images.size / 3 + if (state.images.size % 3 == 0) 0 else 1) * 110).dp
+                        ((state.images.size / 4 + if (state.images.size % 4 == 0) 0 else 1) * 100).dp
                     ),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -317,7 +317,7 @@ fun PostCircleScreen(
                 if (state.images.isNotEmpty()) Spacer(modifier = Modifier.height(8.dp))
                 Box(
                     modifier = Modifier
-                        .size(110.dp)
+                        .size(100.dp)
                         .clip(RoundedCornerShape(8.dp))
                         .background(MaterialTheme.colorScheme.surfaceVariant)
                         .clickable {
