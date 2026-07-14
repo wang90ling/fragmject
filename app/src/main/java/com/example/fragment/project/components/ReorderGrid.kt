@@ -4,9 +4,7 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VectorConverter
 import androidx.compose.animation.core.VisibilityThreshold
-import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.gestures.ScrollableDefaults
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
@@ -24,12 +22,13 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -41,15 +40,26 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
+/**
+ * 可拖拽排序的 LazyVerticalGrid
+ *
+ * 实现思路：
+ * - draggingItemKey 跨 recompose 稳定跟踪被拖拽元素
+ * - draggingOffset 记录从拖拽起点到手指当前位置的位移
+ * - 每次触发交换时，draggingOffset 需要补偿一次「旧 slot 中心 -> 新 slot 中心」的差值，
+ *   使被拖拽项在视觉上保持在手指下方
+ *
+ * onMove 回调签名: (fromIndex, toIndex, fromKey, toKey)
+ */
 @Composable
 fun <T> ReorderLazyVerticalGrid(
     items: List<T>,
     key: ((index: Int, item: T) -> Any),
-    onMove: (from: Int, to: Int) -> Unit,
+    onMove: (fromIndex: Int, toIndex: Int, fromKey: Any, toKey: Any) -> Unit,
     columns: GridCells,
     modifier: Modifier = Modifier,
     state: LazyGridState = rememberLazyGridState(),
@@ -63,70 +73,72 @@ fun <T> ReorderLazyVerticalGrid(
     itemContent: @Composable BoxScope.(index: Int, item: T) -> Unit
 ) {
     val scope = rememberCoroutineScope()
+    val density = LocalDensity.current
+    val autoScrollThreshold = with(density) { 40.dp.toPx() }
+
+    var draggingItemKey by remember { mutableStateOf<Any?>(null) }
+    var draggingItemIndex by remember { mutableStateOf(-1) }
+    var draggingOffset by remember { mutableStateOf(Offset.Zero) }
+
+    // 关键：让 pointerInput 协程始终能读到最新的 onMove 和 key 函数
+    val currentOnMove by rememberUpdatedState(onMove)
+    val currentKey by rememberUpdatedState(key)
+
     val layoutInfo by remember { derivedStateOf { state.layoutInfo } }
-    var draggingItemIndex by remember { mutableIntStateOf(-1) }
-    val draggingItemDelta by remember {
-        mutableStateOf(Animatable(Offset.Zero, Offset.VectorConverter))
-    }
-    val autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }
 
     LazyVerticalGrid(
         columns = columns,
         modifier = modifier.pointerInput(Unit) {
             detectDragGesturesAfterLongPress(
                 onDragStart = { offset ->
-                    draggingItemIndex = layoutInfo.firstOrNull(offset)?.index ?: -1
+                    val item = layoutInfo.itemInfoAt(offset) ?: return@detectDragGesturesAfterLongPress
+                    draggingItemKey = item.key
+                    draggingItemIndex = item.index
+                    draggingOffset = Offset.Zero
                 },
-                onDragEnd = {
-                    scope.launch {
-                        draggingItemDelta.animateTo(
-                            targetValue = Offset.Zero,
-                            animationSpec = spring(
-                                stiffness = Spring.StiffnessMediumLow,
-                                visibilityThreshold = Offset.VisibilityThreshold
-                            )
-                        ) {
-                            if (value == targetValue) {
-                                draggingItemIndex = -1
-                            }
-                        }
-                    }
-                },
+                onDragEnd = { animateEndDrag(scope, draggingOffset) { draggingOffset = it } },
+                onDragCancel = { animateEndDrag(scope, draggingOffset) { draggingOffset = it } },
                 onDrag = { change, dragAmount ->
                     change.consume()
-                    val targetItem = layoutInfo.firstOrNull(change.position)
-                        ?: return@detectDragGesturesAfterLongPress
-                    val targetItemIndex = targetItem.index
-                    scope.launch {
-                        draggingItemDelta.snapTo(draggingItemDelta.value + dragAmount)
+                    val draggingKey = draggingItemKey ?: return@detectDragGesturesAfterLongPress
+                    val draggingIdx = draggingItemIndex
 
-                        val distFromTop = change.position.y
-                        val distFromBottom = layoutInfo.viewportSize.height - change.position.y
-                        when {
-                            distFromTop < autoScrollThreshold -> distFromTop - autoScrollThreshold
-                            distFromBottom < autoScrollThreshold -> autoScrollThreshold - distFromBottom
-                            else -> null
-                        }?.let {
-                            if (state.scrollBy(it) != 0f) {
-                                draggingItemDelta.snapTo(draggingItemDelta.value + Offset(0f, it))
-                                delay(10)
-                            }
-                        }
+                    // 1. 累积偏移
+                    draggingOffset += dragAmount
 
-                        if (draggingItemIndex != -1 && draggingItemIndex != targetItemIndex) {
-                            when {
-                                targetItemIndex == state.firstVisibleItemIndex -> draggingItemIndex
-                                draggingItemIndex == state.firstVisibleItemIndex -> targetItemIndex
-                                else -> null
-                            }?.let {
-                                // this is needed to neutralize automatic keeping the first item first.
-                                state.scrollToItem(it, state.firstVisibleItemScrollOffset)
-                            }
-                            onMove(draggingItemIndex, targetItemIndex)
-                            draggingItemIndex = targetItemIndex
-                            draggingItemDelta.snapTo(change.position - targetItem.offset.toOffset() - targetItem.size.toOffset() * 0.5f)
-                        }
+                    // 2. 边界自动滚动
+                    val viewportH = layoutInfo.viewportSize.height.toFloat()
+                    val pointerY = change.position.y
+                    when {
+                        pointerY < autoScrollThreshold ->
+                            scope.launch { state.scrollBy(pointerY - autoScrollThreshold) }
+                        pointerY > viewportH - autoScrollThreshold ->
+                            scope.launch { state.scrollBy(autoScrollThreshold - (viewportH - pointerY)) }
                     }
+
+                    // 3. 命中检测
+                    val currentDraggingItem = layoutInfo.visibleItemsInfo.firstOrNull { it.key == draggingKey }
+                    val targetInfo = layoutInfo.itemInfoAt(change.position)
+                    if (currentDraggingItem == null || targetInfo == null) return@detectDragGesturesAfterLongPress
+                    if (targetInfo.key == draggingKey) return@detectDragGesturesAfterLongPress
+
+                    // 4. 计算交换补偿
+                    //    交换前被拖拽项在原 slot 中心 + draggingOffset 处
+                    //    交换后被拖拽项会去到 target slot 处（数据搬移，layout 还未 recompose）
+                    //    所以新位置 = targetInfo.offset + targetInfo.size / 2
+                    //    要让元素视觉上保持在原位，需补偿 draggingOffset
+                    val currentCenter = currentDraggingItem.offset.toOffset() +
+                            currentDraggingItem.size.toOffset() * 0.5f +
+                            draggingOffset
+                    val newCenter = targetInfo.offset.toOffset() +
+                            targetInfo.size.toOffset() * 0.5f
+
+                    // 5. 触发交换
+                    currentOnMove(draggingIdx, targetInfo.index, draggingKey, targetInfo.key)
+                    draggingItemIndex = targetInfo.index
+
+                    // 6. 补偿偏移：让被拖拽元素视觉上保持在原位
+                    draggingOffset = currentCenter - newCenter
                 }
             )
         },
@@ -138,43 +150,61 @@ fun <T> ReorderLazyVerticalGrid(
         flingBehavior = flingBehavior,
         userScrollEnabled = userScrollEnabled
     ) {
-        itemsIndexed(items, key) { index, item ->
-            Box(modifier = Modifier
-                .scale(
-                    updateTransition(draggingItemIndex == index, label = "selected")
-                        .animateFloat(label = "scale") { selected ->
-                            if (selected) 0.9f else 1f
-                        }.value
-                )
-                .then(
-                    if (draggingItemIndex == index) {
-                        Modifier
-                            .offset {
-                                IntOffset(
-                                    draggingItemDelta.value.x.roundToInt(),
-                                    draggingItemDelta.value.y.roundToInt()
-                                )
-                            }
-                            .zIndex(1f)
-                            .shadow(8.dp)
-                    } else {
-                        Modifier
-                            .zIndex(0f)
-                            .shadow(0.dp)
-                            .animateItem(fadeInSpec = null, fadeOutSpec = null)
-                    }
-                )) {
+        itemsIndexed(items, currentKey) { index, item ->
+            val itemKey = currentKey(index, item)
+            val isDragging = draggingItemKey == itemKey
+            Box(
+                modifier = Modifier
+                    .scale(if (isDragging) 0.9f else 1f)
+                    .then(
+                        if (isDragging) {
+                            Modifier
+                                .offset {
+                                    IntOffset(
+                                        draggingOffset.x.roundToInt(),
+                                        draggingOffset.y.roundToInt()
+                                    )
+                                }
+                                .zIndex(1f)
+                                .shadow(8.dp)
+                        } else {
+                            Modifier
+                                .zIndex(0f)
+                                .shadow(0.dp)
+                                .animateItem(fadeInSpec = null, fadeOutSpec = null)
+                        }
+                    )
+            ) {
                 itemContent(index, item)
             }
         }
     }
 }
 
-fun IntSize.toOffset() = IntOffset(width, height).toOffset()
+@Stable
+private fun animateEndDrag(
+    scope: CoroutineScope,
+    from: Offset,
+    onUpdate: (Offset) -> Unit,
+) {
+    scope.launch {
+        Animatable(from, Offset.VectorConverter).animateTo(
+            targetValue = Offset.Zero,
+            animationSpec = spring(
+                stiffness = Spring.StiffnessMediumLow,
+                visibilityThreshold = Offset.VisibilityThreshold
+            )
+        ) {
+            onUpdate(value)
+        }
+    }
+}
 
-fun IntOffset.toOffset() = Offset(x.toFloat(), y.toFloat())
+private fun IntOffset.toOffset(): Offset = Offset(x.toFloat(), y.toFloat())
 
-fun LazyGridLayoutInfo.firstOrNull(hitPoint: Offset): LazyGridItemInfo? =
+private fun IntSize.toOffset(): Offset = Offset(width.toFloat(), height.toFloat())
+
+private fun LazyGridLayoutInfo.itemInfoAt(hitPoint: Offset): LazyGridItemInfo? =
     visibleItemsInfo.firstOrNull { item ->
         hitPoint.x.toInt() in item.offset.x..item.offset.x + item.size.width &&
                 hitPoint.y.toInt() in item.offset.y..item.offset.y + item.size.height

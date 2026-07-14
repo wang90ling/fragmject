@@ -178,6 +178,16 @@ class CircleViewModel : BaseViewModel() {
         }
     }
 
+    fun movePostImage(from: Int, to: Int) {
+        if (from == to) return
+        _postState.update { state ->
+            val mutableImages = state.images.toMutableList()
+            val item = mutableImages.removeAt(from)
+            mutableImages.add(to, item)
+            state.copy(images = mutableImages)
+        }
+    }
+
     fun setPostVideo(videoPath: String?) {
         _postState.update { it.copy(videoPath = videoPath) }
     }

@@ -1,13 +1,12 @@
 package com.example.fragment.project.ui.circle
 
-import android.Manifest
-import android.content.Context
-import android.net.Uri
+import android.app.Activity
+import android.content.Intent
 import android.os.Build
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,11 +22,7 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,13 +30,13 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.Videocam
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -74,7 +69,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.fragment.project.AppTheme
+import com.example.fragment.project.components.ReorderLazyVerticalGrid
+import com.example.miaow.picture.selector.PictureSelectorActivity
+import com.example.miaow.picture.selector.bean.MediaBean
 import kotlinx.coroutines.launch
+
+private const val MAX_IMAGE_COUNT = 9
+private const val MAX_VIDEO_SIZE_BYTES = 50L * 1024 * 1024
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -98,33 +99,74 @@ fun PostCircleScreen(
         }
     }
 
-    LaunchedEffect(state.isPosting) {
-        if (!state.isPosting && state.content.isBlank() && state.images.isEmpty() && state.videoPath == null) {
-            if (state.images.isEmpty() && state.content.isBlank() && state.videoPath == null) {
+    val imageSelectorLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val intent = result.data
+            val selectedImages = mutableListOf<String>()
+            if (intent != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                @Suppress("DEPRECATION")
+                intent.getParcelableArrayListExtra<MediaBean>("data")?.forEach { media ->
+                    selectedImages.add(media.uri.toString())
+                }
+            } else {
+                intent?.getParcelableArrayListExtra<MediaBean>("data")?.forEach { media ->
+                    selectedImages.add(media.uri.toString())
+                }
+            }
+            val remainingSlots = MAX_IMAGE_COUNT - state.images.size
+            selectedImages.take(remainingSlots).forEach { path ->
+                viewModel.addPostImage(path)
+            }
+            if (selectedImages.size > remainingSlots && remainingSlots > 0) {
+                Toast.makeText(context, "最多只能选择${MAX_IMAGE_COUNT}张图片", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    val imagePickerLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetMultipleContents()
-    ) { uris ->
-        uris.forEach { uri ->
-            viewModel.addPostImage(uri.toString())
-        }
-    }
-
     val videoPickerLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
-    ) { uri ->
-        uri?.let { viewModel.setPostVideo(it.toString()) }
-    }
-
-    val permissionLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        val allGranted = permissions.values.all { it }
-        if (allGranted) {
-            showMediaPicker = true
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val intent = result.data
+            if (intent != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                @Suppress("DEPRECATION")
+                intent.getParcelableArrayListExtra<MediaBean>("data")?.firstOrNull()?.let { media ->
+                    val size = try {
+                        context.contentResolver.openFileDescriptor(media.uri, "r")?.use { it.statSize } ?: -1L
+                    } catch (e: Exception) {
+                        -1L
+                    }
+                    if (size > 0 && size > MAX_VIDEO_SIZE_BYTES) {
+                        Toast.makeText(
+                            context,
+                            "视频大小不能超过50MB",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        viewModel.setPostVideo(media.uri.toString())
+                    }
+                }
+            } else {
+                @Suppress("DEPRECATION")
+                intent?.getParcelableArrayListExtra<MediaBean>("data")?.firstOrNull()?.let { media ->
+                    val size = try {
+                        context.contentResolver.openFileDescriptor(media.uri, "r")?.use { it.statSize } ?: -1L
+                    } catch (e: Exception) {
+                        -1L
+                    }
+                    if (size > 0 && size > MAX_VIDEO_SIZE_BYTES) {
+                        Toast.makeText(
+                            context,
+                            "视频大小不能超过50MB",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        viewModel.setPostVideo(media.uri.toString())
+                    }
+                }
+            }
         }
     }
 
@@ -153,6 +195,12 @@ fun PostCircleScreen(
                         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
                     ) {
                         if (state.isPosting) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(16.dp),
+                                strokeWidth = 2.dp,
+                                color = MaterialTheme.colorScheme.onPrimary
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
                             Text("发布中...")
                         } else {
                             Icon(
@@ -183,8 +231,7 @@ fun PostCircleScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f, fill = false)
-                    .minimumHeight(150.dp)
+                    .height(150.dp)
                     .clip(RoundedCornerShape(8.dp))
                     .background(MaterialTheme.colorScheme.surfaceVariant)
                     .padding(12.dp)
@@ -218,72 +265,73 @@ fun PostCircleScreen(
 
             if (state.images.isNotEmpty()) {
                 Text(
-                    text = "图片 (${state.images.size}/9)",
+                    text = "图片 (${state.images.size}/$MAX_IMAGE_COUNT)  长按拖动排序",
                     color = MaterialTheme.colorScheme.onSurface,
                     fontSize = 14.sp
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                LazyVerticalGrid(
+                ReorderLazyVerticalGrid(
+                    items = state.images,
+                    key = { _, path -> path },
+                    onMove = { fromIndex, toIndex, _, _ ->
+                        viewModel.movePostImage(fromIndex, toIndex)
+                    },
                     columns = GridCells.Fixed(3),
-                    modifier = Modifier.height(((state.images.size / 3 + 1) * 110).dp),
+                    modifier = Modifier.height(
+                        ((state.images.size / 3 + if (state.images.size % 3 == 0) 0 else 1) * 110).dp
+                    ),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
-                    userScrollEnabled = false
-                ) {
-                    items(state.images) { imagePath ->
-                        Box(
+                ) { _, imagePath ->
+                    Box(
+                        modifier = Modifier
+                            .aspectRatio(1f)
+                            .clip(RoundedCornerShape(8.dp))
+                    ) {
+                        AsyncImage(
+                            model = imagePath,
+                            contentDescription = null,
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop
+                        )
+                        IconButton(
+                            onClick = { viewModel.removePostImage(imagePath) },
                             modifier = Modifier
-                                .aspectRatio(1f)
-                                .clip(RoundedCornerShape(8.dp))
+                                .align(Alignment.TopEnd)
+                                .padding(4.dp)
+                                .size(24.dp)
+                                .background(Color.Black.copy(alpha = 0.5f), CircleShape)
                         ) {
-                            AsyncImage(
-                                model = imagePath,
-                                contentDescription = null,
-                                modifier = Modifier.fillMaxSize(),
-                                contentScale = ContentScale.Crop
+                            Icon(
+                                imageVector = Icons.Default.Close,
+                                contentDescription = "删除",
+                                tint = Color.White,
+                                modifier = Modifier.size(16.dp)
                             )
-                            IconButton(
-                                onClick = { viewModel.removePostImage(imagePath) },
-                                modifier = Modifier
-                                    .align(Alignment.TopEnd)
-                                    .padding(4.dp)
-                                    .size(24.dp)
-                                    .background(Color.Black.copy(alpha = 0.5f), CircleShape)
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Close,
-                                    contentDescription = "删除",
-                                    tint = Color.White,
-                                    modifier = Modifier.size(16.dp)
-                                )
-                            }
                         }
                     }
-                    if (state.images.size < 9) {
-                        item {
-                            Box(
-                                modifier = Modifier
-                                    .aspectRatio(1f)
-                                    .clip(RoundedCornerShape(8.dp))
-                                    .background(MaterialTheme.colorScheme.surfaceVariant)
-                                    .clickable {
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                            imagePickerLauncher.launch("image/*")
-                                        } else {
-                                            imagePickerLauncher.launch("image/*")
-                                        }
-                                    },
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Add,
-                                    contentDescription = "添加图片",
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    modifier = Modifier.size(30.dp)
-                                )
-                            }
-                        }
-                    }
+                }
+            }
+
+            if (state.images.size < MAX_IMAGE_COUNT) {
+                if (state.images.isNotEmpty()) Spacer(modifier = Modifier.height(8.dp))
+                Box(
+                    modifier = Modifier
+                        .size(110.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(MaterialTheme.colorScheme.surfaceVariant)
+                        .clickable {
+                            val intent = Intent(context, PictureSelectorActivity::class.java)
+                            imageSelectorLauncher.launch(intent)
+                        },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Image,
+                        contentDescription = "添加图片",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(30.dp)
+                    )
                 }
             }
 
@@ -300,12 +348,14 @@ fun PostCircleScreen(
                         .fillMaxWidth()
                         .aspectRatio(16f / 9f)
                         .clip(RoundedCornerShape(8.dp))
+                        .background(Color(0xFF2C2C2C)),
+                    contentAlignment = Alignment.Center
                 ) {
-                    AsyncImage(
-                        model = state.videoPath,
+                    Icon(
+                        imageVector = Icons.Default.Videocam,
                         contentDescription = null,
-                        modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Crop
+                        tint = Color.White.copy(alpha = 0.7f),
+                        modifier = Modifier.size(40.dp)
                     )
                     IconButton(
                         onClick = { viewModel.setPostVideo(null) },
@@ -322,14 +372,6 @@ fun PostCircleScreen(
                             modifier = Modifier.size(18.dp)
                         )
                     }
-                    Icon(
-                        imageVector = Icons.Default.Videocam,
-                        contentDescription = null,
-                        tint = Color.White,
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .size(40.dp)
-                    )
                 }
             }
 
@@ -344,25 +386,29 @@ fun PostCircleScreen(
                     icon = Icons.Default.Image,
                     text = if (state.images.isEmpty()) "添加图片" else "继续添加",
                     onClick = {
-                        if (state.images.size < 9) {
-                            imagePickerLauncher.launch("image/*")
+                        if (state.images.size < MAX_IMAGE_COUNT) {
+                            val intent = Intent(context, PictureSelectorActivity::class.java)
+                            imageSelectorLauncher.launch(intent)
                         }
                     },
-                    enabled = state.images.size < 9
+                    enabled = state.images.size < MAX_IMAGE_COUNT
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 ActionButton(
                     icon = Icons.Default.Videocam,
                     text = if (state.videoPath == null) "添加视频" else "更换视频",
-                    onClick = { videoPickerLauncher.launch("video/*") },
-                    enabled = state.videoPath == null || true
+                    onClick = {
+                        val intent = Intent(context, PictureSelectorActivity::class.java)
+                        videoPickerLauncher.launch(intent)
+                    },
+                    enabled = true
                 )
             }
 
             Spacer(modifier = Modifier.weight(1f))
 
             Text(
-                text = "提示：最多可添加9张图片或1个视频",
+                text = "提示：最多可添加${MAX_IMAGE_COUNT}张图片，视频不超过50MB",
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 12.sp,
                 modifier = Modifier.padding(vertical = 16.dp)
@@ -396,7 +442,8 @@ fun PostCircleScreen(
                             scope.launch {
                                 bottomSheetState.hide()
                                 showMediaPicker = false
-                                imagePickerLauncher.launch("image/*")
+                                val intent = Intent(context, PictureSelectorActivity::class.java)
+                                imageSelectorLauncher.launch(intent)
                             }
                         }
                     )
@@ -407,7 +454,8 @@ fun PostCircleScreen(
                             scope.launch {
                                 bottomSheetState.hide()
                                 showMediaPicker = false
-                                videoPickerLauncher.launch("video/*")
+                                val intent = Intent(context, PictureSelectorActivity::class.java)
+                                videoPickerLauncher.launch(intent)
                             }
                         }
                     )
@@ -483,8 +531,6 @@ private fun MediaOption(
         )
     }
 }
-
-private fun Modifier.minimumHeight(dp: androidx.compose.ui.unit.Dp): Modifier = this
 
 @Composable
 fun PostCircleScreenPreview() {

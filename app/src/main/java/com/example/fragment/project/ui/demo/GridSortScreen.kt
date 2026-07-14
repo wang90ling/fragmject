@@ -31,7 +31,7 @@ fun GridSortScreen(
     ReorderLazyVerticalGrid(
         items = uiState.result,
         key = { _, item -> item.id },
-        onMove = { from, to ->
+        onMove = { from, to, _, _ ->
             viewModel.move(from, to)
         },
         columns = GridCells.Fixed(3),
