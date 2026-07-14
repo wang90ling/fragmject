@@ -15,12 +15,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -32,15 +34,21 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,6 +70,7 @@ import com.example.fragment.project.data.circle.CircleItem
 import com.example.fragment.project.ui.circle.components.ImagePreviewScreen
 import com.example.fragment.project.ui.circle.components.VideoPlayerScreen
 import com.example.fragment.project.utils.TimeUtils
+import kotlinx.coroutines.launch
 
 /**
  * 圈子列表展示界面
@@ -76,6 +85,7 @@ fun CircleListScreen(
 ) {
     val uiState by viewModel.listState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
 
     var selectedCircle by remember { mutableStateOf<Circle?>(null) }
     var showImagePreview by remember { mutableStateOf(false) }
@@ -83,6 +93,10 @@ fun CircleListScreen(
     var showVideoPlayer by remember { mutableStateOf(false) }
     var showPostScreen by remember { mutableStateOf(false) }
     var showCommentSheet by remember { mutableStateOf(false) }
+
+    val tabItems = listOf("关注", "最新", "最热")
+    val pagerState = rememberPagerState(pageCount = { tabItems.size })
+    var selectedTabIndex by rememberSaveable { mutableIntStateOf(0) }
 
     if (showPostScreen) {
         PostCircleScreen(
@@ -117,6 +131,35 @@ fun CircleListScreen(
     }
 
     Scaffold(
+        topBar = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.outlineVariant)
+            ) {
+                Spacer(modifier = Modifier.height(3.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 10.dp),
+                    horizontalArrangement = Arrangement.Absolute.Left
+                ) {
+                    tabItems.forEachIndexed { index, title ->
+                        TabItem(
+                            title = title,
+                            isSelected = selectedTabIndex == index,
+                            onClick = {
+                                selectedTabIndex = index
+                                scope.launch {
+                                    pagerState.animateScrollToPage(index)
+                                }
+                            }
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(3.dp))
+            }
+        },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { showPostScreen = true },
@@ -129,47 +172,91 @@ fun CircleListScreen(
                 )
             }
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) },
-        contentWindowInsets = WindowInsets.statusBars
+        snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { innerPadding ->
-        SwipeRefreshBox(
-            items = uiState.result,
-            isRefreshing = uiState.isRefreshing,
-            isLoading = uiState.isLoading,
-            isFinishing = uiState.isFinishing,
-            onRefresh = { viewModel.refresh() },
-            onLoad = { viewModel.loadMore() },
+        HorizontalPager(
+            state = pagerState,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding),
-            contentPadding = PaddingValues(0.dp),
-            verticalArrangement = Arrangement.spacedBy(0.dp),
-            key = { _, item -> item.id },
-        ) { _, item ->
-            CircleItem(
-                circle = item,
-                onLikeClick = { viewModel.likeCircle(item.id) },
-                onShareClick = { viewModel.shareCircle(item.id) },
-                onCommentClick = {
-                    selectedCircle = item
-                    viewModel.selectCircle(item)
-                    showCommentSheet = true
-                },
-                onImageClick = { index ->
-                    selectedCircle = item
-                    previewImageIndex = index
-                    showImagePreview = true
-                },
-                onVideoClick = {
-                    selectedCircle = item
-                    showVideoPlayer = true
-                },
-                onUserClick = { }
-            )
-            HorizontalDivider(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
-            )
+                .padding(innerPadding)
+        ) { page ->
+            when (page) {
+                0 -> CircleListContent(
+                    viewModel = viewModel,
+                    tabType = CircleTabType.FOLLOW,
+                    selectedCircle = selectedCircle,
+                    showCommentSheet = showCommentSheet,
+                    onSelectCircle = { circle ->
+                        selectedCircle = circle
+                        viewModel.selectCircle(circle)
+                        showCommentSheet = true
+                    },
+                    onImageClick = { index, circle ->
+                        selectedCircle = circle
+                        previewImageIndex = index
+                        showImagePreview = true
+                    },
+                    onVideoClick = { circle ->
+                        selectedCircle = circle
+                        showVideoPlayer = true
+                    },
+                    onDismissComment = {
+                        showCommentSheet = false
+                        selectedCircle = null
+                        viewModel.clearDetail()
+                    }
+                )
+                1 -> CircleListContent(
+                    viewModel = viewModel,
+                    tabType = CircleTabType.LATEST,
+                    selectedCircle = selectedCircle,
+                    showCommentSheet = showCommentSheet,
+                    onSelectCircle = { circle ->
+                        selectedCircle = circle
+                        viewModel.selectCircle(circle)
+                        showCommentSheet = true
+                    },
+                    onImageClick = { index, circle ->
+                        selectedCircle = circle
+                        previewImageIndex = index
+                        showImagePreview = true
+                    },
+                    onVideoClick = { circle ->
+                        selectedCircle = circle
+                        showVideoPlayer = true
+                    },
+                    onDismissComment = {
+                        showCommentSheet = false
+                        selectedCircle = null
+                        viewModel.clearDetail()
+                    }
+                )
+                2 -> CircleListContent(
+                    viewModel = viewModel,
+                    tabType = CircleTabType.HOTTEST,
+                    selectedCircle = selectedCircle,
+                    showCommentSheet = showCommentSheet,
+                    onSelectCircle = { circle ->
+                        selectedCircle = circle
+                        viewModel.selectCircle(circle)
+                        showCommentSheet = true
+                    },
+                    onImageClick = { index, circle ->
+                        selectedCircle = circle
+                        previewImageIndex = index
+                        showImagePreview = true
+                    },
+                    onVideoClick = { circle ->
+                        selectedCircle = circle
+                        showVideoPlayer = true
+                    },
+                    onDismissComment = {
+                        showCommentSheet = false
+                        selectedCircle = null
+                        viewModel.clearDetail()
+                    }
+                )
+            }
         }
     }
 
@@ -182,6 +269,94 @@ fun CircleListScreen(
                 selectedCircle = null
                 viewModel.clearDetail()
             }
+        )
+    }
+}
+
+enum class CircleTabType {
+    FOLLOW, LATEST, HOTTEST
+}
+
+@Composable
+private fun TabItem(
+    title: String,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .clickable(onClick = onClick)
+            .padding(horizontal = 12.dp, vertical = 3.dp)
+    ) {
+        Text(
+            text = title,
+            fontSize = 16.sp,
+            fontWeight = if (isSelected) FontWeight.Medium else FontWeight.Normal,
+            color = if (isSelected)
+                MaterialTheme.colorScheme.primary
+            else
+                Color.Gray
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Box(
+            modifier = Modifier
+                .height(3.dp)
+                .width(20.dp)
+                .clip(RoundedCornerShape(2.dp))
+                .background(
+                    if (isSelected)
+                        MaterialTheme.colorScheme.primary
+                    else
+                        Color.Transparent
+                )
+        )
+    }
+}
+
+@Composable
+private fun CircleListContent(
+    viewModel: CircleViewModel,
+    tabType: CircleTabType,
+    selectedCircle: Circle?,
+    showCommentSheet: Boolean,
+    onSelectCircle: (Circle) -> Unit,
+    onImageClick: (Int, Circle) -> Unit,
+    onVideoClick: (Circle) -> Unit,
+    onDismissComment: () -> Unit
+) {
+    val uiState by viewModel.listState.collectAsStateWithLifecycle()
+
+    SwipeRefreshBox(
+        items = uiState.result,
+        isRefreshing = uiState.isRefreshing,
+        isLoading = uiState.isLoading,
+        isFinishing = uiState.isFinishing,
+        onRefresh = { viewModel.refresh() },
+        onLoad = { viewModel.loadMore() },
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(0.dp),
+        verticalArrangement = Arrangement.spacedBy(0.dp),
+        key = { _, item -> item.id },
+    ) { _, item ->
+        CircleItem(
+            circle = item,
+            onLikeClick = { viewModel.likeCircle(item.id) },
+            onShareClick = { viewModel.shareCircle(item.id) },
+            onCommentClick = {
+                onSelectCircle(item)
+            },
+            onImageClick = { index ->
+                onImageClick(index, item)
+            },
+            onVideoClick = {
+                onVideoClick(item)
+            },
+            onUserClick = { }
+        )
+        HorizontalDivider(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
         )
     }
 }
