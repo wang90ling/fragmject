@@ -18,9 +18,6 @@ import androidx.navigation.toRoute
 import com.example.fragment.project.data.User
 import com.example.fragment.project.ui.browse_history.BrowseHistoryScreen
 import com.example.fragment.project.ui.circle.CircleListScreen
-import com.example.fragment.project.ui.circle.ImagePreviewScreen
-import com.example.fragment.project.ui.circle.PublishPostScreen
-import com.example.fragment.project.ui.circle.VideoPlayerScreen
 import com.example.fragment.project.ui.demo.DemoScreen
 import com.example.fragment.project.ui.login.LoginNewScreen
 import com.example.fragment.project.ui.main.MainScreen
@@ -75,6 +72,7 @@ fun AppNavGraph(modifier: Modifier = Modifier) {
         },
     ) {
         composable<BrowseHistoryRoute> { BrowseHistoryScreen(onNavigate = { wanNavActions.navigate(it) }, onNavigateUp = { wanNavActions.navigateUp() }) }
+        composable<CircleListRoute> { CircleListScreen(onNavigate = { wanNavActions.navigate(it) }, onNavigateUp = { wanNavActions.navigateUp() }) }
         composable<DemoRoute> { DemoScreen(onNavigateUp = { wanNavActions.navigateUp() }) }
         composable<LoginRoute> { LoginNewScreen(onNavigate = { wanNavActions.navigate(it) }, onNavigateUp = { wanNavActions.navigateUp() }, onPopBackStack = { wanNavActions.popBackStack(it) }) }
         composable<MainRoute> { MainScreen(onNavigate = { wanNavActions.navigate(it) }) }
@@ -89,14 +87,6 @@ fun AppNavGraph(modifier: Modifier = Modifier) {
         composable<SystemRoute> { backStackEntry -> SystemScreen(cid = backStackEntry.toRoute<SystemRoute>().cid, onNavigate = { wanNavActions.navigate(it) }, onNavigateUp = { wanNavActions.navigateUp() }) }
         composable<UserRoute> { backStackEntry -> UserScreen(userId = backStackEntry.toRoute<UserRoute>().userId, onNavigate = { wanNavActions.navigate(it) }, onNavigateUp = { wanNavActions.navigateUp() }) }
         composable<WebRoute>(deepLinks = listOf(navDeepLink<WebRoute>(basePath = "$fragmentUri/web"))) { backStackEntry -> WebScreen(url = backStackEntry.toRoute<WebRoute>().url, onNavigate = { wanNavActions.navigate(it) }, onNavigateUp = { wanNavActions.navigateUp() }) }
-        composable<CircleRoute> { CircleListScreen(onNavigate = { wanNavActions.navigate(it) }, onNavigateUp = { wanNavActions.navigateUp() }) }
-        composable<CircleVideoRoute> { backStackEntry ->
-            val route = backStackEntry.toRoute<CircleVideoRoute>()
-            VideoPlayerScreen(videoUrl = route.videoUrl, thumbnailUrl = route.thumbnailUrl, onNavigateUp = { wanNavActions.navigateUp() })
-        }
-        composable<CirclePublishRoute> {
-            PublishPostScreen(onNavigateUp = { wanNavActions.navigateUp() })
-        }
     }
 }
 
@@ -109,6 +99,7 @@ class WanNavActions(private val navController: NavHostController, private val us
 }
 
 @Serializable object BrowseHistoryRoute
+@Serializable object CircleListRoute
 @Serializable object DemoRoute
 @Serializable object LoginRoute
 @Serializable object MainRoute
@@ -125,9 +116,3 @@ class WanNavActions(private val navController: NavHostController, private val us
 @Serializable data class WebRoute(val url: String)
 @Serializable object DispatchCenterRoute
 @Serializable object HotLiveRoomsRoute
-@Serializable object CircleRoute
-@Serializable object CirclePublishRoute
-@Serializable data class CircleVideoRoute(val videoUrl: String, val thumbnailUrl: String = "")
-@Serializable data class CircleUserRoute(val userId: String)
-@Serializable data class CircleCommentRoute(val postId: String)
-@Serializable data class CircleShareRoute(val postId: String)

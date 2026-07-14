@@ -119,6 +119,7 @@ fun MainScreen(
                 1 -> saveableStateHolder.SaveableStateProvider(navItems[1].label) {
                     CircleListScreen(
                         onNavigate = onNavigate,
+                        onNavigateUp = { },
                     )
                 }
                 2 -> saveableStateHolder.SaveableStateProvider(navItems[2].label) {
