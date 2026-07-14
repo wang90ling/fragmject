@@ -131,6 +131,21 @@ fun CircleListScreen(
     }
 
     Scaffold(
+
+        /**
+         * 红框中多余的间距是底部 Tab 栏和列表内容之间的一条空白色带。产生原因是：
+         *
+         * CircleListScreen.kt 内部使用了一个 Scaffold
+         * 外层 MainScreen.kt 的 Scaffold 已经有 bottomBar（高度 80dp + navigationBarsPadding）
+         * 内层 Scaffold 的 contentWindowInsets 默认包含 navigationBars 高度（约 84dp）
+         * 两层 inset 叠加，导致底部出现约 80-100dp 的额外空白
+         * 修复：在 CircleListScreen.kt 的 Scaffold 上添加 contentWindowInsets = WindowInsets(0)，
+         * 清除内层 Scaffold 的导航栏 inset，让外层 MainScreen 的 bottomBar 单独控制底部间距，避免双重计算。
+         *
+         * 这样红框的空白条带会被消除，列表内容会紧贴底部 Tab 栏之上。
+         */
+        contentWindowInsets = WindowInsets(0),
+
         topBar = {
             Column(
                 modifier = Modifier
